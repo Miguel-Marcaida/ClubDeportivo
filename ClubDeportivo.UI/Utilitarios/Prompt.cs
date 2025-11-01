@@ -357,13 +357,6 @@ namespace ClubDeportivo.UI.Utilitarios
 
 
 
-        // =================================================================
-        // METODO DE ALERTA (SIMULA MessageBoxButtons.OK) con BARRA CUSTOM
-        // =================================================================
-
-        //private static bool isDragging = false;
-        //private static Point lastCursor;
-        //private static Point lastForm;
 
         public static void Alerta(string message, string caption, IconType iconType)
         {
