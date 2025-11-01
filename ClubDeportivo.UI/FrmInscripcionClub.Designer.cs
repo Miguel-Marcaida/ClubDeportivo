@@ -44,6 +44,7 @@
             chkFichaMedica = new CheckBox();
             txtNumCarnet = new TextBox();
             pnlNoSocioData = new Panel();
+            chkAptoFisico = new CheckBox();
             btnRegistrarAcceso = new Button();
             lblFechaAcceso = new Label();
             btnCancelar = new Button();
@@ -199,12 +200,23 @@
             // 
             // pnlNoSocioData
             // 
+            pnlNoSocioData.Controls.Add(chkAptoFisico);
             pnlNoSocioData.Controls.Add(btnRegistrarAcceso);
             pnlNoSocioData.Controls.Add(lblFechaAcceso);
             pnlNoSocioData.Location = new Point(568, 187);
             pnlNoSocioData.Name = "pnlNoSocioData";
             pnlNoSocioData.Size = new Size(148, 128);
             pnlNoSocioData.TabIndex = 4;
+            // 
+            // chkAptoFisico
+            // 
+            chkAptoFisico.AutoSize = true;
+            chkAptoFisico.Location = new Point(28, 46);
+            chkAptoFisico.Name = "chkAptoFisico";
+            chkAptoFisico.Size = new Size(83, 19);
+            chkAptoFisico.TabIndex = 3;
+            chkAptoFisico.Text = "checkBox1";
+            chkAptoFisico.UseVisualStyleBackColor = true;
             // 
             // btnRegistrarAcceso
             // 
@@ -292,5 +304,6 @@
         private Button btnRegistrarAcceso;
         private Button btnCancelar;
         private Panel pnlBase;
+        private CheckBox chkAptoFisico;
     }
 }

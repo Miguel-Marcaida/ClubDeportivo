@@ -375,7 +375,7 @@ namespace ClubDeportivo.UI.Utilitarios
                 Height = 0,
                 FormBorderStyle = FormBorderStyle.None,
                 StartPosition = FormStartPosition.CenterScreen,
-                BackColor = EstilosGlobales.ColorFondo
+                BackColor = EstilosGlobales.ColorBoton
             };
 
             // --- 1.1 BARRA DE TÍTULO PERSONALIZADA ---
@@ -383,7 +383,7 @@ namespace ClubDeportivo.UI.Utilitarios
             {
                 Height = titleBarHeight,
                 Dock = DockStyle.Top,
-                BackColor = EstilosGlobales.ColorBoton
+                BackColor = EstilosGlobales.ColorAcento
             };
             prompt.Controls.Add(titleBar);
 
@@ -428,6 +428,7 @@ namespace ClubDeportivo.UI.Utilitarios
             };
             btnClose.FlatAppearance.BorderSize = 0;
             btnClose.TextAlign = ContentAlignment.MiddleCenter;
+            btnClose.BackColor = EstilosGlobales.ColorAcento;
             btnClose.FlatAppearance.MouseOverBackColor = Color.DarkRed; // Mantener un hover para la X
             btnClose.Click += (s, e) => prompt.Close();
             titleBar.Controls.Add(btnClose);
@@ -497,7 +498,8 @@ namespace ClubDeportivo.UI.Utilitarios
             };
             EstilosGlobales.AplicarEstiloBotonAccion(btnOK);
             // CRÍTICO: Aplicar color de acento al hover
-            btnOK.FlatAppearance.MouseOverBackColor = EstilosGlobales.ColorAcento;
+            btnOK.BackColor = EstilosGlobales.ColorAcento;
+            btnOK.FlatAppearance.MouseOverBackColor = EstilosGlobales.ColorAdvertencia;
 
             btnOK.Left = (prompt.Width / 2) - (btnOK.Width / 2);
 

@@ -233,6 +233,15 @@ namespace ClubDeportivo.UI
             btnRegistrarAcceso.Size = new Size(300, 50);
             pnlNoSocioData.Controls.Add(btnRegistrarAcceso); // Asegurar que el control se añade
 
+            /// c.Text = "Ficha Médica y Apto Físico";
+            chkAptoFisico.Text = "Apto Fisico Para No Socio";
+            chkAptoFisico.Location = new Point(15, 70);
+            chkAptoFisico.AutoSize = true;
+            chkAptoFisico.ForeColor = EstilosGlobales.ColorTextoClaro; // Aplicar color
+            pnlNoSocioData.Controls.Add(chkAptoFisico);
+
+
+
             // --- 7. BOTÓN CANCELAR ---
             btnCancelar.Text = "CANCELAR / CERRAR";
             btnCancelar.Location = new Point(440, 580);
@@ -340,6 +349,22 @@ namespace ClubDeportivo.UI
                     txtNumCarnet.Focus();
                     return false;
                 }
+
+                if(chkFichaMedica.Checked==false)
+                {
+                    Prompt.MostrarAlerta("El Socio debe entregar la ficha medica y apto fisico.");
+                    return false;
+                     }
+
+            }
+
+            if (!esSocio)
+            {
+                if (chkAptoFisico.Checked == false)
+                {
+                    Prompt.MostrarAlerta("El No Socio debe entregar apto fisico.");
+                    return false;
+                }
             }
 
             return true;
@@ -374,7 +399,7 @@ namespace ClubDeportivo.UI
                 }
             }
         }
-        
+
         private void rbNoSocio_CheckedChanged(object sender, EventArgs e)
         {
             if (rbNoSocio.Checked)
@@ -549,7 +574,7 @@ namespace ClubDeportivo.UI
 
 
         #endregion
-        
+
 
 
         #region METODOS AUXILIARES
@@ -621,6 +646,7 @@ namespace ClubDeportivo.UI
         {
             // Detener el timer si está activo
             _timerActualizador.Stop();
+            chkAptoFisico.Checked = false;
 
             // 1. Limpieza de campos de Persona
             txtDni.Clear();
@@ -659,5 +685,6 @@ namespace ClubDeportivo.UI
         #endregion
 
 
+        
     }
 }
