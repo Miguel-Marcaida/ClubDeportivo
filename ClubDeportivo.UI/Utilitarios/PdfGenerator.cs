@@ -81,13 +81,13 @@ namespace ClubDeportivo.UI.Utilitarios
             gfx.DrawString(detalle.Dni, fontDatos, XBrushes.White, 10, top + 12);
 
             // 7. Estado de Vigencia
-            string estadoTxt = detalle.EstadoActivo.GetValueOrDefault() ? "ACTIVO / CUOTA AL DÍA" : "INACTIVO / PENDIENTE";
-            XFont fontVigencia = new XFont(FUENTE_BASE, 8, XFontStyleEx.Bold); // Negrita para destacar
-            XBrush estadoBrush = detalle.EstadoActivo.GetValueOrDefault() ? XBrushes.LightGreen : XBrushes.Red;
+            //string estadoTxt = detalle.EstadoActivo.GetValueOrDefault() ? " " : "INACTIVO / PENDIENTE";
+            //XFont fontVigencia = new XFont(FUENTE_BASE, 8, XFontStyleEx.Bold); // Negrita para destacar
+            //XBrush estadoBrush = detalle.EstadoActivo.GetValueOrDefault() ? XBrushes.LightGreen : XBrushes.Red;
 
-            gfx.DrawString(estadoTxt, fontVigencia, estadoBrush,
-                    new XRect(10, page.Height - 20, page.Width - 20, 15),
-                    XStringFormats.BottomLeft);
+            //gfx.DrawString(estadoTxt, fontVigencia, estadoBrush,
+            //        new XRect(10, page.Height - 20, page.Width - 20, 15),
+            //        XStringFormats.BottomLeft);
 
 
             // 8. Guardar el documento
