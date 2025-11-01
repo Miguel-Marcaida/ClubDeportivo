@@ -184,6 +184,8 @@ namespace ClubDeportivo.UI.Utilitarios
         private static Point lastCursor;
         private static Point lastForm;
 
+        //metodoDialogResult
+
         public static DialogResult MostrarDialogoConfirmacion(string message, string caption, IconType iconType)
         {
             // --- VARIABLES DE DISEÑO ---
