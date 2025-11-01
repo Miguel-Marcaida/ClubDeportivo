@@ -433,20 +433,24 @@ namespace ClubDeportivo.UI
                 // A. OBTENER MONTO Y SOLICITAR FORMA DE PAGO
                 montoCuota = oConfiguracionBLL.ObtenerMontoCuotaBase();
 
-                string[] opcionesPago = { "Efectivo", "Tarjeta", "Transferencia" };
+                string[] opcionesPago = { "EFECTIVO", "TARJETA 1 CUOTA", "TARJETA 3 CUOTAS", "TARJETA 6 CUOTAS", "TRANSFERENCIA" };
                 string formaPago = Prompt.MostrarMenu("Forma de Pago",
                     $"Seleccione la forma de pago de la PRIMERA CUOTA MENSUAL (Monto: ${montoCuota:N2}):", opcionesPago);
 
                 if (string.IsNullOrEmpty(formaPago))
                 {
-                    MessageBox.Show("Debe seleccionar la forma de pago para completar la inscripción de Socio.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Prompt.MostrarAlerta("Debe seleccionar la forma de pago para completar la inscripción de Socio.");
                     return;
                 }
 
-                // B. Confirmación del cobro (UX)
+                
+
+                //B.Confirmación del cobro(UX)
                 DialogResult confirmacion = MessageBox.Show(
                     $"Confirma el registro e inscripción del Socio, y el cobro de la PRIMERA CUOTA por un monto de ${montoCuota:N2} (pago en {formaPago})?",
                     "Confirmación de Pago y Registro", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                //DialogResult confirmacion = Prompt.MostrarDialogoConfirmacion($"Confirma el registro e inscripción del Socio, y el cobro de la PRIMERA CUOTA por un monto de ${montoCuota:N2} (pago en {formaPago})?");
 
                 if (confirmacion != DialogResult.Yes)
                 {
@@ -513,7 +517,7 @@ namespace ClubDeportivo.UI
                 // A. OBTENER MONTO Y SOLICITAR FORMA DE PAGO
                 montoAcceso = oConfiguracionBLL.ObtenerMontoAccesoDiario();
 
-                string[] opcionesPago = { "Efectivo", "Tarjeta", "Transferencia" };
+                string[] opcionesPago = { "EFECTIVO", "TARJETA 1 PAGO" , "TRANSFERENCIA" };
                 string formaPago = Prompt.MostrarMenu("Forma de Pago",
                     $"Seleccione la forma de pago del ACCESO DIARIO (Monto: ${montoAcceso:N2}):", opcionesPago);
 

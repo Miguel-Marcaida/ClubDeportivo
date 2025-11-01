@@ -129,6 +129,7 @@ namespace ClubDeportivo.UI.Utilitarios
                     Tag = option // Usamos el Tag para guardar el valor
                 };
                 EstilosGlobales.AplicarEstiloBotonAccion(optionButton);
+                optionButton.FlatAppearance.MouseOverBackColor = EstilosGlobales.ColorAcento;
                 optionButton.Click += (sender, e) =>
                 {
                     selectedOption = (sender as Button).Tag.ToString();
