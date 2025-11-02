@@ -278,7 +278,7 @@ namespace ClubDeportivo.UI
 
         private void CrearFilaDoble(GroupBox parent, string labelText, int x, int y, int labelWidth, int valueWidth, Label valueLabel)
         {
-            
+
             // EJEMPLO: Si usaras un Label temporal
             Label fixedLabel = new Label();
             fixedLabel.Text = labelText;
@@ -300,7 +300,7 @@ namespace ClubDeportivo.UI
             valueLabel.ForeColor = EstilosGlobales.ColorTextoClaro;
 
 
-            
+
         }
 
 
@@ -314,7 +314,7 @@ namespace ClubDeportivo.UI
             this.BeginInvoke((Action)(() => Utilitarios.Utilitarios.ForzarCentrado(this, pnlBase, _anchoMenuLateral)));
             // *** REFINAMIENTO SUGERIDO: Cargar el ComboBox de Conceptos ***
             CargarConceptosPago();
-            CargarFormaPago();
+            //CargarFormaPago();
             CargarActividades();
         }
 
@@ -344,13 +344,28 @@ namespace ClubDeportivo.UI
 
         }
 
-        private void CargarFormaPago()
+        private void CargarFormaPago(PersonaPagoDetalleDTO personaEnco )
         {
-            cmbMedioPago.Items.Clear();
-            cmbMedioPago.Items.Add("Efectivo");
-            cmbMedioPago.Items.Add("Tranferencia");
-            cmbMedioPago.Items.Add("Tarjeta");
-            cmbMedioPago.SelectedIndex = -1;
+             
+            if (personaEnco.EsSocio)
+            {
+                cmbMedioPago.Items.Clear();
+                cmbMedioPago.Items.Add("EFECTIVO");
+                cmbMedioPago.Items.Add("TARJETA 1 CUOTA");
+                cmbMedioPago.Items.Add("TARJETA 3 CUOTAS");
+                cmbMedioPago.Items.Add("TARJETA 6 CUOTAS");
+                cmbMedioPago.Items.Add("TRANSFERENCIA");
+                cmbMedioPago.SelectedIndex = -1;
+            }
+            else
+            {
+                cmbMedioPago.Items.Clear();
+                cmbMedioPago.Items.Add("EFECTIVO");
+                cmbMedioPago.Items.Add("TARJETA 1 CUOTA");
+                cmbMedioPago.Items.Add("TRANSFERENCIA");
+                cmbMedioPago.SelectedIndex = -1;
+            }
+            
         }
 
         private void CargarActividades()
@@ -361,7 +376,7 @@ namespace ClubDeportivo.UI
 
                 // 1. Opción por defecto para "Ninguna Actividad Adicional" (ID=0, Costo=0)
                 var listaConOpcionNinguna = new List<Actividad> {
-            new Actividad { IdActividad = 0, Nombre = "Ninguna Actividad Adicional", Costo = 0m }
+            new Actividad { IdActividad = 0, Nombre = "NINGUNA ACTIVIDAD ADICIONAL", Costo = 0m }
         };
                 listaConOpcionNinguna.AddRange(listaActividades);
 
@@ -513,12 +528,11 @@ namespace ClubDeportivo.UI
             // Datos de Identificación
             lblNombrePersona.Text = persona.NombreCompleto;
             lblDni.Text = persona.DNI;
-
+            CargarFormaPago(_personaEncontrada);
             // Configuración por tipo de persona
             if (persona.EsSocio)
             {
                 lblTipoSocio.Text = "Socio";
-
                 // Mostrar último pago
                 lblFechaUltimoPago.Text = persona.UltimaCuotaCubierta == DateTime.MinValue
                     ? "Nunca pagó / Inicial"
@@ -579,6 +593,7 @@ namespace ClubDeportivo.UI
                 lblTipoSocio.Text = "No Socio";
                 lblEstadoMembresia.Text = "Acceso Diario";
                 lblEstadoMembresia.ForeColor = EstilosGlobales.ColorAdvertencia;
+               // CargarFormaPago(_personaEncontrada);
 
                 lblFechaVencimiento.Text = "N/A";
                 lblFechaUltimoPago.Text = "N/A";
@@ -596,14 +611,15 @@ namespace ClubDeportivo.UI
             RecalcularMonto();
         }
 
-        private string ImprimirComprobante(int idRegistro, bool esCuota)
+        private string ImprimirComprobante(int idRegistro, bool esCuota, string formaPago)
         {
             try
             {
                 string nombreCompleto = _personaEncontrada?.NombreCompleto ?? "N/A";
                 string dni = _personaEncontrada?.DNI ?? "N/A";
                 decimal montoTotal = decimal.Parse(txtMonto.Text);
-                string formaPago = cmbMedioPago.SelectedItem.ToString() ?? "Efectivo";
+                //CargarFormaPago(_personaEncontrada);
+                //string formaPago = cmbMedioPago.SelectedItem.ToString();
                 string ruta = "";
 
                 if (esCuota)
@@ -711,7 +727,7 @@ namespace ClubDeportivo.UI
 
             // --- 2. PREPARACIÓN DE DATOS COMUNES ---
             string concepto = cmbConcepto.SelectedItem.ToString() ?? string.Empty;
-            string formaPago = cmbMedioPago.SelectedItem.ToString() ?? "Efectivo";
+            string formaPago = cmbMedioPago.SelectedItem.ToString() ?? "EFECTIVO";//cambio
             int resultadoRegistro = 0;
             string mensajeExito = "";
             btnRegistrarPago.Enabled = true;
@@ -789,7 +805,7 @@ namespace ClubDeportivo.UI
                     try
                     {
                         // Llama a la impresión y obtiene la ruta
-                        string rutaComprobante = ImprimirComprobante(resultadoRegistro, esCuota);
+                        string rutaComprobante = ImprimirComprobante(resultadoRegistro, esCuota, formaPago);
 
                         if (!string.IsNullOrEmpty(rutaComprobante))
                         {
