@@ -312,9 +312,7 @@ namespace ClubDeportivo.UI
         private void FrmRegistrarPagos_Load(object sender, EventArgs e)
         {
             this.BeginInvoke((Action)(() => Utilitarios.Utilitarios.ForzarCentrado(this, pnlBase, _anchoMenuLateral)));
-            // *** REFINAMIENTO SUGERIDO: Cargar el ComboBox de Conceptos ***
             CargarConceptosPago();
-            //CargarFormaPago();
             CargarActividades();
         }
 
@@ -676,7 +674,7 @@ namespace ClubDeportivo.UI
 
             if (string.IsNullOrEmpty(identificador))
             {
-                MessageBox.Show("Debe ingresar un DNI o un Número de Carnet.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Prompt.MostrarAlerta("Debe ingresar un DNI o un Número de Carnet.");
                 return;
             }
 
@@ -687,7 +685,8 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error al buscar la persona: {ex.Message}", "Error BLL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // El mensaje incluye el detalle de la excepción (ex.Message)
+                Prompt.MostrarError($"Ocurrió un error al buscar la persona: {ex.Message}", "Error BLL");
                 return;
             }
 
@@ -700,7 +699,7 @@ namespace ClubDeportivo.UI
             else
             {
                 // NO ENCONTRADO
-                MessageBox.Show("No se encontró ninguna persona con ese identificador.", "Búsqueda Fallida", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Prompt.MostrarAlerta("No se encontró ninguna persona con ese identificador.", "Búsqueda Fallida");
                 LimpiarFormularioBusqueda(); // Vuelve a limpiar, pero sin tocar el txtBuscar
                 lblNombrePersona.Text = "Persona no encontrada.";
             }

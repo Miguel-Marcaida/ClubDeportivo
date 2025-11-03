@@ -539,7 +539,21 @@ namespace ClubDeportivo.UI.Utilitarios
         }
 
 
+        // =================================================================
+        // METODOS SIMPLIFICADOS (SOBRECARGAS)
+        // =================================================================
 
+        // 1. Sobrecarga de MostrarError: Permite pasar un título personalizado
+        public static void MostrarError(string message, string customCaption)
+        {
+            Alerta(message, customCaption, IconType.Error);
+        }
+
+        // 2. Sobrecarga de MostrarAlerta: Permite pasar un título personalizado
+        public static void MostrarAlerta(string message, string customCaption)
+        {
+            Alerta(message, customCaption, IconType.Advertencia);
+        }
 
 
 
