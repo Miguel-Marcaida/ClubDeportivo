@@ -5,9 +5,11 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace ClubDeportivo.UI.BLL
 {
@@ -152,19 +154,19 @@ namespace ClubDeportivo.UI.BLL
 
 
 
-        /// <summary>
-        /// Obtiene el listado unificado de todas las personas vigentes (Socio y No Socio),
-        /// aplicando la lógica de negocio del estado de membresía.
-        /// </summary>
-        /// <returns>Una lista de PersonaListadoDTOs lista para ser mostrada en la UI.</returns>
         public List<PersonaListadoDTO> ObtenerListadoGeneral()
         {
             List<PersonaListadoDTO> lista = new List<PersonaListadoDTO>();
 
             try
             {
-                // 1. Obtener el DataTable de la DAL (Datos de la VIEW)
+                // 1. Obtener el DataTable de la DAL (Contiene los nuevos campos de pago)
                 DataTable dt = oPersonaDAL.ObtenerListadoUnificado();
+
+                // --- Definiciones de fechas para la lógica de mora ---
+                DateTime hoy = DateTime.Today; // 2025-11-04
+                                               // Primer día del mes actual (ej: 2025-11-01)
+                DateTime inicioMesActual = new DateTime(hoy.Year, hoy.Month, 1);
 
                 // 2. Iterar sobre las filas y aplicar la Lógica de Negocio
                 foreach (DataRow row in dt.Rows)
@@ -177,9 +179,6 @@ namespace ClubDeportivo.UI.BLL
                         Nombre = row["Nombre"].ToString(),
                         Apellido = row["Apellido"].ToString(),
                         TipoPersona = row["TipoPersona"].ToString()
-
-                        // NumeroCarnet es nullable, necesita manejo
-                        // Si es DBNull.Value, usamos null. Si no, convertimos.
                     };
 
                     // Manejo del Carnet (Puede ser NULL si es No Socio)
@@ -192,27 +191,43 @@ namespace ClubDeportivo.UI.BLL
                         dto.NumeroCarnet = null;
                     }
 
-                    // --- LÓGICA CRÍTICA: CALCULAR ESTADO DE MEMBRESÍA ---
+                    // --- LÓGICA CRÍTICA CORREGIDA: CALCULAR ESTADO DE MEMBRESÍA ---
                     if (dto.TipoPersona == "Socio")
                     {
-                        if (row["UltimaCuotaVencimiento"] != DBNull.Value)
-                        {
-                            DateTime fechaVencimiento = Convert.ToDateTime(row["UltimaCuotaVencimiento"]);
+                        // 1. Lectura segura de los nuevos campos de la vista (DBNull.Value handling)
 
-                            // Regla de Negocio: Si la fecha de vencimiento es HOY o en el FUTURO, está AL DÍA.
-                            if (fechaVencimiento >= DateTime.Today)
-                            {
-                                dto.EstadoMembresia = "AL DÍA";
-                            }
-                            else
-                            {
-                                dto.EstadoMembresia = "PENDIENTE (Moroso)";
-                            }
+                        // a) Fecha del último pago efectivo (NULL si nunca pagó)
+                        DateTime? fechaUltimoPago = row["fecha_pago_ultima"] != DBNull.Value
+                                                   ? (DateTime?)Convert.ToDateTime(row["fecha_pago_ultima"])
+                                                   : null;
+
+                        // b) Existencia de cuota pendiente (es TRUE si id_cuota_pendiente NO es NULL)
+                        bool tieneCuotasPendientes = row["id_cuota_pendiente"] != DBNull.Value;
+
+
+                        if (fechaUltimoPago.HasValue && fechaUltimoPago.Value >= inicioMesActual)
+                        {
+                            // REGLA CLAVE: Si pagó en el mes actual (Noviembre 2025), está AL DÍA.
+                            // (Aquí cae Lucía Vera, que pagó hoy)
+                            dto.EstadoMembresia = "AL DÍA";
+                        }
+                        else if (!fechaUltimoPago.HasValue && tieneCuotasPendientes)
+                        {
+                            // REGLA: Nunca ha pagado (NULL en fecha_pago_ultima) y tiene deuda.
+                            dto.EstadoMembresia = "MOROSO";
+                        }
+                        else if (tieneCuotasPendientes)
+                        {
+                            // REGLA: Tiene cuotas pendientes y su último pago es anterior al mes actual.
+                            // (Aquí caen Fede, Ana, Raúl, etc. Fede es moroso porque su pago fue Octubre).
+                            dto.EstadoMembresia = "MOROSO";
                         }
                         else
                         {
-                            // Socio que nunca ha pagado una cuota (Caso raro, pero posible)
-                            dto.EstadoMembresia = "PENDIENTE (Nunca pagó)";
+                            // REGLA: Está al día (o al menos no tiene cuotas pendientes). 
+                            // Esto cubre el caso donde el último pago fue hace mucho, pero la cuota 
+                            // del mes actual aún no se genera o no tiene deuda.
+                            dto.EstadoMembresia = "AL DÍA";
                         }
                     }
                     else
@@ -220,13 +235,15 @@ namespace ClubDeportivo.UI.BLL
                         // No Socio no tiene estado de cuota
                         dto.EstadoMembresia = "N/A";
                     }
+                    // --- FIN DE LÓGICA CRÍTICA ---
 
                     lista.Add(dto);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error BLL al procesar el listado de personas: " + ex.Message);
+                // Es buena práctica incluir el nombre del método para el debug.
+                throw new Exception("Error BLL al procesar el listado de personas en ObtenerListadoGeneral: " + ex.Message);
             }
 
             return lista;
@@ -249,11 +266,6 @@ namespace ClubDeportivo.UI.BLL
             }
         }
 
-        /// <summary>
-        /// Obtiene el detalle completo de una persona (Socio o No Socio) para el formulario de Edición.
-        /// </summary>
-        /// <param name="idPersona">ID de la persona a buscar.</param>
-        /// <returns>Un objeto PersonaDetalleDTO con todos los datos.</returns>
         public PersonaDetalleDTO ObtenerDetallePersona(int idPersona)
         {
             PersonaDetalleDTO detalle = null;
@@ -395,13 +407,6 @@ namespace ClubDeportivo.UI.BLL
         }
 
 
-
-        /// <summary>
-        /// Busca una persona por DNI o Carnet y aplica la lógica de negocio para determinar su estado de pago.
-        /// Este método es el punto central para el FrmRegistrarPago.
-        /// </summary>
-        /// <param name="identificador">DNI o Número de Carnet.</param>
-        /// <returns>PersonaPagoDetalleDTO con el EstadoMembresia calculado, o null si no existe.</returns>
 
         public PersonaPagoDetalleDTO BuscarPersonaParaPago(string identificador)
         {

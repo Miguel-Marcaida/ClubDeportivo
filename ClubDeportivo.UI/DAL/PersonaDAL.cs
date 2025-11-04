@@ -181,7 +181,7 @@ namespace ClubDeportivo.UI.DAL
                 sqlCon = Conexion.getInstancia().CrearConexion();
 
                 // 1. Usamos la VIEW que creaste, que ya filtra por EstaVigente = 1
-                MySqlCommand comando = new MySqlCommand("SELECT * FROM v_listado_personas", sqlCon);
+                MySqlCommand comando = new MySqlCommand("SELECT * FROM v_listado_personas WHERE EstaVigente=1", sqlCon);
                 comando.CommandType = CommandType.Text;
 
                 sqlCon.Open();
