@@ -52,7 +52,7 @@ namespace ClubDeportivo.UI
         {
             // 1. FORMATO BASE DEL FORMULARIO
             EstilosGlobales.AplicarFormatoBase(this);
-            this.FormBorderStyle = FormBorderStyle.None; // Modo sin borde para diseño custom
+            this.FormBorderStyle = FormBorderStyle.None; 
             this.Size = new Size(1400, 950);
             this.StartPosition = FormStartPosition.CenterScreen;
 
@@ -90,7 +90,7 @@ namespace ClubDeportivo.UI
             if (lblUsuarioStatus != null)
             {
                 EstilosGlobales.AplicarEstiloLabel(lblUsuarioStatus);
-                lblUsuarioStatus.Text = "Cargando...";
+                lblUsuarioStatus.Text = MensajesUI.PRINCIPAL_STATUS_CARGANDO;
                 lblUsuarioStatus.AutoSize = true;
                 lblUsuarioStatus.Location = new Point(pnlMenu.Width + 20, 7);
             }
@@ -115,15 +115,15 @@ namespace ClubDeportivo.UI
                 //btnCerrarSesion
             };
 
-            // Asignación de texto
-            btnGestionPersona.Text = "  Gestión de Personas";
-            btnInscripcion.Text = "  Inscripción ";
-            btnRegistrarPagos.Text = "  Registro de Pagos";
-            btnGestionActividades.Text = "  Gestión de Actividades";
-            btnListadoMorosos.Text = "  Listado de Morosos";
-            btnConfiguracionGlobal.Text = "  Configuracion";
-            btnGestionUsuarios.Text = "  Gestión de Usuarios";
-            btnCerrarSesion.Text = "  Cerrar Sesión";
+            // Asignación de texto ⬅️ Refactorizado
+            btnGestionPersona.Text = MensajesUI.MENU_GESTION_PERSONAS;
+            btnInscripcion.Text = MensajesUI.MENU_INSCRIPCION;
+            btnRegistrarPagos.Text = MensajesUI.MENU_REGISTRO_PAGOS;
+            btnGestionActividades.Text = MensajesUI.MENU_GESTION_ACTIVIDADES;
+            btnListadoMorosos.Text = MensajesUI.MENU_LISTADO_MOROSOS;
+            btnConfiguracionGlobal.Text = MensajesUI.MENU_CONFIGURACION;
+            btnGestionUsuarios.Text = MensajesUI.MENU_GESTION_USUARIOS;
+            btnCerrarSesion.Text = MensajesUI.MENU_CERRAR_SESION;
 
             foreach (Button btn in botonesMenu)
             {
@@ -171,14 +171,7 @@ namespace ClubDeportivo.UI
             }
             catch (FileNotFoundException) { }
 
-            // CÁLCULO CRÍTICO: Posición fija cerca del fondo
-            // La ubicación Y se calcula: Altura total del pnlCentral - Altura del pnlInferior - Espaciado (ej. 100)
-            //int yBottom = pnlMenu.Height - 50;
-
-            // Si la altura del Formulario Principal es 950 y el pnlMenu está en DockStyle.Left,
-            // su altura será 950 - pnlSuperior.Height (50) - pnlInferior.Height (30) = 870
-            // pnlMenu.Height - btn.Height - Margen
-
+           
             btns.Location = new Point(0, this.Height - pnlInferior.Height - 100);
             btns.Width = pnlMenu.Width;
 
@@ -194,7 +187,7 @@ namespace ClubDeportivo.UI
             //CENTRADO DEL TÍTULO
             if (lblTituloPrincipal != null)
             {
-                lblTituloPrincipal.Text = "CLUB DEPORTIVO - SISTEMA DE GESTIÓN";
+                lblTituloPrincipal.Text = MensajesUI.PRINCIPAL_TITULO_SISTEMA;
                 lblTituloPrincipal.Font = EstilosGlobales.EstiloTitulo;
                 lblTituloPrincipal.ForeColor = EstilosGlobales.ColorTextoClaro;
                 lblTituloPrincipal.AutoSize = true;
@@ -256,8 +249,8 @@ namespace ClubDeportivo.UI
 
             if (lblUsuarioStatus != null)
             {
-                string nomUsuario = $"Usuario Conectado: **{_usuarioLogueado.NombreUsuario}** ({_usuarioLogueado.Rol})";
-                lblUsuarioStatus.Text = nomUsuario.ToUpper();
+                // Usamos string.Format con el placeholder de la constante ⬅️ Refactorizado
+                string nomUsuario = string.Format(MensajesUI.PRINCIPAL_STATUS_USUARIO, _usuarioLogueado.NombreUsuario, _usuarioLogueado.Rol); lblUsuarioStatus.Text = nomUsuario.ToUpper();
             }
 
         }
@@ -311,9 +304,9 @@ namespace ClubDeportivo.UI
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 DialogResult resultado = Utilitarios.Prompt.Confirmar(
-                    "¿Está seguro que desea salir del sistema y cerrar la aplicación?",
-                    "Confirmación de Salida"
-                );
+                     MensajesUI.PRINCIPAL_MSG_CONFIRMAR_SALIDA, // ⬅️ Refactorizado
+                     MensajesUI.PRINCIPAL_TITULO_CONFIRMAR_SALIDA // ⬅️ Refactorizado
+                 );
 
                 if (resultado == DialogResult.No)
                 {
@@ -333,7 +326,7 @@ namespace ClubDeportivo.UI
 
 
         #region EVENTOS DE BOTONES
-
+        //CERRAR PRINCIPAL
         private void pbCerrarPrincipal_Click(object sender, EventArgs e)
         {
             this.Close(); // Esto dispara el evento FormClosing
@@ -396,9 +389,9 @@ namespace ClubDeportivo.UI
         {
             // 1. Preguntar al usuario antes de cerrar
             DialogResult resultado = Utilitarios.Prompt.Confirmar(
-                   "¿Está seguro que desea cerrar la sesión actual?",
-                    "Confirmación de Cierre"
-             );
+                MensajesUI.PRINCIPAL_MSG_CONFIRMAR_CIERRE_SESION, // ⬅️ Refactorizado
+                MensajesUI.PRINCIPAL_TITULO_CONFIRMAR_CIERRE_SESION // ⬅️ Refactorizado
+            );
 
             if (resultado == DialogResult.Yes)
             {
