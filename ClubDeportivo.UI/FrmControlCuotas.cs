@@ -80,40 +80,39 @@ namespace ClubDeportivo.UI
             pnlBase.BackColor = EstilosGlobales.ColorFondo;
 
             // --- 1. TÍTULO ---
-            lblTitulo.Text = "CONTROL DE CUOTAS"; // Título más corto
-            lblTitulo.Location = new Point(20, 20); // Movemos más arriba
+            lblTitulo.Text = MensajesUI.CUOTAS_TITULO_FORM; // <--- CONSTANTE
+            lblTitulo.Location = new Point(20, 20); 
 
             // --- 2. CONTROLES DE MODO PRINCIPAL (RadioButtons) ---
             // Posicionamos los RadioButtons cerca del título (izquierda)
 
             // 2a. Modo Vencimiento Hoy
-            rbVencimientoHoy.Text = "Vencen Hoy";  
-            rbVencimientoHoy.Location = new Point(20, 70); // Subimos la posición Y
-            rbVencimientoHoy.AutoSize = true; // Para que el tamaño se ajuste al texto
+            rbVencimientoHoy.Text = MensajesUI.CUOTAS_RB_VENCEN_HOY; // <--- CONSTANTE
+            rbVencimientoHoy.Location = new Point(20, 70);
+            rbVencimientoHoy.AutoSize = true; 
 
-            // 2b. Modo Morosos (Será el modo por defecto o el que tenga el filtro de días)
-            rbMorosos.Text = "Morosos (1 mes o más)"; // Texto más claro
-            rbMorosos.Location = new Point(180, 70); // Ajustamos la posición X
-            rbMorosos.AutoSize = true;
-            rbMorosos.Checked = true;// Establecemos Morosos como el modo inicial por defecto
+            // 2b. Modo Morosos (Será el modo por defecto o el que tenga el filtro de días)
+            rbMorosos.Text = MensajesUI.CUOTAS_RB_MOROSOS; // <--- CONSTANTE
+            rbMorosos.Location = new Point(180, 70); 
+            rbMorosos.AutoSize = true;
+            rbMorosos.Checked = true;
 
-            
             // --- 4. LISTADO (DataGridView) ---
             dgvMorosos.Location = new Point(20, 120); 
-            dgvMorosos.Size = new Size(960, 340);  
+            dgvMorosos.Size = new Size(960, 340);
 
             // --- 5. BOTONES DE ACCIÓN (Al pie) ---
-            btnImprimirMorosos.Text = "IMPRIMIR LISTADO";
-            btnImprimirMorosos.Location = new Point(20, 480);
+            btnImprimirMorosos.Text = MensajesUI.CUOTAS_BTN_IMPRIMIR; // <--- CONSTANTE
+            btnImprimirMorosos.Location = new Point(20, 480);
             btnImprimirMorosos.Size = new Size(300, 50);
 
-            btnEstadoCuenta.Text = "VER ESTADO DE CUENTA";
-            btnEstadoCuenta.Location = new Point(340, 480); // Mantenemos la posición
-            btnEstadoCuenta.Size = new Size(300, 50); // Aumentamos el ancho
+            btnEstadoCuenta.Text = MensajesUI.CUOTAS_BTN_ESTADO_CUENTA; // <--- CONSTANTE
+            btnEstadoCuenta.Location = new Point(340, 480); 
+            btnEstadoCuenta.Size = new Size(300, 50); 
 
-            btnCerrar.Text = "CERRAR";
-            btnCerrar.Location = new Point(660, 480); // Corregimos posición para el nuevo ancho
-            btnCerrar.Size = new Size(300, 50); // Aumentamos el ancho
+            btnCerrar.Text = MensajesUI.CUOTAS_BTN_CERRAR; // <--- CONSTANTE
+            btnCerrar.Location = new Point(660, 480); 
+            btnCerrar.Size = new Size(300, 50); 
 
         }
 
@@ -147,10 +146,6 @@ namespace ClubDeportivo.UI
             VencimientoHoy = 1
         }
 
-        /// <summary>
-        /// Carga todos los datos maestros de morosidad y vencimiento al campo privado.
-        /// Se llama solo una vez al inicio.
-        /// </summary>
         private void CargarDatosMaestros()
         {
             try
@@ -166,15 +161,16 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar los datos maestros de cuotas: " + ex.Message,
-                                "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                // Si falla, la lista queda nula o vacía.
-            }
+                // REF: Reemplazo de MessageBox por Prompt.MostrarError
+                Prompt.MostrarError(
+                      string.Format(MensajesUI.CUOTAS_MSG_ERROR_CARGA_MAESTRO, ex.Message),
+                      MensajesUI.TITULO_ERROR_CRITICO
+                    );
+                // Si falla, la lista queda nula o vacía.
+            }
         }
 
-        /// <summary>
-        /// Aplica formatos, renombra y oculta columnas del DGV.
-        /// </summary>
+      
         private void AjustarColumnasDataGrid()
         {
             // Ocultar columnas que no son para la UI, pero sí para la lógica (ID)
@@ -287,8 +283,6 @@ namespace ClubDeportivo.UI
 
 
 
-
-
         #endregion
 
         #region BOTONES DE ACCION
@@ -304,8 +298,11 @@ namespace ClubDeportivo.UI
             // 2. Verificar si la lista existe y tiene elementos.
             if (listaFiltrada == null || listaFiltrada.Count == 0)
             {
-                MessageBox.Show("No hay socios en el listado actual para imprimir el reporte. Por favor, aplique un filtro válido.",
-                                "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // REF: Reemplazo de MessageBox por Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(
+                      MensajesUI.CUOTAS_MSG_ADVERTENCIA_NO_IMPRIMIR,
+                      MensajesUI.TITULO_ADVERTENCIA
+                    );
                 return;
             }
 
@@ -327,12 +324,11 @@ namespace ClubDeportivo.UI
                     tituloReporte
                 );
 
-                // 5. Notificar al usuario y preguntar si desea abrir el PDF (Lógica de tu botón que funciona)
-                DialogResult dialogResult = MessageBox.Show(
-                    $"Listado generado con éxito en:\n{rutaPdfGenerado}\n\n¿Desea abrir el archivo ahora?",
-                    "Impresión de Listado",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Information);
+                // 5. Notificar al usuario y preguntar si desea abrir el PDF
+                DialogResult dialogResult = Prompt.MostrarDialogoSiNo( // ✅ CORRECCIÓN: Uso de la utilidad MostrarDialogoSiNo (2 argumentos)
+                    string.Format(MensajesUI.CUOTAS_MSG_PREGUNTAR_ABRIR_PDF, rutaPdfGenerado),
+                      MensajesUI.TITULO_IMPRESION_LISTADO
+                    );
 
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -342,9 +338,12 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                // 6. Capturar errores (incluyendo errores de PdfSharp o de I/O)
-                MessageBox.Show("Error al intentar generar el listado PDF: " + ex.Message,
-                                "Error de Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // 6. Capturar errores (incluyendo errores de PdfSharp o de I/O)
+                // REF: Reemplazo de MessageBox por Prompt.MostrarError
+                        Prompt.MostrarError(
+                  string.Format(MensajesUI.CUOTAS_MSG_ERROR_GENERAR_PDF, ex.Message),
+                  MensajesUI.TITULO_ERROR_SISTEMA
+                    );
             }
         }
         
@@ -352,8 +351,11 @@ namespace ClubDeportivo.UI
         {
             if (dgvMorosos.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Debe seleccionar un Socio de la lista.", "Advertencia",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // REF: Reemplazo de MessageBox por Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(
+                      MensajesUI.CUOTAS_MSG_ADVERTENCIA_NO_SELECCION,
+                      MensajesUI.TITULO_ADVERTENCIA
+                    );
                 return;
             }
 
@@ -374,8 +376,11 @@ namespace ClubDeportivo.UI
 
                 if (detalle == null || !detalle.EsSocio)
                 {
-                    MessageBox.Show($"La búsqueda falló para el DNI {identificador}.", "Error de Búsqueda",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // REF: Reemplazo de MessageBox por Prompt.MostrarError
+                    Prompt.MostrarError(
+                        string.Format(MensajesUI.CUOTAS_MSG_ERROR_BUSQUEDA_FALLIDA, identificador),
+                        MensajesUI.TITULO_ERROR_BUSQUEDA
+                      );
                     return;
                 }
 
@@ -403,13 +408,19 @@ namespace ClubDeportivo.UI
                 }
 
                 // 5. Mostrar el mensaje
-                MessageBox.Show(mensaje, $"Detalle de Estado de Cuenta - {detalle.Nombre} {detalle.Apellido}",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+                // REF: Reemplazo de MessageBox por Prompt.MostrarInformacion
+                Prompt.MostrarInformacion(
+                              mensaje,
+                              $"Detalle de Estado de Cuenta - {detalle.Nombre} {detalle.Apellido}" // Título dinámico
+                                    );
+                }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al obtener el estado de cuenta: " + ex.Message, "Error BLL",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // REF: Reemplazo de MessageBox por Prompt.MostrarError
+                    Prompt.MostrarError(
+                      string.Format(MensajesUI.CUOTAS_MSG_ERROR_BLL_CUENTA, ex.Message),
+                      MensajesUI.TITULO_ERROR_BLL
+                    );
             }
         }
         private void btnCerrar_Click(object sender, EventArgs e)

@@ -535,8 +535,6 @@ namespace ClubDeportivo.UI
 
         #endregion
 
-
-
         #region BOTONES DE ACCION
 
         private void btnCancelar_Click(object sender, EventArgs e)

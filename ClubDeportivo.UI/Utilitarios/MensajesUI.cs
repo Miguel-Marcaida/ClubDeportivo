@@ -31,6 +31,12 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string TITULO_ERROR_CRITICO = "Error Crítico";
         public const string TITULO_ADVERTENCIA_CAMPOS = "Advertencia de Campos Faltantes";
 
+        // --- TÍTULOS DE DIÁLOGO ESPECÍFICOS ---
+        public const string TITULO_IMPRESION_LISTADO = "Impresión de Listado"; // <-- ¡NUEVO!
+        public const string TITULO_ERROR_BUSQUEDA = "Error de Búsqueda"; // <-- ¡MOVIDO DE BLOQUE 10!
+        public const string TITULO_ERROR_BLL = "Error BLL"; // <-- ¡MOVIDO DE BLOQUE 10!
+        public const string TITULO_ERROR_SISTEMA = "Error de Sistema";
+
         // =================================================================
         //                BLOQUE 2: FrmLogin (ACCESO)
         // =================================================================
@@ -283,6 +289,30 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string PERSONAS_MSG_ACTUALIZACION_BLL_ERROR = "Error al intentar actualizar la persona en la capa de negocio. Contacte al administrador.";
         public const string PERSONAS_MSG_ACTUALIZACION_CRITICO = "Error CRÍTICO al procesar la actualización: {0}";
         public const string PERSONAS_MSG_ADVERTENCIA_CAMBIO_TIPO = "ADVERTENCIA: Está cambiando el TIPO de persona. Esto puede generar inconsistencias en los datos si no está seguro.";
+
+
+        // =================================================================
+        //               BLOQUE 10: FrmControlCuotas (CONTROL DE CUOTAS)
+        // =================================================================
+
+        // --- TÍTULOS Y ETIQUETAS ---
+        public const string CUOTAS_TITULO_FORM = "CONTROL DE CUOTAS";
+        public const string CUOTAS_RB_VENCEN_HOY = "Vencen Hoy";
+        public const string CUOTAS_RB_MOROSOS = "Morosos (1 mes o más)";
+
+        // --- TEXTOS DE BOTONES ---
+        public const string CUOTAS_BTN_IMPRIMIR = "IMPRIMIR LISTADO";
+        public const string CUOTAS_BTN_ESTADO_CUENTA = "VER ESTADO DE CUENTA";
+        public const string CUOTAS_BTN_CERRAR = "CERRAR";
+
+        // --- MENSAJES DE PROCESO Y ERROR (PROMPT) ---
+        public const string CUOTAS_MSG_ERROR_CARGA_MAESTRO = "Error al cargar los datos maestros de cuotas: {0}";
+        public const string CUOTAS_MSG_ADVERTENCIA_NO_IMPRIMIR = "No hay socios en el listado actual para imprimir el reporte. Por favor, aplique un filtro válido.";
+        public const string CUOTAS_MSG_PREGUNTAR_ABRIR_PDF = "Listado generado con éxito en:\n{0}\n\n¿Desea abrir el archivo ahora?";
+        public const string CUOTAS_MSG_ERROR_GENERAR_PDF = "Error al intentar generar el listado PDF: {0}";
+        public const string CUOTAS_MSG_ADVERTENCIA_NO_SELECCION = "Debe seleccionar un Socio de la lista.";
+        public const string CUOTAS_MSG_ERROR_BUSQUEDA_FALLIDA = "La búsqueda falló para el DNI {0}.";
+        public const string CUOTAS_MSG_ERROR_BLL_CUENTA = "Error al obtener el estado de cuenta: {0}";
 
 
 
