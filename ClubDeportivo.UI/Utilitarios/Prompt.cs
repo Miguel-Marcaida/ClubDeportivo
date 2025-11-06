@@ -357,6 +357,11 @@ namespace ClubDeportivo.UI.Utilitarios
             Alerta(message, customCaption, IconType.Advertencia);
         }
 
+        public static void MostrarExito(string message, string customCaption)
+        {
+            Alerta(message, customCaption, IconType.Ok);
+        }
+
         // =================================================================
         // 3. DIÁLOGOS DE CONFIRMACIÓN (Dos botones SI/NO / Retorno DialogResult o BOOL)
         // =================================================================

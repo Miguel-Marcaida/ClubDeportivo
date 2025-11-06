@@ -388,7 +388,8 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar actividades: {ex.Message}", "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // [!] REFACTORIZADO: Reemplazo de MessageBox.Show por Prompt.MostrarError
+                Prompt.MostrarError($"Error al cargar actividades: {ex.Message}", MensajesUI.TITULO_ERROR);
             }
         }
 
@@ -616,15 +617,11 @@ namespace ClubDeportivo.UI
                 string nombreCompleto = _personaEncontrada?.NombreCompleto ?? "N/A";
                 string dni = _personaEncontrada?.DNI ?? "N/A";
                 decimal montoTotal = decimal.Parse(txtMonto.Text);
-                //CargarFormaPago(_personaEncontrada);
-                //string formaPago = cmbMedioPago.SelectedItem.ToString();
                 string ruta = "";
 
                 if (esCuota)
                 {
-                    // CRÍTICO: Usar el estado original del DTO para mayor robustez
                     bool estaEnMora = _personaEncontrada!.EstadoMembresia.Contains("MORA");
-
                     int mesesPagados = estaEnMora
                                          ? ExtraerMesesAtraso(_personaEncontrada.EstadoMembresia)
                                          : 1;
@@ -656,7 +653,8 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"El pago fue registrado, pero ocurrió un error al generar el PDF: {ex.Message}", "Error de Generación de PDF", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // [!] REFACTORIZADO: Reemplazo de MessageBox.Show por Prompt.MostrarAlerta
+                Prompt.MostrarAlerta($"El pago fue registrado, pero ocurrió un error al generar el PDF: {ex.Message}", MensajesUI.IMPRESION_FALLO_WARN_MSG);
                 return string.Empty;
             }
         }
@@ -674,7 +672,8 @@ namespace ClubDeportivo.UI
 
             if (string.IsNullOrEmpty(identificador))
             {
-                Prompt.MostrarAlerta("Debe ingresar un DNI o un Número de Carnet.");
+                // [!] REFACTORIZADO
+                Prompt.MostrarAlerta("Debe ingresar un DNI o un Número de Carnet.", MensajesUI.TITULO_ADVERTENCIA);
                 return;
             }
 
@@ -685,8 +684,8 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                // El mensaje incluye el detalle de la excepción (ex.Message)
-                Prompt.MostrarError($"Ocurrió un error al buscar la persona: {ex.Message}", "Error BLL");
+                // [!] REFACTORIZADO
+                Prompt.MostrarError($"Ocurrió un error al buscar la persona: {ex.Message}", MensajesUI.TITULO_ERROR);
                 return;
             }
 
@@ -698,9 +697,9 @@ namespace ClubDeportivo.UI
             }
             else
             {
-                // NO ENCONTRADO
-                Prompt.MostrarAlerta("No se encontró ninguna persona con ese identificador.", "Búsqueda Fallida");
-                LimpiarFormularioBusqueda(); // Vuelve a limpiar, pero sin tocar el txtBuscar
+                // [!] REFACTORIZADO: Uso de constante de MensajesUI
+                Prompt.MostrarAlerta(MensajesUI.BUSQUEDA_FALLIDA_MSG, MensajesUI.TITULO_ADVERTENCIA);
+                LimpiarFormularioBusqueda();
                 lblNombrePersona.Text = "Persona no encontrada.";
             }
         }
@@ -710,17 +709,20 @@ namespace ClubDeportivo.UI
             // --- 1. VALIDACIONES CRÍTICAS ---
             if (_personaEncontrada == null)
             {
-                MessageBox.Show("Debe buscar y seleccionar una persona válida.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // [!] REFACTORIZADO
+                Prompt.MostrarAlerta(MensajesUI.PERSONA_NO_ENCONTRADA_WARN_MSG, MensajesUI.TITULO_ADVERTENCIA);
                 return;
             }
             if (!decimal.TryParse(txtMonto.Text, out decimal montoAPagar) || montoAPagar <= 0)
             {
-                MessageBox.Show("El monto a pagar no es válido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // [!] REFACTORIZADO
+                Prompt.MostrarAlerta(MensajesUI.MONTO_INVALIDO_WARN_MSG, MensajesUI.TITULO_ADVERTENCIA);
                 return;
             }
             if (cmbMedioPago.SelectedIndex == -1)
             {
-                MessageBox.Show("Debe seleccionar una forma de pago.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // [!] REFACTORIZADO
+                Prompt.MostrarAlerta(MensajesUI.FORMA_PAGO_INVALIDA_WARN_MSG, MensajesUI.TITULO_ADVERTENCIA);
                 return;
             }
 
@@ -743,8 +745,7 @@ namespace ClubDeportivo.UI
                         Monto = montoAPagar,
                         Concepto = concepto, // Concepto: "Cuota Mensual"
                         FormaPago = formaPago,
-                       // FechaPago = DateTime.Now, // La fecha de pago es HOY
-                                                  // FechaVencimiento NO se setea aquí, tu BLL lo calcula.
+                       
                     };
 
                     // Llamamos a tu método BLL, que devuelve el IdCuota registrada.
@@ -779,16 +780,17 @@ namespace ClubDeportivo.UI
                 }
                 else
                 {
-                    MessageBox.Show("Concepto de pago no válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // [!] REFACTORIZADO
+                    Prompt.MostrarError(MensajesUI.CONCEPTO_PAGO_INVALIDO_ERROR_MSG, MensajesUI.TITULO_ERROR);
                     return;
                 }
 
                 // --- 3. RESULTADO DE LA TRANSACCIÓN ---
                 if (resultadoRegistro > 0)
                 {
-                    MessageBox.Show($"¡Transacción exitosa! {mensajeExito} (ID: {resultadoRegistro})", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // 🚨 PASO CRÍTICO: RE-CONSULTAR Y REFRESCAR EL ESTADO 🚨
+                    // [!] REFACTORIZADO
+                    Prompt.MostrarExito($"¡Transacción exitosa! {mensajeExito} (ID: {resultadoRegistro})", MensajesUI.TITULO_EXITO);
+                    
                     // Esto garantiza que el usuario vea el nuevo estado (ej. de MORA a AL DÍA) inmediatamente.
                     _personaEncontrada = oPersonaBLL.BuscarPersonaParaPago(_personaEncontrada.DNI);
                     if (_personaEncontrada != null)
@@ -808,11 +810,11 @@ namespace ClubDeportivo.UI
 
                         if (!string.IsNullOrEmpty(rutaComprobante))
                         {
-                            DialogResult dialogResult = MessageBox.Show(
+                            // [!] REFACTORIZADO: Diálogo de Confirmación
+                            DialogResult dialogResult = Prompt.Confirmar(
                                 $"Comprobante generado con éxito en:\n{rutaComprobante}\n\n¿Desea abrir el archivo ahora?",
-                                "Impresión de Comprobante",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Information);
+                                MensajesUI.TITULO_IMPRESION
+                            );
 
                             if (dialogResult == DialogResult.Yes)
                             {
@@ -823,30 +825,35 @@ namespace ClubDeportivo.UI
                     }
                     catch (Exception ex)
                     {
-                        // Captura si falla la generación del PDF. El pago ya está registrado.
-                        MessageBox.Show("Error al intentar generar el comprobante PDF: " + ex.Message,
-                                         "Advertencia de Impresión", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        // [!] REFACTORIZADO
+                        Prompt.MostrarAlerta(
+                            $"Error al intentar generar el comprobante PDF: {ex.Message}",
+                            MensajesUI.IMPRESION_FALLO_WARN_MSG
+                        );
                     }
 
                     LimpiarFormularioBusqueda(limpiarTodo: true);
                 }
                 else
                 {
-                    MessageBox.Show("Error al registrar el pago. Contacte al administrador. (Resultado 0/Falso)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // [!] REFACTORIZADO
+                    Prompt.MostrarError(MensajesUI.REGISTRO_FALLO_ERROR_MSG, MensajesUI.TITULO_ERROR);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error crítico al procesar el pago: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // [!] REFACTORIZADO
+                Prompt.MostrarError($"Error crítico al procesar el pago: {ex.Message}", MensajesUI.PAGO_ERROR_CRITICO_ERROR_MSG);
             }
         }
 
         private void btnReimprimirCarnet_Click(object sender, EventArgs e)
         {
-            // 1. Validaciones Críticas del DTO
+            // 1. Validaciones Críticas
             if (_personaEncontrada == null || !_personaEncontrada.EsSocio || _personaEncontrada.NumeroCarnet == null)
             {
-                MessageBox.Show("El carnet no puede ser reimpreso. Asegúrese de que el socio esté al día y tenga un número de carnet asignado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // [!] REFACTORIZADO
+                Prompt.MostrarAlerta(MensajesUI.REIMPRESION_CARNET_WARN_MSG, MensajesUI.TITULO_ADVERTENCIA);
                 return;
             }
 
@@ -870,11 +877,11 @@ namespace ClubDeportivo.UI
                 rutaCarnet = Utilitarios.PdfGenerator.GenerarCarnetSocio(detalleParaCarnet);
 
                 // 4. Notificación y Apertura de Archivo
-                DialogResult dialogResult = MessageBox.Show(
+                // [!] REFACTORIZADO: Diálogo de Confirmación
+                DialogResult dialogResult = Prompt.Confirmar(
                     $"Carnet reimpreso con éxito. ✅\nGuardado en: {rutaCarnet}\n\n¿Desea abrir el carnet ahora?",
-                    "Reimpresión Exitosa",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Information);
+                    MensajesUI.TITULO_REIMPRESION_EXITO
+                );
 
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -884,7 +891,8 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al intentar generar el PDF del carnet: {ex.Message}", "Error Crítico de Generación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // [!] REFACTORIZADO
+                Prompt.MostrarError($"Error al intentar generar el PDF del carnet: {ex.Message}", MensajesUI.IMPRESION_ERROR_CRITICO_ERROR_MSG);
             }
         }
 
