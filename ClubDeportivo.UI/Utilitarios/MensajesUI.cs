@@ -28,6 +28,8 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string TITULO_ADVERTENCIA = "Advertencia";
         public const string TITULO_CONFIRMAR_ACCION = "Confirmar Acción";
         public const string TITULO_INFORMACION = "Informacion";
+        public const string TITULO_ERROR_CRITICO = "Error Crítico";
+        public const string TITULO_ADVERTENCIA_CAMPOS = "Advertencia de Campos Faltantes";
 
         // =================================================================
         //                BLOQUE 2: FrmLogin (ACCESO)
@@ -245,6 +247,44 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string PERSONAS_MSG_IMPRESION_SIN_DATOS = "No hay registros de personas para imprimir en el listado. Por favor, cargue los datos.";
         public const string PERSONAS_MSG_IMPRESION_PREGUNTAR_ABRIR = "Listado generado con éxito en:\n{0}\n\n¿Desea abrir el archivo ahora?";
         public const string PERSONAS_MSG_ERROR_GENERAR_PDF = "Error al intentar generar el listado PDF: ";
+
+
+        // =================================================================
+        //               BLOQUE 9: FrmActualizarPersona (EDICIÓN)
+        // =================================================================
+
+        // --- TÍTULOS Y BOTONES ---
+        public const string PERSONAS_TITULO_EDICION = "EDICIÓN DE PERSONA";
+        public const string PERSONAS_BTN_GUARDAR_CAMBIOS = "GUARDAR CAMBIOS";
+
+        // --- GROUPBOX Y ETIQUETAS DE ESTADO/ROL ---
+        public const string PERSONAS_GB_VIGENCIA_ROL = "Vigencia y Rol";
+        public const string PERSONAS_LBL_VIGENCIA = "Estado (Baja Lógica):";
+        public const string PERSONAS_CHK_ACTIVO = "Activo";
+        public const string PERSONAS_LBL_TIPO = "Tipo de Persona:";
+
+        // --- PESTAÑAS ---
+        public const string PERSONAS_TBP_SOCIO = "Detalle Socio";
+        public const string PERSONAS_TBP_NO_SOCIO = "Detalle No Socio";
+
+        // --- DETALLE SOCIO ---
+        public const string PERSONAS_LBL_ESTADO_ACTIVO = "Cuota al Día / Activo:";
+        public const string PERSONAS_CHK_SOCIO_ACTIVO = "Socio Activo";
+        public const string PERSONAS_LBL_FICHA_MEDICA = "Ficha Médica Entregada:";
+        public const string PERSONAS_CHK_FICHA_MEDICA = "Entregada";
+
+        // --- DETALLE NO SOCIO ---
+        public const string PERSONAS_LBL_FECHA_ACCESO = "Fecha de Acceso:";
+        public const string PERSONAS_TEXTO_NO_REGISTROS = "N/A - Sin Registros";
+        public const string PERSONAS_INFO_NO_SOCIO = "INFO: Los No Socios pagan por acceso diario \nal momento de ingresar.";
+
+        // --- MENSAJES DE VALIDACIÓN Y PROCESO (PROMPT) ---
+        public const string PERSONAS_MSG_CONFIRMAR_GUARDAR = "¿Está seguro de que desea guardar los cambios en los datos de la persona **{0}**?";
+        public const string PERSONAS_MSG_ACTUALIZACION_BLL_ERROR = "Error al intentar actualizar la persona en la capa de negocio. Contacte al administrador.";
+        public const string PERSONAS_MSG_ACTUALIZACION_CRITICO = "Error CRÍTICO al procesar la actualización: {0}";
+        public const string PERSONAS_MSG_ADVERTENCIA_CAMBIO_TIPO = "ADVERTENCIA: Está cambiando el TIPO de persona. Esto puede generar inconsistencias en los datos si no está seguro.";
+
+
 
     }
 }

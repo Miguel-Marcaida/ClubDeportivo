@@ -54,7 +54,7 @@ namespace ClubDeportivo.UI
             // =================================================================
             // 1. FORMULARIO PRINCIPAL
             // =================================================================
-            this.Text = "Inscripción y Edición de Persona";
+            this.Text = MensajesUI.PERSONAS_TITULO_EDICION;
             this.Size = new Size(850, 700);
             this.MaximizeBox = false;
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -63,7 +63,7 @@ namespace ClubDeportivo.UI
             // 2. TÍTULO Y CONTENEDOR PRINCIPAL
             // =================================================================
 
-            lblTitulo.Text = "Edición de Persona";
+            lblTitulo.Text = MensajesUI.PERSONAS_TITULO_EDICION;
             lblTitulo.Location = new Point(20, 20);
             lblTitulo.Size = new Size(800, 30);
 
@@ -74,8 +74,8 @@ namespace ClubDeportivo.UI
             // =================================================================
             // 3. GROUPBOX DATOS PERSONALES (Columna Izquierda)
             // =================================================================
-
-            gbDatosPersonales.Text = "Datos Personales";
+            // Reutiliza Bloque 4
+            gbDatosPersonales.Text = MensajesUI.INSCRIPCION_GB_DATOS_PERSONA;
             gbDatosPersonales.Location = new Point(10, 80);
             gbDatosPersonales.Size = new Size(400, 300);
 
@@ -87,43 +87,43 @@ namespace ClubDeportivo.UI
             txtIdPersona.Location = new Point(140, 30);
             txtIdPersona.Size = new Size(50, 25);
 
-            // DNI
-            lblDni.Text = "DNI / CUIL (*)";
+            // DNI (Reutiliza Bloque 4)
+            lblDni.Text = MensajesUI.INSCRIPCION_LBL_DNI + " (*)";
             lblDni.Location = new Point(20, 65);
             lblDni.Size = new Size(110, 20);
             txtDni.Location = new Point(140, 65);
             txtDni.Size = new Size(240, 25);
 
-            // Nombre
-            lblNombre.Text = "Nombre (*)";
+            // Nombre (Reutiliza Bloque 4)
+            lblNombre.Text = MensajesUI.INSCRIPCION_LBL_NOMBRE + " (*)";
             lblNombre.Location = new Point(20, 100);
             lblNombre.Size = new Size(110, 20);
             txtNombre.Location = new Point(140, 100);
             txtNombre.Size = new Size(240, 25);
 
-            // Apellido
-            lblApellido.Text = "Apellido (*)";
+            // Apellido (Reutiliza Bloque 4)
+            lblApellido.Text = MensajesUI.INSCRIPCION_LBL_APELLIDO + " (*)";
             lblApellido.Location = new Point(20, 135);
             lblApellido.Size = new Size(110, 20);
             txtApellido.Location = new Point(140, 135);
             txtApellido.Size = new Size(240, 25);
 
-            // Fecha Nacimiento
-            lblFechaNacimiento.Text = "F. Nacimiento";
+            // Fecha Nacimiento (Reutiliza Bloque 4)
+            lblFechaNacimiento.Text = MensajesUI.INSCRIPCION_LBL_FECHA_NAC;
             lblFechaNacimiento.Location = new Point(20, 170);
             lblFechaNacimiento.Size = new Size(110, 20);
             dtpFechaNacimiento.Location = new Point(140, 170);
             dtpFechaNacimiento.Size = new Size(150, 25);
 
-            // Teléfono
-            lblTelefono.Text = "Teléfono";
+            // Teléfono (Reutiliza Bloque 4)
+            lblTelefono.Text = MensajesUI.INSCRIPCION_LBL_TELEFONO;
             lblTelefono.Location = new Point(20, 205);
             lblTelefono.Size = new Size(110, 20);
             txtTelefono.Location = new Point(140, 205);
             txtTelefono.Size = new Size(240, 25);
 
-            // Email
-            lblEmail.Text = "Email";
+            // Email (Reutiliza Bloque 4)
+            lblEmail.Text = MensajesUI.INSCRIPCION_LBL_EMAIL;
             lblEmail.Location = new Point(20, 240);
             lblEmail.Size = new Size(110, 20);
             txtEmail.Location = new Point(140, 240);
@@ -134,20 +134,21 @@ namespace ClubDeportivo.UI
             // 4. GROUPBOX TIPO Y ESTADO (Columna Derecha)
             // =================================================================
 
-            gpTipoYEstado.Text = "Vigencia y Rol";
+            // Uso del Bloque 9
+            gpTipoYEstado.Text = MensajesUI.PERSONAS_GB_VIGENCIA_ROL;
             gpTipoYEstado.Location = new Point(415, 80);
             gpTipoYEstado.Size = new Size(385, 300);
 
-            // Baja Lógica
-            lblVigente.Text = "Estado (Baja Lógica):";
+            // Baja Lógica (Uso del Bloque 9)
+            lblVigente.Text = MensajesUI.PERSONAS_LBL_VIGENCIA;
             lblVigente.Location = new Point(20, 30);
             lblVigente.Size = new Size(180, 20);
-            chkEstaVigente.Text = "Activo";
+            chkEstaVigente.Text = MensajesUI.PERSONAS_CHK_ACTIVO;
             chkEstaVigente.Location = new Point(200, 30);
             chkEstaVigente.Size = new Size(100, 20);
 
-            // Tipo de Persona
-            lblTipoPersona.Text = "Tipo de Persona:";
+            // Tipo de Persona (Uso del Bloque 9)
+            lblTipoPersona.Text = MensajesUI.PERSONAS_LBL_TIPO;
             lblTipoPersona.Location = new Point(20, 60);
             lblTipoPersona.Size = new Size(150, 20);
 
@@ -156,36 +157,36 @@ namespace ClubDeportivo.UI
             tabControlDetalle.Size = new Size(380, 199);
             tabControlDetalle.Alignment = TabAlignment.Right;
 
-            // Pestaña SOCIO
-            tbpSocio.Text = "Detalle Socio";
-            lblNumCarnet.Text = "N° Carnet:";
+            // Pestaña SOCIO (Uso del Bloque 9)
+            tbpSocio.Text = MensajesUI.PERSONAS_TBP_SOCIO;
+            lblNumCarnet.Text = MensajesUI.INSCRIPCION_LBL_CARNET; // Reutiliza Bloque 4
             lblNumCarnet.Location = new Point(10, 10);
             lblNumCarnet.Size = new Size(100, 20);
-            txtNumCarnet.Text = "AUTO-GENERADO";
+            txtNumCarnet.Text = "AUTO-GENERADO"; // Se mantiene por ser un placeholder técnico
             txtNumCarnet.Location = new Point(130, 10);
             txtNumCarnet.Size = new Size(180, 25);
-            lblEstadoActivo.Text = "Cuota al Día / Activo:";
+            lblEstadoActivo.Text = MensajesUI.PERSONAS_LBL_ESTADO_ACTIVO;
             lblEstadoActivo.Location = new Point(10, 45);
             lblEstadoActivo.Size = new Size(150, 20);
-            chkEstadoActivo.Text = "Socio Activo";
+            chkEstadoActivo.Text = MensajesUI.PERSONAS_CHK_SOCIO_ACTIVO;
             chkEstadoActivo.Location = new Point(10, 70);
             chkEstadoActivo.Size = new Size(150, 20);
-            lblFichaMedica.Text = "Ficha Médica Entregada:";
+            lblFichaMedica.Text = MensajesUI.PERSONAS_LBL_FICHA_MEDICA;
             lblFichaMedica.Location = new Point(10, 105);
             lblFichaMedica.Size = new Size(170, 20);
-            chkFichaMedicaEntregada.Text = "Entregada";
+            chkFichaMedicaEntregada.Text = MensajesUI.PERSONAS_CHK_FICHA_MEDICA;
             chkFichaMedicaEntregada.Location = new Point(10, 130);
             chkFichaMedicaEntregada.Size = new Size(100, 20);
 
-            // Pestaña NO SOCIO
-            tbpNoSocio.Text = "Detalle No Socio";
-            lblUltimoPagoDia.Text = "Fecha de Acceso:";
+            // Pestaña NO SOCIO (Uso del Bloque 9)
+            tbpNoSocio.Text = MensajesUI.PERSONAS_TBP_NO_SOCIO;
+            lblUltimoPagoDia.Text = MensajesUI.PERSONAS_LBL_FECHA_ACCESO;
             lblUltimoPagoDia.Location = new Point(10, 10);
             lblUltimoPagoDia.Size = new Size(200, 20);
-            txtUltimoPagoDia.Text = "N/A - Sin Registros";
+            txtUltimoPagoDia.Text = MensajesUI.PERSONAS_TEXTO_NO_REGISTROS;
             txtUltimoPagoDia.Location = new Point(10, 35);
             txtUltimoPagoDia.Size = new Size(200, 25);
-            lblInfoNoSocio.Text = "INFO: Los No Socios pagan por acceso diario \nal momento de ingresar.";
+            lblInfoNoSocio.Text = MensajesUI.PERSONAS_INFO_NO_SOCIO;
             lblInfoNoSocio.Location = new Point(10, 80);
             lblInfoNoSocio.Size = new Size(350, 40);
 
@@ -195,13 +196,13 @@ namespace ClubDeportivo.UI
             // =================================================================
 
             // Botón Cancelar
-            btnCancelar.Text = "Cancelar";
+            btnCancelar.Text = MensajesUI.BOTON_CANCELAR;
             btnCancelar.Location = new Point(470, 550);
             btnCancelar.Size = new Size(160, 35);
             btnCancelar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
 
             // Botón Guardar
-            btnGuardar.Text = "Guardar Cambios";
+            btnGuardar.Text = MensajesUI.PERSONAS_BTN_GUARDAR_CAMBIOS;
             btnGuardar.Location = new Point(640, 550);
             btnGuardar.Size = new Size(160, 35);
             btnGuardar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
@@ -249,8 +250,6 @@ namespace ClubDeportivo.UI
                 }
                 else if (control is CheckBox checkBox)
                 {
-                    // Aplicamos estilos directamente al CheckBox para evitar el error de conversión 
-                    // de tipo al llamar a AplicarEstiloLabel, que parece esperar solo objetos Label.
                     checkBox.Font = EstilosGlobales.EstiloFuente;
                     checkBox.ForeColor = EstilosGlobales.ColorTextoClaro;
                     checkBox.BackColor = EstilosGlobales.ColorBoton;
@@ -289,8 +288,8 @@ namespace ClubDeportivo.UI
             chkFichaMedicaEntregada.AutoCheck = false;
         }
 
-        #endregion
-        
+        #endregion        
+
         #region EVENTOS DEL FORMULARIO
         
         private void FrmActualizarPersona_Load(object sender, EventArgs e)
@@ -298,17 +297,18 @@ namespace ClubDeportivo.UI
 
             if (_idPersonaActual > 0)
             {
-                // Modo Edición
-                lblTitulo.Text = "EDICIÓN DE DATOS DE PERSONA";
-                btnGuardar.Text = "Guardar Cambios";
+                // Modo Edición (Uso del Bloque 9)
+                lblTitulo.Text = MensajesUI.PERSONAS_TITULO_EDICION;
+                btnGuardar.Text = MensajesUI.PERSONAS_BTN_GUARDAR_CAMBIOS;
                 CargarDatosParaEdicion(_idPersonaActual);
             }
             else
             {
-                // Si se abre sin ID, hay un error de lógica para un formulario de edición.
-                lblTitulo.Text = "ERROR DE CONFIGURACIÓN";
+                // Error de lógica para un formulario de edición.
+                // Uso del Bloque 2 y 1
+                lblTitulo.Text = MensajesUI.LOGIN_TITULO_ERROR_CRITICO;
                 btnGuardar.Enabled = false;
-                MessageBox.Show("Este formulario solo se puede usar para editar personas existentes.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Prompt.MostrarError("Este formulario solo se puede usar para editar personas existentes.", MensajesUI.TITULO_ERROR);
                 this.DialogResult = DialogResult.Cancel;
                 this.Close();
                 return;
@@ -347,9 +347,6 @@ namespace ClubDeportivo.UI
 
         #region METODOS DE DATOS (Bll)
 
-        /// <summary>
-        /// Llama a la BLL para obtener los datos de la persona por ID y los carga en la UI.
-        /// </summary>
         private void CargarDatosParaEdicion(int idPersona)
         {
             try
@@ -358,7 +355,8 @@ namespace ClubDeportivo.UI
 
                 if (_detallePersonaCargado == null)
                 {
-                    MessageBox.Show("No se encontraron los datos de la persona seleccionada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Uso del patrón Prompt (Bloque 5 y 1)
+                    Prompt.MostrarError(MensajesUI.BUSQUEDA_FALLIDA_MSG, MensajesUI.TITULO_ERROR);
                     this.Close();
                     return;
                 }
@@ -416,75 +414,86 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar los datos de la persona: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Uso del patrón Prompt (Bloque 2 y 1)
+                Prompt.MostrarError(
+                    string.Format(MensajesUI.LOGIN_MSG_ERROR_CRITICO, ex.Message),
+                    MensajesUI.TITULO_ERROR_CRITICO
+                );
                 this.Close();
             }
         }
 
 
-        /// <summary>
-        /// Recolecta los datos de la UI, aplica validaciones y llama a la BLL para guardar la persona.
-        /// </summary>
         private void GuardarPersona()
         {
             // 0. Validación de Modo (Solo Edición)
             if (_idPersonaActual <= 0)
             {
-                MessageBox.Show("Error: Este formulario solo permite la edición de personas existentes.", "Error de Configuración", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Uso del patrón Prompt (Bloque 2 y 1)
+                Prompt.MostrarError(MensajesUI.PERSONAS_MSG_ERROR_EDICION, MensajesUI.TITULO_ERROR);
                 return;
             }
 
             // 1. VALIDACIÓN DE CAMPOS utilizando Utilitarios.Validaciones
 
-            // Nombre Requerido
+            // Nombre Requerido (Uso del Bloque 4)
             if (!Validaciones.EsTextoRequerido(txtNombre.Text))
             {
-                MessageBox.Show("El campo Nombre es obligatorio.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Prompt.MostrarAlerta(MensajesUI.INSCRIPCION_VALIDACION_CAMPOS_REQUERIDOS, MensajesUI.TITULO_ADVERTENCIA_CAMPOS);
                 return;
             }
 
-            // Apellido Requerido
+            // Apellido Requerido (Uso del Bloque 4)
             if (!Validaciones.EsTextoRequerido(txtApellido.Text))
             {
-                MessageBox.Show("El campo Apellido es obligatorio.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Prompt.MostrarAlerta(MensajesUI.INSCRIPCION_VALIDACION_CAMPOS_REQUERIDOS, MensajesUI.TITULO_ADVERTENCIA_CAMPOS);
                 return;
             }
 
-            // DNI/CUIL Requerido y Numérico
+            // DNI/CUIL Requerido y Numérico (Uso del Bloque 4)
             if (!Validaciones.EsTextoRequerido(txtDni.Text) || !Validaciones.EsNumerico(txtDni.Text))
             {
-                MessageBox.Show("El DNI / CUIL es obligatorio y debe ser un valor numérico válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Prompt.MostrarAlerta(MensajesUI.INSCRIPCION_VALIDACION_DNI_NUMERICO, MensajesUI.TITULO_ADVERTENCIA);
                 return;
             }
 
-            // Teléfono Numérico (opcional pero si se ingresa debe ser válido)
+            // Teléfono Numérico (Uso del Bloque 4)
             if (!string.IsNullOrWhiteSpace(txtTelefono.Text) && !Validaciones.EsNumerico(txtTelefono.Text))
             {
-                MessageBox.Show("El Teléfono debe contener solo números (o déjelo vacío).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Prompt.MostrarAlerta(MensajesUI.INSCRIPCION_VALIDACION_TELEFONO_NUMERICO, MensajesUI.TITULO_ADVERTENCIA);
                 return;
             }
 
-            // Email Formato Válido (opcional pero si se ingresa debe ser válido)
+            // Email Formato Válido (Uso del Bloque 4)
             if (!Validaciones.EsFormatoEmailValido(txtEmail.Text))
             {
-                MessageBox.Show("El Email ingresado no tiene un formato válido (ej: usuario@dominio.com).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Prompt.MostrarAlerta(MensajesUI.INSCRIPCION_VALIDACION_EMAIL, MensajesUI.TITULO_ADVERTENCIA);
+                return;
+            }
+
+
+            // --- CONFIRMACIÓN ANTES DE GUARDAR ---
+            // [CORRECCIÓN 10] Usar MostrarDialogoConfirmacion(mensaje, titulo)
+            DialogResult confirmacion = Prompt.MostrarDialogoConfirmacion(
+                string.Format(MensajesUI.PERSONAS_MSG_CONFIRMAR_GUARDAR, txtNombre.Text + " " + txtApellido.Text),
+                MensajesUI.TITULO_CONFIRMAR_ACCION,
+                Prompt.IconType.Pregunta
+              );
+
+            if (confirmacion != DialogResult.Yes)
+            {
                 return;
             }
 
             // 2. Recolección de Datos
             Entidades.PersonaDetalleDTO detalleAActualizar = new Entidades.PersonaDetalleDTO();
-
-            // Usamos _idPersonaActual para asegurarnos de que el ID es válido para edición
             detalleAActualizar.IdPersona = _idPersonaActual;
-
-            // Mapeo de campos editables (datos básicos de Persona)
             detalleAActualizar.Dni = txtDni.Text.Trim();
             detalleAActualizar.Nombre = txtNombre.Text.Trim();
             detalleAActualizar.Apellido = txtApellido.Text.Trim();
             detalleAActualizar.Telefono = txtTelefono.Text.Trim();
             detalleAActualizar.Email = txtEmail.Text.Trim();
             detalleAActualizar.FechaNacimiento = dtpFechaNacimiento.Value;
-            // Se envía el estado vigente actual. La baja/alta lógica se manejaría en otro control.
             detalleAActualizar.EstaVigente = chkEstaVigente.Checked;
 
             try
@@ -495,27 +504,41 @@ namespace ClubDeportivo.UI
                 // 3. Mostrar Resultado
                 if (respuesta == "OK")
                 {
-                    MessageBox.Show("La persona ha sido actualizada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.DialogResult = DialogResult.OK; // Indica que se hizo un cambio
+                    // CORRECCIÓN SIN USAR NombreCompleto:
+                    Prompt.MostrarExito(
+                        string.Format(MensajesUI.PERSONAS_MSG_EDICION_EXITOSA,
+                            detalleAActualizar.Nombre + " " + detalleAActualizar.Apellido, // <-- Se concatenan Nombre y Apellido
+                            detalleAActualizar.IdPersona),
+                        MensajesUI.TITULO_EXITO
+                    );
+                    //this.DialogResult = DialogResult.OK; // Indica que se hizo un cambio
                     this.Close();
                 }
                 else
                 {
-                    // Muestra los errores de validación de DNI (duplicado) o errores de SQL
-                    MessageBox.Show(respuesta, "Error de Guardado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Error de validación de DNI (duplicado) o errores de SQL
+                    // Uso del patrón Prompt (Bloque 1)
+                    Prompt.MostrarError(respuesta, MensajesUI.TITULO_ERROR);
                 }
             }
             catch (Exception ex)
             {
                 // Captura cualquier error de BLL no manejado (ej. excepción de conexión)
-                MessageBox.Show("Error crítico durante el proceso de Guardado: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Uso del patrón Prompt (Bloque 2 y 1)
+                Prompt.MostrarError(
+                    string.Format(MensajesUI.PERSONAS_MSG_ACTUALIZACION_CRITICO, ex.Message),
+                    MensajesUI.TITULO_ERROR_CRITICO
+                );
             }
         }
 
 
         #endregion
-        
+
+
+
         #region BOTONES DE ACCION
+
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -526,8 +549,9 @@ namespace ClubDeportivo.UI
             GuardarPersona();
         }
 
+
         #endregion
 
-        
+
     }
 }
