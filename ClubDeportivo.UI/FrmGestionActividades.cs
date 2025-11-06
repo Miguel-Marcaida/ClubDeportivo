@@ -69,8 +69,7 @@ namespace ClubDeportivo.UI
             EstilosGlobales.AplicarEstiloCampo(txtNombreActividad);
             EstilosGlobales.AplicarEstiloCampo(txtHorario); // APLICAR ESTILO AL NUEVO txtHorario
             EstilosGlobales.AplicarEstiloCampo(txtCostoDiario);
-            // EstilosGlobales.AplicarEstiloCampo(txtCostoMensual); // APLICAR ESTILO AL NUEVO txtCostoMensual
-
+            
 
             // Botones de acción
             EstilosGlobales.AplicarEstiloBotonAccion(btnGuardar);
@@ -254,9 +253,9 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                Prompt.Alerta("Error al cargar las actividades: ", "Error", Prompt.IconType.Error);
+                // [REFACTORIZADO] Usar Prompt.MostrarError y constante para el mensaje y título.
+                Prompt.MostrarError(string.Format(MensajesUI.ACTIVIDAD_MSG_ERROR_CARGA_ACTIVIDADES, ex.Message), MensajesUI.TITULO_ERROR_SISTEMA);
 
-                
             }
 
         }
@@ -283,13 +282,15 @@ namespace ClubDeportivo.UI
                 string.IsNullOrWhiteSpace(txtHorario.Text) ||
                 string.IsNullOrWhiteSpace(txtCostoDiario.Text))
             {
-                Prompt.Alerta("Por favor complete todos los campos.", "Advertencia", Prompt.IconType.Advertencia);
+                // [REFACTORIZADO] Usar Prompt.MostrarAdvertencia y constante.
+                Prompt.MostrarAlerta(MensajesUI.ACTIVIDAD_MSG_CAMPOS_REQUERIDOS, MensajesUI.TITULO_ADVERTENCIA_CAMPOS);
                 return;
             }
 
             if (!decimal.TryParse(txtCostoDiario.Text, out decimal costo))
             {
-                Prompt.Alerta("Ingrese un valor numérico válido para el costo.", "Error", Prompt.IconType.Error);
+                // [REFACTORIZADO] Usar Prompt.MostrarError y constante.
+                Prompt.MostrarError(MensajesUI.ACTIVIDAD_MSG_COSTO_NUMERICO_INVALIDO, MensajesUI.TITULO_ERROR_FORMATO);
                 return;
             }
 
@@ -315,7 +316,8 @@ namespace ClubDeportivo.UI
                 else
                 {
                     _actividadBLL.Insertar(actividad);
-                    Prompt.Alerta("Actividad guardada correctamente.", "Exito", Prompt.IconType.Ok);
+                    // [REFACTORIZADO] Usar Prompt.MostrarExito y constante.
+                    Prompt.MostrarExito(MensajesUI.ACTIVIDAD_MSG_REGISTRO_EXITO, MensajesUI.TITULO_EXITO);
 
                 }
 
@@ -324,7 +326,8 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                Prompt.Alerta("Error al guarda la actividad: "+ex.Message, "Error", Prompt.IconType.Error);
+                // [REFACTORIZADO] Usar Prompt.MostrarError y constante con formato.
+                Prompt.MostrarError(string.Format(MensajesUI.ACTIVIDAD_MSG_REGISTRO_ERROR, ex.Message), MensajesUI.TITULO_ERROR_BLL);
 
             }
 
@@ -333,8 +336,8 @@ namespace ClubDeportivo.UI
         {
             if (dgvActividades.CurrentRow == null)
             {
-                MessageBox.Show("Seleccione una actividad para editar.", "Aviso",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // [REFACTORIZADO] Reemplazar MessageBox por Prompt.MostrarInformacion y constante.
+                Prompt.MostrarInformacion(MensajesUI.ACTIVIDAD_MSG_SELECCIONAR_EDITAR, MensajesUI.TITULO_INFORMACION);
                 return;
             }
 
@@ -344,8 +347,8 @@ namespace ClubDeportivo.UI
 
                 if (actividadSeleccionada == null)
                 {
-                    MessageBox.Show("Error al obtener los datos de la actividad.", "Error",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // [REFACTORIZADO] Reemplazar MessageBox por Prompt.MostrarError y constante.
+                    Prompt.MostrarError(MensajesUI.ACTIVIDAD_MSG_ERROR_OBTENER, MensajesUI.TITULO_ERROR_SISTEMA);
                     return;
                 }
 
@@ -359,8 +362,8 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al seleccionar la actividad: " + ex.Message,
-                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // [REFACTORIZADO] Reemplazar MessageBox por Prompt.MostrarError y constante con formato.
+                Prompt.MostrarError(string.Format(MensajesUI.ACTIVIDAD_MSG_ERROR_SELECCION, ex.Message), MensajesUI.TITULO_ERROR_CRITICO);
             }
 
         }
@@ -372,7 +375,8 @@ namespace ClubDeportivo.UI
         {
             if (dgvActividades.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Seleccione una actividad para eliminar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // [REFACTORIZADO] Reemplazar MessageBox por Prompt.MostrarInformacion y constante.
+                Prompt.MostrarInformacion(MensajesUI.ACTIVIDAD_MSG_SELECCIONAR_ELIMINAR, MensajesUI.TITULO_INFORMACION);
                 return;
             }
 
@@ -380,9 +384,10 @@ namespace ClubDeportivo.UI
 
             if (actividadSeleccionada != null)
             {
-                DialogResult confirmar = MessageBox.Show($"¿Está seguro que desea eliminar la actividad '{actividadSeleccionada.Nombre}'?",
-                    "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
+                // [REFACTORIZADO] Reemplazar MessageBox por Prompt.MostrarDialogoSiNo y constante con formato.
+                DialogResult confirmar = Prompt.MostrarDialogoSiNo(
+                    string.Format(MensajesUI.ACTIVIDAD_MSG_PREGUNTAR_ELIMINAR, actividadSeleccionada.Nombre),
+                    MensajesUI.TITULO_CONFIRMAR_ACCION);
                 if (confirmar == DialogResult.Yes)
                 {
                     _actividadBLL.Eliminar(actividadSeleccionada.IdActividad);

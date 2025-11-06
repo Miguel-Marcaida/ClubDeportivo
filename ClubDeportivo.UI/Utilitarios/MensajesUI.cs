@@ -13,7 +13,7 @@ namespace ClubDeportivo.UI.Utilitarios
     public static class MensajesUI
     {
         // =================================================================
-        //                 BLOQUE 1: TÍTULOS Y BOTONES BASE (GENERALES)
+        //        BLOQUE 1: TÍTULOS Y BOTONES BASE (GENERALES)
         // =================================================================
 
         // --- TEXTOS DE BOTONES ESTÁNDAR ---
@@ -32,13 +32,14 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string TITULO_ADVERTENCIA_CAMPOS = "Advertencia de Campos Faltantes";
 
         // --- TÍTULOS DE DIÁLOGO ESPECÍFICOS ---
-        public const string TITULO_IMPRESION_LISTADO = "Impresión de Listado"; // <-- ¡NUEVO!
-        public const string TITULO_ERROR_BUSQUEDA = "Error de Búsqueda"; // <-- ¡MOVIDO DE BLOQUE 10!
-        public const string TITULO_ERROR_BLL = "Error BLL"; // <-- ¡MOVIDO DE BLOQUE 10!
+        public const string TITULO_IMPRESION_LISTADO = "Impresión de Listado";
+        public const string TITULO_ERROR_FORMATO = "Error de Formato";
+        public const string TITULO_ERROR_BUSQUEDA = "Error de Búsqueda";
+        public const string TITULO_ERROR_BLL = "Error BLL";
         public const string TITULO_ERROR_SISTEMA = "Error de Sistema";
 
         // =================================================================
-        //                BLOQUE 2: FrmLogin (ACCESO)
+        //        BLOQUE 2: FrmLogin (ACCESO)
         // =================================================================
 
         // --- TÍTULOS Y PLACEHOLDERS ---
@@ -58,7 +59,7 @@ namespace ClubDeportivo.UI.Utilitarios
 
 
         // =================================================================
-        //                BLOQUE 3: FrmPrincipal (MENÚ Y SALIDA)
+        //        BLOQUE 2.5: FrmPrincipal (MENÚ Y SALIDA)
         // =================================================================
 
         // --- TÍTULOS Y ESTADO ---
@@ -67,14 +68,14 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string PRINCIPAL_STATUS_USUARIO = "Usuario Conectado: **{0}** ({1})"; // {0}=Nombre, {1}=Rol
 
         // --- TEXTOS DE MENÚ ---
-        public const string MENU_GESTION_PERSONAS = "  Gestión de Personas";
-        public const string MENU_INSCRIPCION = "  Inscripción ";
-        public const string MENU_REGISTRO_PAGOS = "  Registro de Pagos";
-        public const string MENU_GESTION_ACTIVIDADES = "  Gestión de Actividades";
-        public const string MENU_LISTADO_MOROSOS = "  Listado de Morosos";
-        public const string MENU_CONFIGURACION = "  Configuracion";
-        public const string MENU_GESTION_USUARIOS = "  Gestión de Usuarios";
-        public const string MENU_CERRAR_SESION = "  Cerrar Sesión";
+        public const string MENU_GESTION_PERSONAS = "  Gestión de Personas";
+        public const string MENU_INSCRIPCION = "  Inscripción ";
+        public const string MENU_REGISTRO_PAGOS = "  Registro de Pagos";
+        public const string MENU_GESTION_ACTIVIDADES = "  Gestión de Actividades";
+        public const string MENU_LISTADO_MOROSOS = "  Listado de Morosos";
+        public const string MENU_CONFIGURACION = "  Configuracion";
+        public const string MENU_GESTION_USUARIOS = "  Gestión de Usuarios";
+        public const string MENU_CERRAR_SESION = "  Cerrar Sesión";
 
         // --- MENSAJES DE CONFIRMACIÓN ---
         public const string PRINCIPAL_TITULO_CONFIRMAR_SALIDA = "Confirmación de Salida";
@@ -84,7 +85,25 @@ namespace ClubDeportivo.UI.Utilitarios
 
 
         // =================================================================
-        //               BLOQUE 4: FrmInscripcionClub (INSCRIPCION)
+        //        BLOQUE 3: FrmGestionActividades (ACTIVIDADES) <-- ¡NUEVO BLOQUE!
+        // =================================================================
+
+        // --- MENSAJES DE VALIDACIÓN Y PROCESO ---
+        public const string ACTIVIDAD_MSG_CAMPOS_REQUERIDOS = "Por favor complete todos los campos.";
+        public const string ACTIVIDAD_MSG_COSTO_NUMERICO_INVALIDO = "Ingrese un valor numérico válido para el costo.";
+        public const string ACTIVIDAD_MSG_REGISTRO_EXITO = "Actividad guardada correctamente.";
+        public const string ACTIVIDAD_MSG_REGISTRO_ERROR = "Error al guarda la actividad: {0}";
+        public const string ACTIVIDAD_MSG_ACTUALIZACION_EXITO = "Actividad actualizada correctamente.";
+        public const string ACTIVIDAD_MSG_SELECCIONAR_EDITAR = "Seleccione una actividad para editar.";
+        public const string ACTIVIDAD_MSG_ERROR_OBTENER = "Error al obtener los datos de la actividad.";
+        public const string ACTIVIDAD_MSG_ERROR_SELECCION = "Error al seleccionar la actividad: {0}";
+        public const string ACTIVIDAD_MSG_SELECCIONAR_ELIMINAR = "Seleccione una actividad para eliminar.";
+        public const string ACTIVIDAD_MSG_PREGUNTAR_ELIMINAR = "¿Está seguro que desea eliminar la actividad '{0}'?";
+        public const string ACTIVIDAD_MSG_ERROR_CARGA_ACTIVIDADES = "Error al cargar las actividades: {0}";
+
+
+        // =================================================================
+        //        BLOQUE 4: FrmInscripcionClub (INSCRIPCION)
         // =================================================================
 
         // --- TÍTULOS Y ETIQUETAS ---
@@ -148,7 +167,7 @@ namespace ClubDeportivo.UI.Utilitarios
 
 
         // =================================================================
-        //               BLOQUE 5: FrmRegistrarPagos (PAGOS)
+        //        BLOQUE 5: FrmRegistrarPagos (PAGOS)
         // =================================================================
 
         // Búsqueda y Concepto
@@ -173,7 +192,7 @@ namespace ClubDeportivo.UI.Utilitarios
 
 
         // =================================================================
-        //                         BLOQUE 6: PDF (GENERAL)
+        //            BLOQUE 6: PDF (GENERAL)
         // =================================================================
 
         // --- PDF (General) ---
@@ -185,7 +204,7 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string PDF_COMPROBANTE_ERROR_MSG = "Advertencia: El Comprobante se generó, pero no se pudo abrir automáticamente.\nError: {0}";
 
         // =================================================================
-        //               BLOQUE 7: FrmGestionUsuarios (USUARIOS)
+        //        BLOQUE 7: FrmGestionUsuarios (USUARIOS)
         // =================================================================
 
         // --- TÍTULOS Y ETIQUETAS ---
@@ -219,7 +238,7 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string USUARIOS_MSG_ELIMINACION_ERROR = "Error al eliminar el usuario: ";
 
         // =================================================================
-        //               BLOQUE 8: FrmGestionPersonas (PERSONAS)
+        //        BLOQUE 8: FrmGestionPersonas (PERSONAS)
         // =================================================================
 
         // --- TÍTULOS, ETIQUETAS Y BOTONES ---
@@ -256,7 +275,7 @@ namespace ClubDeportivo.UI.Utilitarios
 
 
         // =================================================================
-        //               BLOQUE 9: FrmActualizarPersona (EDICIÓN)
+        //        BLOQUE 9: FrmActualizarPersona (EDICIÓN)
         // =================================================================
 
         // --- TÍTULOS Y BOTONES ---
@@ -292,7 +311,7 @@ namespace ClubDeportivo.UI.Utilitarios
 
 
         // =================================================================
-        //               BLOQUE 10: FrmControlCuotas (CONTROL DE CUOTAS)
+        //        BLOQUE 10: FrmControlCuotas (CONTROL DE CUOTAS)
         // =================================================================
 
         // --- TÍTULOS Y ETIQUETAS ---
@@ -313,7 +332,6 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string CUOTAS_MSG_ADVERTENCIA_NO_SELECCION = "Debe seleccionar un Socio de la lista.";
         public const string CUOTAS_MSG_ERROR_BUSQUEDA_FALLIDA = "La búsqueda falló para el DNI {0}.";
         public const string CUOTAS_MSG_ERROR_BLL_CUENTA = "Error al obtener el estado de cuenta: {0}";
-
 
 
     }
