@@ -19,7 +19,7 @@ namespace ClubDeportivo.UI
           
 
             Application.Run(new FrmLogin());
-            //Application.Run(new FrmRegistrarPagos(0));
+            
         }
     }
 }
