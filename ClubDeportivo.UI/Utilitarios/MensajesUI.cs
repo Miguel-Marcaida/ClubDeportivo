@@ -334,5 +334,26 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string CUOTAS_MSG_ERROR_BLL_CUENTA = "Error al obtener el estado de cuenta: {0}";
 
 
+        // =================================================================
+        //         BLOQUE 11: FrmConfiguracion.cs
+        // =================================================================
+
+        // Mensajes de Éxito
+        public const string CONFIG_MSG_REGISTRO_EXITO = "Configuración {0} {1} correctamente.";
+        public const string CONFIG_MSG_ELIMINACION_EXITO = "Configuración eliminada correctamente.";
+
+        // Mensajes de Advertencia/Información
+        public const string CONFIG_MSG_SELECCIONAR_ELIMINAR = "Debe seleccionar una configuración de la grilla para eliminar.";
+        public const string CONFIG_MSG_NO_CAMBIOS = "No se realizaron cambios en la base de datos.";
+        public const string CONFIG_MSG_NO_ELIMINADO = "No se pudo eliminar la configuración. Verifique si existe.";
+
+        // Mensajes de Error
+        public const string CONFIG_MSG_ERROR_CARGA = "Error al cargar la lista de configuraciones: {0}";
+        public const string CONFIG_MSG_ERROR_GUARDAR = "Error al guardar la configuración: {0}";
+        public const string CONFIG_MSG_ERROR_ELIMINAR = "Error al eliminar la configuración: {0}";
+
+        // Preguntas
+        public const string CONFIG_PREGUNTA_ELIMINAR = "¿Está seguro de eliminar esta configuración?";
+
     }
 }

@@ -265,7 +265,8 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                Prompt.Alerta("Error al cargar la lista de configuraciones: " + ex.Message, "Error", Prompt.IconType.Error);
+                // [MODIFICADO] Reemplazado por Prompt.MostrarError y constante CONFIG_MSG_ERROR_CARGA
+                Prompt.MostrarError(string.Format(MensajesUI.CONFIG_MSG_ERROR_CARGA, ex.Message), MensajesUI.TITULO_ERROR_SISTEMA);
             }
         }
 
@@ -293,9 +294,7 @@ namespace ClubDeportivo.UI
             dgvConfiguraciones.Columns["Descripcion"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill; // Ocupa el espacio restante
         }
 
-        /// <summary>
-        /// Crea la entidad con los datos del formulario.
-        /// </summary>
+        
         private ConfiguracionGlobal CrearEntidad()
         {
             return new ConfiguracionGlobal
@@ -323,24 +322,26 @@ namespace ClubDeportivo.UI
             try
             {
                 ConfiguracionGlobal config = CrearEntidad();
-                string mensaje = (config.IdConfig == 0) ? "insertada" : "modificada";
+                // Determinamos el mensaje usando la constante parametrizada
+                string tipoAccion = (config.IdConfig == 0) ? "insertada" : "modificada";
 
                 // Llama al método de la BLL para INSERT o UPDATE
                 if (oConfiguracionBLL.GuardarOModificar(config))
                 {
-                    Prompt.MostrarExito($"Configuración {config.Clave} {mensaje} correctamente.");
+                    // [MODIFICADO] Uso de constante CONFIG_MSG_REGISTRO_EXITO con formato
+                    Prompt.MostrarExito(string.Format(MensajesUI.CONFIG_MSG_REGISTRO_EXITO, config.Clave, tipoAccion), MensajesUI.TITULO_EXITO);
                     CargarGrilla(); // Recargar datos para ver el cambio
                 }
                 else
                 {
-                    // Solo ocurre si la BLL retorna false sin excepción (ej. 0 filas afectadas)
-                    Prompt.MostrarAlerta("No se realizaron cambios en la base de datos.");
+                    // [MODIFICADO] Uso de constante CONFIG_MSG_NO_CAMBIOS
+                    Prompt.MostrarAlerta(MensajesUI.CONFIG_MSG_NO_CAMBIOS, MensajesUI.TITULO_ADVERTENCIA);
                 }
             }
             catch (Exception ex)
             {
-                // Captura errores de la BLL (validaciones, duplicados, DB)
-                Prompt.MostrarError("Error al guardar la configuración: " + ex.Message);
+                // [MODIFICADO] Uso de constante CONFIG_MSG_ERROR_GUARDAR
+                Prompt.MostrarError(string.Format(MensajesUI.CONFIG_MSG_ERROR_GUARDAR, ex.Message), MensajesUI.TITULO_ERROR_BLL);
             }
         }
 
@@ -349,34 +350,37 @@ namespace ClubDeportivo.UI
             //ELIMINA
             if (IdConfigSeleccionado == 0)
             {
-                Prompt.MostrarAlerta("Debe seleccionar una configuración de la grilla para eliminar.");
+                // [MODIFICADO] Uso de constante CONFIG_MSG_SELECCIONAR_ELIMINAR
+                Prompt.MostrarAlerta(MensajesUI.CONFIG_MSG_SELECCIONAR_ELIMINAR, MensajesUI.TITULO_ADVERTENCIA);
                 return;
             }
 
-            if (Prompt.MostrarDialogoConfirmacion("¿Está seguro de eliminar esta configuración?"))
+            // [MODIFICADO] Uso de constante CONFIG_PREGUNTA_ELIMINAR
+            if (Prompt.MostrarDialogoConfirmacion(MensajesUI.CONFIG_PREGUNTA_ELIMINAR, MensajesUI.TITULO_CONFIRMAR_ACCION) )
             {
                 try
                 {
                     if (oConfiguracionBLL.Eliminar(IdConfigSeleccionado))
                     {
-                        Prompt.MostrarExito("Configuración eliminada correctamente.");
+                        // [MODIFICADO] Uso de constante CONFIG_MSG_ELIMINACION_EXITO
+                        Prompt.MostrarExito(MensajesUI.CONFIG_MSG_ELIMINACION_EXITO, MensajesUI.TITULO_EXITO);
                         CargarGrilla();
                     }
                     else
                     {
-                        Prompt.MostrarAlerta("No se pudo eliminar la configuración. Verifique si existe.");
+                        // [MODIFICADO] Uso de constante CONFIG_MSG_NO_ELIMINADO
+                        Prompt.MostrarAlerta(MensajesUI.CONFIG_MSG_NO_ELIMINADO, MensajesUI.TITULO_ADVERTENCIA);
                     }
                 }
                 catch (Exception ex)
                 {
-                    Prompt.MostrarError("Error al eliminar la configuración: " + ex.Message);
+                    // [MODIFICADO] Uso de constante CONFIG_MSG_ERROR_ELIMINAR
+                    Prompt.MostrarError(string.Format(MensajesUI.CONFIG_MSG_ERROR_ELIMINAR, ex.Message), MensajesUI.TITULO_ERROR_BLL);
                 }
             }
         }
 
         #endregion
-
-
 
       
     }

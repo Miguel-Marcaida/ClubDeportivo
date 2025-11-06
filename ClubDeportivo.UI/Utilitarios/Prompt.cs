@@ -560,5 +560,12 @@ namespace ClubDeportivo.UI.Utilitarios
             return MostrarDialogoConfirmacion(message, caption, IconType.Pregunta);
         }
 
+        // 3.5. NUEVO MÉTODO AGREGADO: MostrarDialogoConfirmacion(string message, string caption) - Retorno BOOL
+        public static bool MostrarDialogoConfirmacion(string message, string caption)
+        {
+            // Utiliza el método completo, forzando el icono de Pregunta.
+            return MostrarDialogoConfirmacion(message, caption, IconType.Pregunta) == DialogResult.Yes;
+        }
+
     }
 }
