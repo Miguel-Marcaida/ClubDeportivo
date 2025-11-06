@@ -78,7 +78,7 @@ namespace ClubDeportivo.UI
             EstilosGlobales.AplicarEstiloDataGridView(dgvPersonas);
 
             // Estilos del GroupBox y sus etiquetas
-            gbFiltros.ForeColor = EstilosGlobales.ColorTextoClaro;
+            EstilosGlobales.AplicarEstiloGroupBox(gbFiltros); // ✅ Se aplica estilo estandarizado
             lblBuscar.ForeColor = EstilosGlobales.ColorTextoClaro;
         }
 
@@ -89,21 +89,22 @@ namespace ClubDeportivo.UI
             pnlBase.BackColor = EstilosGlobales.ColorFondo;
 
             // --- TÍTULO ---
-            lblTitulo.Text = "GESTIÓN DE PERSONAS (SOCIO Y NO SOCIO)";
+            lblTitulo.Text = MensajesUI.PERSONAS_TITULO_FORM; // ✅ REFACTORIZACIÓN: Uso de constante
+            lblTitulo.Location = new Point(20, 25);
 
             // --- GRUPOBOX DE FILTROS ---
-            gbFiltros.Text = "Búsqueda por DNI, Nombre o Carnet";
+            gbFiltros.Text = MensajesUI.PERSONAS_GB_BUSQUEDA; // ✅ REFACTORIZACIÓN: Uso de constante
             gbFiltros.Location = new Point(20, 70);
             gbFiltros.Size = new Size(960, 100);
 
             // Controles de Búsqueda
             lblBuscar.Location = new Point(15, 30);
-            lblBuscar.Text = "DNI / Nombre / Carnet:";
+            lblBuscar.Text = MensajesUI.PERSONAS_LBL_BUSCAR; // ✅ REFACTORIZACIÓN: Uso de constante
             txtBuscar.Location = new Point(15, 50);
             txtBuscar.Size = new Size(400, 25);
 
             btnBuscar.Location = new Point(430, 48);
-            btnBuscar.Text = "BUSCAR";
+            btnBuscar.Text = MensajesUI.PERSONAS_BTN_BUSCAR; // ✅ REFACTORIZACIÓN: Uso de constante
             btnBuscar.Size = new Size(150, 30);
 
             // --- LISTADO (DataGridView) ---
@@ -112,19 +113,19 @@ namespace ClubDeportivo.UI
 
             // --- BOTONES DE ACCIÓN ---
             btnEditar.Location = new Point(20, 580);
-            btnEditar.Text = "EDITAR SELECCIONADO";
+            btnEditar.Text = MensajesUI.PERSONAS_BTN_EDITAR; // ✅ REFACTORIZACIÓN: Uso de constante
             btnEditar.Size = new Size(230, 50);
 
             btnBaja.Location = new Point(260, 580);
-            btnBaja.Text = "DAR DE BAJA (BAJA LÓGICA)";
+            btnBaja.Text = MensajesUI.PERSONAS_BTN_BAJA; // ✅ REFACTORIZACIÓN: Uso de constante
             btnBaja.Size = new Size(230, 50);
 
             btnImprimirReporte.Location = new Point(500, 580);
-            btnImprimirReporte.Text = "IMPRIMIR LISTADO (PDF)";
+            btnImprimirReporte.Text = MensajesUI.PERSONAS_BTN_IMPRIMIR; // ✅ REFACTORIZACIÓN: Uso de constante
             btnImprimirReporte.Size = new Size(230, 50);
 
             btnCancelar.Location = new Point(740, 580);
-            btnCancelar.Text = "CERRAR";
+            btnCancelar.Text = MensajesUI.PERSONAS_BTN_CERRAR; // ✅ REFACTORIZACIÓN: Uso de constante
             btnCancelar.Size = new Size(240, 50);
             btnCancelar.Click += (sender, e) => this.Close();
         }
@@ -167,7 +168,8 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar la lista de personas: " + ex.Message, "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarError
+                Prompt.MostrarError(MensajesUI.PERSONAS_MSG_ERROR_CARGA_CRITICO + ex.Message, MensajesUI.TITULO_ERROR);
                 dgvPersonas.DataSource = null;
             }
         }
@@ -183,11 +185,11 @@ namespace ClubDeportivo.UI
                 dgvPersonas.Columns["Apellido"].Visible = false;
 
                 // Configurar encabezados
-                dgvPersonas.Columns["Dni"].HeaderText = "DNI";
-                dgvPersonas.Columns["NombreCompleto"].HeaderText = "NOMBRE Y APELLIDO";
-                dgvPersonas.Columns["TipoPersona"].HeaderText = "TIPO";
-                dgvPersonas.Columns["NumeroCarnet"].HeaderText = "CARNET";
-                dgvPersonas.Columns["EstadoMembresia"].HeaderText = "ESTADO CUOTA";
+                dgvPersonas.Columns["Dni"].HeaderText = MensajesUI.PERSONAS_COL_DNI;
+                dgvPersonas.Columns["NombreCompleto"].HeaderText = MensajesUI.PERSONAS_COL_NOMBRE_COMPLETO; // ✅ Uso de constante
+                dgvPersonas.Columns["TipoPersona"].HeaderText = MensajesUI.PERSONAS_COL_TIPO; // ✅ Uso de constante
+                dgvPersonas.Columns["NumeroCarnet"].HeaderText = MensajesUI.PERSONAS_COL_CARNET; // ✅ Uso de constante
+                dgvPersonas.Columns["EstadoMembresia"].HeaderText = MensajesUI.PERSONAS_COL_ESTADO_CUOTA; // ✅ Uso de constante
 
                 // Reordenar columnas para mejor visualización
                 dgvPersonas.Columns["NombreCompleto"].DisplayIndex = 0;
@@ -220,10 +222,10 @@ namespace ClubDeportivo.UI
                 dgvPersonas.DataSource = _listaPersonas;
 
                 // 2. Necesitamos forzar la reconfiguración de columnas por si se desordenó el Binding.
-                // Llamaremos a un método de re-configuración.
                 ConfigurarColumnasDataGrid();
 
-                MessageBox.Show("Mostrando todos los registros vigentes.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarInformacion
+                Prompt.MostrarInformacion(MensajesUI.PERSONAS_MSG_BUSQUEDA_COMPLETA);
                 return;
             }
 
@@ -241,12 +243,13 @@ namespace ClubDeportivo.UI
             {
                 dgvPersonas.DataSource = resultados;
                 // Aquí NO llamamos a ConfigurarColumnasDataGrid() porque el Binding Source (la lista)
-                // sigue siendo la misma, solo se muestran menos filas, y la configuración se mantiene.
+                
             }
             else
             {
                 dgvPersonas.DataSource = null;
-                MessageBox.Show($"No se encontraron personas con el criterio '{filtro}'.", "Búsqueda sin Resultados", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(string.Format(MensajesUI.PERSONAS_MSG_BUSQUEDA_SIN_RESULTADOS + " (Criterio: '{0}')", filtro));
             }
         }
 
@@ -260,8 +263,8 @@ namespace ClubDeportivo.UI
                 // 1. Validación de selección de fila
                 if (dgvPersonas.SelectedRows.Count == 0)
                 {
-                    MessageBox.Show("Debe seleccionar una persona de la lista para editar.", "Advertencia",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarAlerta
+                    Prompt.MostrarAlerta(MensajesUI.PERSONAS_MSG_SELECCION_OBLIGATORIA);
                     return;
                 }
 
@@ -271,23 +274,24 @@ namespace ClubDeportivo.UI
                 string nombre = filaSeleccionada.Cells["NombreCompleto"].Value.ToString();
 
                 // 3. LLAMADA CRÍTICA: Abrir el formulario de edición en modo Modal
-                // Usamos using y ShowDialog para garantizar la sincronización y recarga.
                 using (FrmActualizarPersona frmEdicion = new FrmActualizarPersona(idPersonaAEditar, _anchoMenuLateral))
                 {
                     if (frmEdicion.ShowDialog() == DialogResult.OK)
                     {
                         // Si la edición fue exitosa, recargamos la grilla para reflejar los cambios.
                         LlenarDataGrid();
-                        MessageBox.Show($"Persona '{nombre}' (ID: {idPersonaAEditar}) actualizada con éxito.",
-                                        "Edición Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarExito, usando formato
+                        string mensajeExito = string.Format(MensajesUI.PERSONAS_MSG_EDICION_EXITOSA, nombre, idPersonaAEditar);
+                        Prompt.MostrarExito(mensajeExito);
                     }
                     // Si el DialogResult es CANCEL o CERRAR, no hacemos nada ni mostramos mensaje.
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al iniciar la edición: " + ex.Message, "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarError, usando formato
+                Prompt.MostrarError(MensajesUI.PERSONAS_MSG_ERROR_EDICION + ex.Message, MensajesUI.TITULO_ERROR);
             }
             finally
             {
@@ -301,7 +305,8 @@ namespace ClubDeportivo.UI
 
             if (dgvPersonas.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Debe seleccionar una fila de la lista para dar de baja.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(MensajesUI.PERSONAS_MSG_SELECCION_OBLIGATORIA);
                 return;
             }
 
@@ -316,11 +321,11 @@ namespace ClubDeportivo.UI
                 int idPersona = personaSeleccionada.IdPersona;
                 string nombre = personaSeleccionada.NombreCompleto;
 
-                // --- PRIMER MESSAGEBOX ---
-                DialogResult result = MessageBox.Show($"¿Está seguro que desea dar de BAJA LÓGICA a la persona '{nombre}'? Esta acción la hace INVISIBLE en el listado, pero MANTIENE su historial de pagos para auditoría.",
-                                                     "Confirmar Baja Lógica (Soft Delete)", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                // --- PRIMER MESSAGEBOX (Confirmación) ---
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarDialogoConfirmacion
+                string msgConfirmacion = string.Format(MensajesUI.PERSONAS_MSG_CONFIRMAR_BAJA_LOGICA, nombre);
 
-                if (result == DialogResult.Yes)
+                if (Prompt.MostrarDialogoConfirmacion(msgConfirmacion))
                 {
                     bool bajaExitosa = oPersonaBLL.DarDeBajaPersona(idPersona);
 
@@ -328,17 +333,22 @@ namespace ClubDeportivo.UI
                     {
                         // CRÍTICO: Recargar la grilla para que la persona dada de baja desaparezca
                         LlenarDataGrid();
-                        MessageBox.Show($"Persona '{nombre}' dada de baja LÓGICA con éxito.", "Baja Realizada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarExito
+                        string msgExito = string.Format(MensajesUI.PERSONAS_MSG_BAJA_EXITOSA, nombre);
+                        Prompt.MostrarExito(msgExito);
                     }
                     else
                     {
-                        MessageBox.Show($"No se pudo dar de baja a la persona '{nombre}'. Verifique la conexión.", "Error de Baja", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarError
+                        Prompt.MostrarError(MensajesUI.PERSONAS_MSG_ERROR_BAJA_BLL, MensajesUI.TITULO_ERROR);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error CRÍTICO al procesar la baja: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarError
+                Prompt.MostrarError(MensajesUI.PERSONAS_MSG_ERROR_BAJA_CRITICO + ex.Message, MensajesUI.TITULO_ERROR);
             }
             finally
             {
@@ -351,12 +361,10 @@ namespace ClubDeportivo.UI
         {
 
             // 1. Verificar si la fuente de datos (la lista) tiene elementos.
-            // **NOTA:** Nos basamos en la lista, NO en las filas de la grilla (dgvPersonas.Rows), 
-            // porque es la fuente de verdad.
             if (_listaPersonas == null || _listaPersonas.Count == 0)
             {
-                MessageBox.Show("No hay registros de personas para imprimir en el listado. Por favor, cargue los datos.",
-                                "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(MensajesUI.PERSONAS_MSG_IMPRESION_SIN_DATOS);
                 return;
             }
 
@@ -365,28 +373,22 @@ namespace ClubDeportivo.UI
             try
             {
                 // 2. Generar el Listado PDF
-                // La llamada ahora pasa la lista de objetos DTO directamente
                 rutaPdfGenerado = Utilitarios.PdfGenerator.GenerarListadoGeneral(_listaPersonas);
 
                 // 3. Notificar al usuario y preguntar si desea abrir el PDF
-                DialogResult dialogResult = MessageBox.Show(
-                    $"Listado generado con éxito en:\n{rutaPdfGenerado}\n\n¿Desea abrir el archivo ahora?",
-                    "Impresión de Listado",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Information);
+                // ✅ REFACTORIZACIÓN: Se usa Prompt.MostrarDialogoSiNo para manejar la apertura.
+                string msgAbrir = string.Format(MensajesUI.PERSONAS_MSG_IMPRESION_PREGUNTAR_ABRIR, rutaPdfGenerado);
 
-                if (dialogResult == DialogResult.Yes)
+                if (Prompt.MostrarDialogoSiNo(msgAbrir, MensajesUI.TITULO_EXITO) == DialogResult.Yes)
                 {
                     // Abrir el archivo con el programa predeterminado (navegador/lector PDF)
-                    // Se usa Process.StartInfo para mayor compatibilidad en entornos modernos.
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(rutaPdfGenerado) { UseShellExecute = true });
                 }
             }
             catch (Exception ex)
             {
-                // Capturar cualquier error que provenga del Generador de PDF (como el error de fuentes si vuelve)
-                MessageBox.Show("Error al intentar generar el listado PDF: " + ex.Message,
-                                "Error de Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarError
+                Prompt.MostrarError(MensajesUI.PERSONAS_MSG_ERROR_GENERAR_PDF + ex.Message, MensajesUI.TITULO_ERROR);
             }
 
 
@@ -394,6 +396,7 @@ namespace ClubDeportivo.UI
 
         
         #endregion
+
     }
 
 

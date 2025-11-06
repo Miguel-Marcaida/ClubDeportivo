@@ -346,6 +346,11 @@ namespace ClubDeportivo.UI.Utilitarios
             Alerta(message, MensajesUI.TITULO_ADVERTENCIA, IconType.Advertencia);
         }
 
+        public static void MostrarInformacion(string message)
+        {
+            Alerta(message, MensajesUI.TITULO_INFORMACION, IconType.Informacion);
+        }
+
         // Sobrecargas de Alerta
         public static void MostrarError(string message, string customCaption)
         {
@@ -542,5 +547,13 @@ namespace ClubDeportivo.UI.Utilitarios
             // Llama a Confirmar (que a su vez llama a MostrarDialogoConfirmacion con IconType.Pregunta)
             return Confirmar(message, MensajesUI.TITULO_CONFIRMAR_ACCION) == DialogResult.Yes;
         }
+
+        // 3.4. NUEVO MÉTODO AGREGADO: MostrarDialogoSiNo
+        // Retorna el DialogResult (Yes/No) permitiendo especificar el título.
+        public static DialogResult MostrarDialogoSiNo(string message, string caption)
+        {
+            return MostrarDialogoConfirmacion(message, caption, IconType.Pregunta);
+        }
+
     }
 }

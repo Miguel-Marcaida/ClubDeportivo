@@ -27,6 +27,7 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string TITULO_ERROR = "Error";
         public const string TITULO_ADVERTENCIA = "Advertencia";
         public const string TITULO_CONFIRMAR_ACCION = "Confirmar Acción";
+        public const string TITULO_INFORMACION = "Informacion";
 
         // =================================================================
         //                BLOQUE 2: FrmLogin (ACCESO)
@@ -209,7 +210,41 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string USUARIOS_MSG_ELIMINACION_EXITO = "Usuario eliminado correctamente.";
         public const string USUARIOS_MSG_ELIMINACION_ERROR = "Error al eliminar el usuario: ";
 
+        // =================================================================
+        //               BLOQUE 8: FrmGestionPersonas (PERSONAS)
+        // =================================================================
 
+        // --- TÍTULOS, ETIQUETAS Y BOTONES ---
+        public const string PERSONAS_TITULO_FORM = "GESTIÓN DE PERSONAS (SOCIO Y NO SOCIO)";
+        public const string PERSONAS_GB_BUSQUEDA = "Búsqueda por DNI, Nombre o Carnet";
+        public const string PERSONAS_LBL_BUSCAR = "DNI / Nombre / Carnet:";
+        public const string PERSONAS_BTN_BUSCAR = "BUSCAR";
+        public const string PERSONAS_BTN_EDITAR = "EDITAR SELECCIONADO";
+        public const string PERSONAS_BTN_BAJA = "DAR DE BAJA (BAJA LÓGICA)";
+        public const string PERSONAS_BTN_IMPRIMIR = "IMPRIMIR LISTADO (PDF)";
+        public const string PERSONAS_BTN_CERRAR = "CERRAR";
+
+        // --- ENCABEZADOS DE DATAGRIDVIEW ---
+        public const string PERSONAS_COL_DNI = "DNI";
+        public const string PERSONAS_COL_NOMBRE_COMPLETO = "NOMBRE Y APELLIDO";
+        public const string PERSONAS_COL_TIPO = "TIPO";
+        public const string PERSONAS_COL_CARNET = "CARNET";
+        public const string PERSONAS_COL_ESTADO_CUOTA = "ESTADO CUOTA";
+
+        // --- MENSAJES DE VALIDACIÓN Y PROCESO ---
+        public const string PERSONAS_MSG_ERROR_CARGA_CRITICO = "Error al cargar la lista de personas: ";
+        public const string PERSONAS_MSG_BUSQUEDA_COMPLETA = "Mostrando todos los registros vigentes.";
+        public const string PERSONAS_MSG_BUSQUEDA_SIN_RESULTADOS = "No se encontraron personas con el criterio de búsqueda.";
+        public const string PERSONAS_MSG_SELECCION_OBLIGATORIA = "Debe seleccionar una persona de la lista.";
+        public const string PERSONAS_MSG_EDICION_EXITOSA = "Persona '{0}' (ID: {1}) actualizada con éxito.";
+        public const string PERSONAS_MSG_ERROR_EDICION = "Error al iniciar la edición: ";
+        public const string PERSONAS_MSG_CONFIRMAR_BAJA_LOGICA = "¿Está seguro que desea dar de BAJA LÓGICA a la persona '{0}'? Esta acción la hace INVISIBLE en el listado, pero MANTIENE su historial de pagos para auditoría.";
+        public const string PERSONAS_MSG_BAJA_EXITOSA = "Persona '{0}' dada de baja LÓGICA con éxito.";
+        public const string PERSONAS_MSG_ERROR_BAJA_BLL = "No se pudo dar de baja a la persona. Verifique la conexión.";
+        public const string PERSONAS_MSG_ERROR_BAJA_CRITICO = "Error CRÍTICO al procesar la baja: ";
+        public const string PERSONAS_MSG_IMPRESION_SIN_DATOS = "No hay registros de personas para imprimir en el listado. Por favor, cargue los datos.";
+        public const string PERSONAS_MSG_IMPRESION_PREGUNTAR_ABRIR = "Listado generado con éxito en:\n{0}\n\n¿Desea abrir el archivo ahora?";
+        public const string PERSONAS_MSG_ERROR_GENERAR_PDF = "Error al intentar generar el listado PDF: ";
 
     }
 }
