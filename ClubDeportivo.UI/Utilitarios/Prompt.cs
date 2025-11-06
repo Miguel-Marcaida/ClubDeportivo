@@ -8,6 +8,9 @@ namespace ClubDeportivo.UI.Utilitarios
 {
     public static class Prompt
     {
+
+        
+
         // A. ShowDialog (InputBox genérico) - Dejado como estaba en tu código
         public static string ShowDialog(string text, string caption)
         {
@@ -46,7 +49,7 @@ namespace ClubDeportivo.UI.Utilitarios
             // Botón Aceptar
             Button confirmation = new Button()
             {
-                Text = "Aceptar",
+                Text = MensajesUI.BOTON_ACEPTAR,
                 Width = 80,
                 Top = 85,
                 DialogResult = DialogResult.OK
@@ -58,7 +61,7 @@ namespace ClubDeportivo.UI.Utilitarios
             // Botón Cancelar
             Button cancel = new Button()
             {
-                Text = "Cancelar",
+                Text = MensajesUI.BOTON_CANCELAR,
                 Left = confirmation.Left - confirmation.Width - 10, // A la izquierda de Aceptar
                 Width = 80,
                 Top = 85,
@@ -143,7 +146,7 @@ namespace ClubDeportivo.UI.Utilitarios
             // Botón de Cancelar al final 
             Button cancel = new Button()
             {
-                Text = "Cancelar",
+                Text = MensajesUI.BOTON_CANCELAR,
                 Left = 250,
                 Top = currentTop + 10,
                 Width = 170,
@@ -323,7 +326,7 @@ namespace ClubDeportivo.UI.Utilitarios
             // Botón NO (Botón de Cancelar a la Derecha)
             Button btnNo = new Button()
             {
-                Text = "No",
+                Text = MensajesUI.BOTON_NO,
                 Width = 80,
                 Height = buttonHeight,
                 Top = buttonY,
@@ -338,7 +341,7 @@ namespace ClubDeportivo.UI.Utilitarios
             // Botón SÍ (Botón de Acción Principal a la Izquierda del NO)
             Button btnYes = new Button()
             {
-                Text = "Sí",
+                Text = MensajesUI.BOTON_SI,
                 Width = 80,
                 Height = buttonHeight,
                 Top = buttonY,
@@ -357,8 +360,6 @@ namespace ClubDeportivo.UI.Utilitarios
 
             return prompt.ShowDialog();
         }
-
-
 
 
         public static void Alerta(string message, string caption, IconType iconType)
@@ -490,7 +491,7 @@ namespace ClubDeportivo.UI.Utilitarios
 
             Button btnOK = new Button()
             {
-                Text = "Aceptar",
+                Text = MensajesUI.BOTON_ACEPTAR,
                 Width = 120,
                 Height = buttonHeight,
                 Top = buttonY,
@@ -512,30 +513,29 @@ namespace ClubDeportivo.UI.Utilitarios
         }
 
 
-
         //nuevas
 
         // Estos métodos usan tu método Alerta() que simula un MessageBox.OK
         public static void MostrarExito(string message)
         {
-            Alerta(message, "Éxito", IconType.Ok);
+            Alerta(message,MensajesUI.TITULO_EXITO, IconType.Ok);
         }
 
         public static void MostrarError(string message)
         {
-            Alerta(message, "Error", IconType.Error);
+            Alerta(message, MensajesUI.TITULO_ERROR, IconType.Error);
         }
 
         public static void MostrarAlerta(string message)
         {
-            Alerta(message, "Advertencia", IconType.Advertencia);
+            Alerta(message, MensajesUI.TITULO_ADVERTENCIA, IconType.Advertencia);
         }
 
         // Este es un alias para tu Confirmar, usando la lógica de DialogResult.Yes/No
         public static bool MostrarDialogoConfirmacion(string message)
         {
             // Llama a tu método Confirmar (que a su vez llama a MostrarDialogoConfirmacion con IconType.Pregunta)
-            return Confirmar(message, "Confirmar Acción") == DialogResult.Yes;
+            return Confirmar(message, MensajesUI.TITULO_CONFIRMAR_ACCION) == DialogResult.Yes;
         }
 
 

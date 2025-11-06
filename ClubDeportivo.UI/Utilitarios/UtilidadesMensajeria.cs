@@ -14,23 +14,7 @@ namespace ClubDeportivo.UI.Utilitarios
 
     public static class UtilidadesMensajeria
     {
-        // ===================================================================
-        // PROPIEDADES (Para el Formulario Moderno)
-        // Se asume que estos paneles se pasan o inicializan en el formulario
-        // que usa el nuevo estilo (por ejemplo, en el constructor de ese Form).
-        // Para simplificar, aquí usaremos solo la lógica de MessageBox
-        // y la reemplazaremos en la fase de aprobación.
-        // ===================================================================
-
-        // La implementación del formulario moderno debería usar una instancia
-        // de una clase de servicio que maneje la visualización de los paneles.
-        // Por ahora, para mantener la compatibilidad con TODOS los formularios,
-        // usamos la siguiente implementación que asegura que la interfaz
-        // de llamada (el "contrato") sea consistente.
-
-        // ===================================================================
-        // MÉTODOS PÚBLICOS (El Contrato que usarán TODOS los Forms)
-        // ===================================================================
+       
 
         /// <summary>
         /// Muestra un mensaje de éxito. Usado después de una operación CRUD exitosa.

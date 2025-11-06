@@ -104,7 +104,7 @@ namespace ClubDeportivo.UI
             this.StartPosition = FormStartPosition.CenterScreen;
 
             //TÍTULO (lblTitulo)
-            lblTitulo.Text = "ACCESO AL SISTEMA";
+            lblTitulo.Text = MensajesUI.LOGIN_TITULO_FORM;
             lblTitulo.AutoSize = true;
             lblTitulo.Location = new Point(250, 40);
 
@@ -121,14 +121,14 @@ namespace ClubDeportivo.UI
             pbCerrar.Location = new Point(560, 10);
 
             // 3. TEXTBOX USUARIO (txtUsuario)
-            txtUsuario.Text = "Usuario"; // Placeholder inicial
+            txtUsuario.Text = MensajesUI.LOGIN_PLACEHOLDER_USUARIO; // Placeholder inicial
             txtUsuario.Size = new Size(300, 25);
             txtUsuario.Location = new Point(250, 100);
             txtUsuario.ForeColor = Color.DimGray; // Inicia con color gris para placeholder
             txtUsuario.BorderStyle = BorderStyle.FixedSingle;
             
             // 4. TEXTBOX CONTRASEÑA (txtPass)
-            txtPass.Text = "Contraseña"; // Placeholder inicial
+            txtPass.Text = MensajesUI.LOGIN_PLACEHOLDER_PASS; // Placeholder inicial
             txtPass.Size = new Size(300, 25);
             txtPass.Location = new Point(250, 150);
             txtPass.ForeColor = Color.DimGray; // Inicia con color gris para placeholder
@@ -136,7 +136,7 @@ namespace ClubDeportivo.UI
             txtPass.UseSystemPasswordChar = false; // Se usa false para mostrar "Contraseña"
 
             // 5. BOTÓN INGRESAR (btnIngresar)
-            btnIngresar.Text = "INGRESAR";
+            btnIngresar.Text = MensajesUI.LOGIN_BOTON_INGRESAR;
             btnIngresar.Size = new Size(300, 40);
             btnIngresar.Location = new Point(250, 200);
 
@@ -195,7 +195,7 @@ namespace ClubDeportivo.UI
         {
             if (string.IsNullOrWhiteSpace(txtUsuario.Text))
             {
-                txtUsuario.Text = "Usuario";
+                txtUsuario.Text = MensajesUI.LOGIN_PLACEHOLDER_USUARIO;
                 txtUsuario.ForeColor = Color.DimGray; // Vuelve a un color atenuado (placeholder)
             }
         }
@@ -205,7 +205,7 @@ namespace ClubDeportivo.UI
         {
             if (string.IsNullOrWhiteSpace(txtPass.Text))
             {
-                txtPass.Text = "Contraseña";
+                txtPass.Text = MensajesUI.LOGIN_PLACEHOLDER_PASS;
                 txtPass.ForeColor = Color.DimGray;
                 // CLAVE: Cuando es placeholder, NO debe ser un campo de contraseña.
                 txtPass.UseSystemPasswordChar = false;
@@ -234,10 +234,10 @@ namespace ClubDeportivo.UI
             //txtPass_Leave(txtPass, EventArgs.Empty);
             // 4. Ejecutar la lógica de placeholder (que inserta el texto y color DimGray)
             // Se puede llamar directamente a la lógica en lugar de los eventos Leave, ya que es más directo:
-            txtUsuario.Text = "Usuario";
+            txtUsuario.Text = MensajesUI.LOGIN_PLACEHOLDER_USUARIO;
             txtUsuario.ForeColor = Color.DimGray;
 
-            txtPass.Text = "Contraseña";
+            txtPass.Text = MensajesUI.LOGIN_PLACEHOLDER_PASS;
             txtPass.ForeColor = Color.DimGray;
 
             // 5. Salir del modo de limpieza y colocar foco
@@ -259,64 +259,48 @@ namespace ClubDeportivo.UI
         private void btnIngresar_Click(object sender, EventArgs e)
         {
             // Validación para asegurar que no están vacíos o con el placeholder
-            if (string.IsNullOrWhiteSpace(txtUsuario.Text) || txtUsuario.Text == "Usuario" ||
-                string.IsNullOrWhiteSpace(txtPass.Text) || txtPass.Text == "Contraseña")
+            if (string.IsNullOrWhiteSpace(txtUsuario.Text) || txtUsuario.Text == MensajesUI.LOGIN_PLACEHOLDER_USUARIO ||
+                string.IsNullOrWhiteSpace(txtPass.Text) || txtPass.Text == MensajesUI.LOGIN_PLACEHOLDER_PASS)
             {
-                //MessageBox.Show("Debe ingresar usuario y contraseña válidos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 Utilitarios.Prompt.Alerta(
-                           "Debe ingresar usuario y contraseña válidos.",
-                           "Advertencia",
-                           Utilitarios.Prompt.IconType.Advertencia 
-                           );
+                     MensajesUI.LOGIN_MSG_CAMPOS_REQUERIDOS, // ⬅️ Refactorizado
+                     MensajesUI.TITULO_ADVERTENCIA, // Usa la constante general de Advertencia
+                     Utilitarios.Prompt.IconType.Advertencia
+                 );
                 return;
             }
 
             try
             {
-                // 1. Instancia la Capa de Lógica de Negocio (BLL)
-                //UsuarioBLL oUsuarioBLL = new UsuarioBLL();
-
-                // 2. Llama al método de login
-                // Capa UI: En el evento del botón "Ingresar"
-
-                // 1. Limpiamos las variables aquí, asegurando que no haya espacios.
+               
                 string usuario = txtUsuario.Text.Trim();
                 string clave = txtPass.Text.Trim();
 
-                // 2. Llamamos a la BLL con las cadenas limpias
-                // ¡ATENCIÓN!: La variable ahora es de tipo Usuario, no bool
                 Usuario usuarioLogueado = oUsuarioBLL.IniciarSesion(usuario, clave);
 
-                if (usuarioLogueado != null) // Si el objeto NO es null, el login fue exitoso
+                if (usuarioLogueado != null) 
                 {
-                    //MessageBox.Show($"✅ Acceso concedido. Bienvenido/a {usuarioLogueado.NombreUsuario}.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string mensajeBienvenida = MensajesUI.LOGIN_MSG_BIENVENIDA_PARTE1 + usuarioLogueado.NombreUsuario + "."; // ⬅️ Refactorizado con concatenación
+
                     Utilitarios.Prompt.Alerta(
-                            $"Bienvenido/a al Sistema de Gestion de club Deportivo, {usuarioLogueado.NombreUsuario}.",
-                            "Acceso Concedido",
-                            Utilitarios.Prompt.IconType.Informacion // Usamos el icono de Información
-                            );
-
-
+                        mensajeBienvenida,
+                        MensajesUI.LOGIN_TITULO_ACCESO_CONCEDIDO, // ⬅️ Refactorizado
+                        Utilitarios.Prompt.IconType.Informacion
+                    );
 
                     this.Hide();
 
-
-                    // CAMBIO CRÍTICO: Pasamos el objeto Usuario Y la instancia de ESTE formulario (this)
                     FrmPrincipal formPrincipal = new FrmPrincipal(usuarioLogueado, this); // 'this' es la instancia de FrmLogin
                     formPrincipal.Show();
 
                 }
                 else
                 {
-                    // ... (Mensaje de error, como ya lo tienes)
-                    //MessageBox.Show("❌ Usuario y/o contraseña incorrectos.", "Error de Acceso", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    // ******* NUEVO CÓDIGO CRÍTICO: LIMPIEZA AL FALLAR *******
-
                     Utilitarios.Prompt.Alerta(
-                        "Usuario y/o contraseña incorrectos.",
-                        "Error de Acceso",
-                        Utilitarios.Prompt.IconType.Error // Usamos el icono de Error
-                    );
+                         MensajesUI.LOGIN_MSG_ACCESO_DENEGADO, // ⬅️ Refactorizado
+                         MensajesUI.LOGIN_TITULO_ACCESO_DENEGADO, // ⬅️ Refactorizado
+                         Utilitarios.Prompt.IconType.Error
+                     );
 
                     RestablecerEstadoInicial();
 
@@ -324,9 +308,16 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                // Esto captura errores críticos, como la falta de conexión a la base de datos
-                MessageBox.Show($"Ocurrió un error de sistema: {ex.Message}\nVerifique la conexión a MySQL.",
-                                "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                // Usamos string.Format con el placeholder {0} de la constante
+                string mensajeCritico = string.Format(MensajesUI.LOGIN_MSG_ERROR_CRITICO, ex.Message); // ⬅️ Refactorizado
+
+                // Usamos MessageBox para mantener la funcionalidad crítica que tenías originalmente
+                MessageBox.Show(
+                    mensajeCritico,
+                    MensajesUI.LOGIN_TITULO_ERROR_CRITICO, // ⬅️ Refactorizado
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop
+                );
             }
         }
 
@@ -363,13 +354,7 @@ namespace ClubDeportivo.UI
 
 
 
-
-
-
-
         #endregion
-
-
 
 
     }
