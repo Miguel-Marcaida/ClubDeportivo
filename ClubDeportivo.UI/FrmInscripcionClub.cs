@@ -26,7 +26,6 @@ namespace ClubDeportivo.UI
         private readonly PersonaBLL oPersonaBLL = new PersonaBLL();
         private readonly ConfiguracionBLL oConfiguracionBLL = new ConfiguracionBLL();
         private readonly int _anchoMenuLateral;
-        // CORRECCIÓN DE AMBIGÜEDAD: Se especifica el namespace System.Windows.Forms
         private readonly System.Windows.Forms.Timer _timerActualizador;
 
         #endregion
@@ -102,80 +101,79 @@ namespace ClubDeportivo.UI
         private void EstablecerGeometriaYTextos()
         {
             // --- 1. CONFIGURACIÓN DEL FORMULARIO ---
-            this.Text = "Inscripción Club Deportivo";
+            this.Text = MensajesUI.INSCRIPCION_TITULO_FORM;
 
             // --- 2. TÍTULO ---
-            lblTitulo.Text = "REGISTRO DE PERSONA (SOCIO / NO SOCIO)";
+            lblTitulo.Text = MensajesUI.INSCRIPCION_TITULO_VISTA; // ⬅️ Refactorizado
             lblTitulo.Location = new Point(20, 20);
             lblTitulo.AutoSize = true;
 
             // Se asume que el diseñador ha declarado los GroupBox y Paneles
 
             // --- 3. GRUPOBOX DE DATOS PERSONALES (PERSONA) ---
-            gbDatosPersona.Text = "Datos de la Persona";
+            gbDatosPersona.Text = MensajesUI.INSCRIPCION_GB_DATOS_PERSONA; // ⬅️ Refactorizado
             gbDatosPersona.Location = new Point(20, 70);
             gbDatosPersona.Size = new Size(400, 350);
 
             // Etiqueta y campo DNI
-            Label lblDni = new Label() { Text = "DNI:", Location = new Point(15, 30), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro };
+            Label lblDni = new Label() { Text = MensajesUI.INSCRIPCION_LBL_DNI, Location = new Point(15, 30), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro }; // ⬅️ Refactorizado
             txtDni.Location = new Point(15, 50);
             txtDni.Size = new Size(165, 25);
             gbDatosPersona.Controls.Add(lblDni);
-            gbDatosPersona.Controls.Add(txtDni); // Asegurar que el control se añade
+            gbDatosPersona.Controls.Add(txtDni);
 
             // Etiqueta y campo Nombre
-            Label lblNombre = new Label() { Text = "Nombre:", Location = new Point(200, 30), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro };
+            Label lblNombre = new Label() { Text = MensajesUI.INSCRIPCION_LBL_NOMBRE, Location = new Point(200, 30), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro }; // ⬅️ Refactorizado
             txtNombre.Location = new Point(200, 50);
             txtNombre.Size = new Size(165, 25);
             gbDatosPersona.Controls.Add(lblNombre);
-            gbDatosPersona.Controls.Add(txtNombre); // Asegurar que el control se añade
+            gbDatosPersona.Controls.Add(txtNombre);
 
             // Etiqueta y campo Apellido
-            Label lblApellido = new Label() { Text = "Apellido:", Location = new Point(15, 90), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro };
+            Label lblApellido = new Label() { Text = MensajesUI.INSCRIPCION_LBL_APELLIDO, Location = new Point(15, 90), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro }; // ⬅️ Refactorizado
             txtApellido.Location = new Point(15, 110);
             txtApellido.Size = new Size(350, 25);
             gbDatosPersona.Controls.Add(lblApellido);
-            gbDatosPersona.Controls.Add(txtApellido); // Asegurar que el control se añade
+            gbDatosPersona.Controls.Add(txtApellido);
 
             // Etiqueta y campo Fecha Nacimiento
-            Label lblFechaNacimiento = new Label() { Text = "Fecha de Nacimiento:", Location = new Point(15, 150), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro };
+            Label lblFechaNacimiento = new Label() { Text = MensajesUI.INSCRIPCION_LBL_FECHA_NAC, Location = new Point(15, 150), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro }; // ⬅️ Refactorizado
             dtpFechaNacimiento.Location = new Point(15, 170);
             dtpFechaNacimiento.Size = new Size(350, 25);
             gbDatosPersona.Controls.Add(lblFechaNacimiento);
-            gbDatosPersona.Controls.Add(dtpFechaNacimiento); // Asegurar que el control se añade
+            gbDatosPersona.Controls.Add(dtpFechaNacimiento);
 
             // Etiqueta y campo Teléfono
-            Label lblTelefono = new Label() { Text = "Teléfono:", Location = new Point(15, 210), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro };
+            Label lblTelefono = new Label() { Text = MensajesUI.INSCRIPCION_LBL_TELEFONO, Location = new Point(15, 210), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro }; // ⬅️ Refactorizado
             txtTelefono.Location = new Point(15, 230);
             txtTelefono.Size = new Size(350, 25);
             gbDatosPersona.Controls.Add(lblTelefono);
-            gbDatosPersona.Controls.Add(txtTelefono); // Asegurar que el control se añade
+            gbDatosPersona.Controls.Add(txtTelefono);
 
             // Etiqueta y campo Email
-            Label lblEmail = new Label() { Text = "Email:", Location = new Point(15, 270), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro };
+            Label lblEmail = new Label() { Text = MensajesUI.INSCRIPCION_LBL_EMAIL, Location = new Point(15, 270), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro }; // ⬅️ Refactorizado
             txtEmail.Location = new Point(15, 290);
             txtEmail.Size = new Size(350, 25);
             gbDatosPersona.Controls.Add(lblEmail);
-            gbDatosPersona.Controls.Add(txtEmail); // Asegurar que el control se añade
-
+            gbDatosPersona.Controls.Add(txtEmail);
 
             // --- 4. GRUPOBOX TIPO DE PERSONA (ROL) ---
-            gbTipoPersona.Text = "Selección de Rol";
+            gbTipoPersona.Text = MensajesUI.INSCRIPCION_GB_TIPO_PERSONA; // ⬅️ Refactorizado
             gbTipoPersona.Location = new Point(440, 70);
             gbTipoPersona.Size = new Size(330, 90);
-            gbTipoPersona.Controls.Add(rbSocio); // Asegurar que el control se añade
-            gbTipoPersona.Controls.Add(rbNoSocio); // Asegurar que el control se añade
+            gbTipoPersona.Controls.Add(rbSocio);
+            gbTipoPersona.Controls.Add(rbNoSocio);
 
 
-            rbSocio.Text = "Socio (Membresía Mensual)";
+            rbSocio.Text = MensajesUI.INSCRIPCION_RB_SOCIO; // ⬅️ Refactorizado
             rbSocio.Location = new Point(15, 25);
             rbSocio.AutoSize = true;
-            rbSocio.ForeColor = EstilosGlobales.ColorTextoClaro; // Aplicar color
+            rbSocio.ForeColor = EstilosGlobales.ColorTextoClaro;
 
-            rbNoSocio.Text = "No Socio (Acceso Diario)";
+            rbNoSocio.Text = MensajesUI.INSCRIPCION_RB_NO_SOCIO; // ⬅️ Refactorizado
             rbNoSocio.Location = new Point(15, 55);
             rbNoSocio.AutoSize = true;
-            rbNoSocio.ForeColor = EstilosGlobales.ColorTextoClaro; // Aplicar color
+            rbNoSocio.ForeColor = EstilosGlobales.ColorTextoClaro;
 
             // --- 5. PANEL DE DATOS DE SOCIO (pnlSocioData) ---
             pnlSocioData.Location = new Point(440, 180);
@@ -184,21 +182,21 @@ namespace ClubDeportivo.UI
             pnlSocioData.ForeColor = EstilosGlobales.ColorTextoClaro; // Asegurar que el texto sea visible
 
             // Etiqueta y campo Número de Carnet
-            Label lblNumCarnet = new Label() { Text = "Número de Carnet:", Location = new Point(15, 15), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro };
+            Label lblNumCarnet = new Label() { Text = MensajesUI.INSCRIPCION_LBL_CARNET, Location = new Point(15, 15), AutoSize = true, ForeColor = EstilosGlobales.ColorTextoClaro }; // ⬅️ Refactorizado
             txtNumCarnet.Location = new Point(15, 35);
             txtNumCarnet.Size = new Size(300, 25);
             pnlSocioData.Controls.Add(lblNumCarnet);
-            pnlSocioData.Controls.Add(txtNumCarnet); // Asegurar que el control se añade
+            pnlSocioData.Controls.Add(txtNumCarnet);
 
             // Checkbox Ficha Médica
-            chkFichaMedica.Text = "Ficha Médica y Apto Físico";
+            chkFichaMedica.Text = MensajesUI.INSCRIPCION_CHK_FICHA_MEDICA; // ⬅️ Refactorizado
             chkFichaMedica.Location = new Point(15, 80);
             chkFichaMedica.AutoSize = true;
-            chkFichaMedica.ForeColor = EstilosGlobales.ColorTextoClaro; // Aplicar color
+            chkFichaMedica.ForeColor = EstilosGlobales.ColorTextoClaro;
             pnlSocioData.Controls.Add(chkFichaMedica);
 
             // Botón de Pagar/Registrar
-            btnPagarYRegistrar.Text = "REGISTRAR SOCIO Y PAGAR CUOTA N°1";
+            btnPagarYRegistrar.Text = MensajesUI.INSCRIPCION_BTN_REGISTRAR_SOCIO; // ⬅️ Refactorizado
             btnPagarYRegistrar.Location = new Point(15, 120);
             btnPagarYRegistrar.Size = new Size(300, 45);
             pnlSocioData.Controls.Add(btnPagarYRegistrar);
@@ -210,15 +208,15 @@ namespace ClubDeportivo.UI
             pnlNoSocioData.ForeColor = EstilosGlobales.ColorTextoClaro; // Asegurar que el texto sea visible
 
             // Etiqueta de Acceso Diario
-            lblFechaAcceso.Text = "Fecha y Hora de Acceso:";
+            lblFechaAcceso.Text = MensajesUI.INSCRIPCION_LBL_FECHA_ACCESO; // ⬅️ Refactorizado
             lblFechaAcceso.Location = new Point(15, 20);
             lblFechaAcceso.AutoSize = true;
-            pnlNoSocioData.Controls.Add(lblFechaAcceso); // Asegurar que el control se añade
+            pnlNoSocioData.Controls.Add(lblFechaAcceso);
 
             // Label que mostrará la hora actual (añadido para la nueva lógica)
             Label lblHoraActual = new Label()
             {
-                Text = "Hora Actual", // Este texto será reemplazado por el Timer
+                Text = MensajesUI.INSCRIPCION_LBL_HORA_ACTUAL_PLACEHOLDER, // ⬅️ Refactorizado
                 Location = new Point(15, 50),
                 AutoSize = true,
                 Font = new Font(lblFechaAcceso.Font, FontStyle.Bold),
@@ -228,25 +226,25 @@ namespace ClubDeportivo.UI
             pnlNoSocioData.Controls.Add(lblHoraActual);
 
             // Botón de acción No Socio
-            btnRegistrarAcceso.Text = "REGISTRAR ACCESO Y COBRAR";
+            btnRegistrarAcceso.Text = MensajesUI.INSCRIPCION_BTN_REGISTRAR_NO_SOCIO; // ⬅️ Refactorizado
             btnRegistrarAcceso.Location = new Point(15, 100);
             btnRegistrarAcceso.Size = new Size(300, 50);
-            pnlNoSocioData.Controls.Add(btnRegistrarAcceso); // Asegurar que el control se añade
+            pnlNoSocioData.Controls.Add(btnRegistrarAcceso);
 
-            /// c.Text = "Ficha Médica y Apto Físico";
-            chkAptoFisico.Text = "Apto Fisico Para No Socio";
+            // Checkbox Apto Físico No Socio
+            chkAptoFisico.Text = MensajesUI.INSCRIPCION_CHK_APTO_FISICO_NO_SOCIO; // ⬅️ Refactorizado
             chkAptoFisico.Location = new Point(15, 70);
             chkAptoFisico.AutoSize = true;
-            chkAptoFisico.ForeColor = EstilosGlobales.ColorTextoClaro; // Aplicar color
+            chkAptoFisico.ForeColor = EstilosGlobales.ColorTextoClaro;
             pnlNoSocioData.Controls.Add(chkAptoFisico);
 
 
 
             // --- 7. BOTÓN CANCELAR ---
-            btnCancelar.Text = "CANCELAR / CERRAR";
+            btnCancelar.Text = MensajesUI.INSCRIPCION_BTN_CANCELAR; // ⬅️ Refactorizado
             btnCancelar.Location = new Point(440, 580);
             btnCancelar.Size = new Size(330, 45);
-            this.Controls.Add(btnCancelar); // Asegurar que el control se añade
+            this.Controls.Add(btnCancelar);
 
             // --- 8. PANEL BASE DE TAMAÑO FIJO Y CENTRADO ---
             pnlBase.Location = new Point(0, 0);
@@ -284,6 +282,69 @@ namespace ClubDeportivo.UI
 
 
         #region VALIDACIONES DE ENTRADAS
+
+        private bool ValidarCamposPersonaCompleto(bool esSocio)
+        {
+            // 1. Validaciones Requeridas (DNI, Nombre, Apellido)
+            if (!Validaciones.EsTextoRequerido(txtDni.Text) || !Validaciones.EsTextoRequerido(txtNombre.Text)
+                || !Validaciones.EsTextoRequerido(txtApellido.Text))
+            {
+                Prompt.MostrarAlerta(MensajesUI.INSCRIPCION_VALIDACION_CAMPOS_REQUERIDOS);
+                return false;
+            }
+
+            // 2. Validación de Formato DNI/Teléfono
+            if (!Validaciones.EsNumerico(txtDni.Text))
+            {
+                Prompt.MostrarError(MensajesUI.INSCRIPCION_VALIDACION_DNI_NUMERICO);
+                txtDni.Focus();
+                return false;
+            }
+            if (!Validaciones.EsNumerico(txtTelefono.Text))
+            {
+                Prompt.MostrarError(MensajesUI.INSCRIPCION_VALIDACION_TELEFONO_NUMERICO);
+                txtTelefono.Focus();
+                return false;
+            }
+
+            // 3. Validación de Email
+            if (!Validaciones.EsFormatoEmailValido(txtEmail.Text))
+            {
+                Prompt.MostrarError(MensajesUI.INSCRIPCION_VALIDACION_EMAIL);
+                txtEmail.Focus();
+                return false;
+            }
+
+            // 4. Validación Específica de Socio
+            if (esSocio)
+            {
+                if (!Validaciones.EsTextoRequerido(txtNumCarnet.Text) || !Validaciones.EsNumerico(txtNumCarnet.Text) || txtNumCarnet.Text == MensajesUI.INSCRIPCION_ERROR_CARNET_CALCULO) // ⬅️ Refactorizado
+                {
+                    // **REFACTORIZADO:** Usando Prompt.MostrarAlerta
+                    Prompt.MostrarAlerta(MensajesUI.INSCRIPCION_VALIDACION_CARNET_OBLIGATORIO);
+                    txtNumCarnet.Focus();
+                    return false;
+                }
+
+                if (chkFichaMedica.Checked == false)
+                {
+                    Prompt.MostrarAlerta(MensajesUI.INSCRIPCION_VALIDACION_FICHA_SOCIO); // ⬅️ Refactorizado
+                    return false;
+                }
+
+            }
+
+            if (!esSocio)
+            {
+                if (chkAptoFisico.Checked == false)
+                {
+                    Prompt.MostrarAlerta(MensajesUI.INSCRIPCION_VALIDACION_APTO_NO_SOCIO); // ⬅️ Refactorizado
+                    return false;
+                }
+            }
+
+            return true;
+        }
         private void txtDni_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.SoloNumeros(e);
@@ -307,68 +368,7 @@ namespace ClubDeportivo.UI
         }
 
 
-        private bool ValidarCamposPersonaCompleto(bool esSocio)
-        {
-            // 1. Validaciones Requeridas (DNI, Nombre, Apellido)
-            if (!Validaciones.EsTextoRequerido(txtDni.Text) || !Validaciones.EsTextoRequerido(txtNombre.Text)
-                || !Validaciones.EsTextoRequerido(txtApellido.Text))
-            {
-                MessageBox.Show("Los campos DNI, Nombre y Apellido son obligatorios.",
-                    "Advertencia de Campos Faltantes", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            // 2. Validación de Formato DNI/Teléfono (deben ser numéricos si no están vacíos)
-            if (!Validaciones.EsNumerico(txtDni.Text))
-            {
-                MessageBox.Show("El campo DNI debe contener solo números.", "Error de Formato", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtDni.Focus();
-                return false;
-            }
-            if (!Validaciones.EsNumerico(txtTelefono.Text))
-            {
-                MessageBox.Show("El campo Teléfono debe contener solo números (sin guiones/espacios).", "Error de Formato", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtTelefono.Focus();
-                return false;
-            }
-
-            // 3. Validación de Email (opcional, pero si está, debe ser válido)
-            if (!Validaciones.EsFormatoEmailValido(txtEmail.Text))
-            {
-                MessageBox.Show("El formato del Email es incorrecto. Si no es obligatorio, déjelo vacío.", "Error de Formato", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtEmail.Focus();
-                return false;
-            }
-
-            // 4. Validación Específica de Socio
-            if (esSocio)
-            {
-                if (!Validaciones.EsTextoRequerido(txtNumCarnet.Text) || !Validaciones.EsNumerico(txtNumCarnet.Text) || txtNumCarnet.Text == "ERROR")
-                {
-                    MessageBox.Show("El Número de Carnet es obligatorio para el Socio y debe ser numérico.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNumCarnet.Focus();
-                    return false;
-                }
-
-                if(chkFichaMedica.Checked==false)
-                {
-                    Prompt.MostrarAlerta("El Socio debe entregar la ficha medica y apto fisico.");
-                    return false;
-                     }
-
-            }
-
-            if (!esSocio)
-            {
-                if (chkAptoFisico.Checked == false)
-                {
-                    Prompt.MostrarAlerta("El No Socio debe entregar apto fisico.");
-                    return false;
-                }
-            }
-
-            return true;
-        }
+        
 
         #endregion
 
@@ -380,22 +380,21 @@ namespace ClubDeportivo.UI
             {
                 pnlSocioData.Visible = true;
                 pnlNoSocioData.Visible = false;
-                _timerActualizador.Stop(); // Detiene el timer si estaba corriendo
+                _timerActualizador.Stop();
 
                 txtNumCarnet.ReadOnly = true;
-                txtNumCarnet.Text = ""; // Limpiar antes de calcular
+                txtNumCarnet.Text = "";
 
                 try
                 {
-                    // LLAMADA CRÍTICA A LA BLL: Obtenemos el carnet precalculado
                     int proximoCarnet = oPersonaBLL.ObtenerProximoNumeroCarnet();
                     txtNumCarnet.Text = proximoCarnet.ToString();
                 }
                 catch (Exception ex)
                 {
-                    txtNumCarnet.Text = "ERROR";
-                    MessageBox.Show($"Error al obtener el número de carnet: {ex.Message}",
-                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtNumCarnet.Text = MensajesUI.INSCRIPCION_ERROR_CARNET_CALCULO; // ⬅️ Refactorizado
+                    // **REFACTORIZADO:** Usando Prompt.MostrarError
+                    Prompt.MostrarError(string.Format(MensajesUI.INSCRIPCION_ERROR_OBTENER_CARNET, ex.Message)); // ⬅️ Refactorizado
                 }
             }
         }
@@ -434,23 +433,22 @@ namespace ClubDeportivo.UI
                 montoCuota = oConfiguracionBLL.ObtenerMontoCuotaBase();
 
                 string[] opcionesPago = { "EFECTIVO", "TARJETA 1 CUOTA", "TARJETA 3 CUOTAS", "TARJETA 6 CUOTAS", "TRANSFERENCIA" };
-                string formaPago = Prompt.MostrarMenu("Forma de Pago",
-                    $"Seleccione la forma de pago de la PRIMERA CUOTA MENSUAL (Monto: ${montoCuota:N2}):", opcionesPago);
+                string formaPago = Prompt.MostrarMenu(MensajesUI.INSCRIPCION_SOCIO_PAGO_TITULO, // ⬅️ Refactorizado
+                    string.Format(MensajesUI.INSCRIPCION_SOCIO_PAGO_MSG, montoCuota), opcionesPago); // ⬅️ Refactorizado
 
                 if (string.IsNullOrEmpty(formaPago))
                 {
-                    Prompt.MostrarAlerta("Debe seleccionar la forma de pago para completar la inscripción de Socio.");
+                    Prompt.MostrarAlerta(MensajesUI.INSCRIPCION_SOCIO_PAGO_ALERTA_FALTA); // ⬅️ Refactorizado
                     return;
                 }
 
-                
+
 
                 //B.Confirmación del cobro(UX)
-                DialogResult confirmacion = MessageBox.Show(
-                    $"Confirma el registro e inscripción del Socio, y el cobro de la PRIMERA CUOTA por un monto de ${montoCuota:N2} (pago en {formaPago})?",
-                    "Confirmación de Pago y Registro", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                //DialogResult confirmacion = Prompt.MostrarDialogoConfirmacion($"Confirma el registro e inscripción del Socio, y el cobro de la PRIMERA CUOTA por un monto de ${montoCuota:N2} (pago en {formaPago})?");
+                // **REFACTORIZADO:** Usando Prompt.Confirmar en lugar de MessageBox.Show(..., YesNo, ...)
+                DialogResult confirmacion = Prompt.Confirmar(
+                    MensajesUI.INSCRIPCION_SOCIO_PAGO_CONFIRMACION_TITULO,
+                    string.Format(MensajesUI.INSCRIPCION_SOCIO_PAGO_CONFIRMACION_MSG, montoCuota, formaPago));
 
                 if (confirmacion != DialogResult.Yes)
                 {
@@ -479,10 +477,9 @@ namespace ClubDeportivo.UI
                 // E. Muestra de éxito
                 nuevoSocio.IdPersona = idGenerado;
 
-                MessageBox.Show($"¡Socio {nuevoSocio.ObtenerNombreCompleto()} registrado y PRIMERA CUOTA COBRADA con éxito!\n\nID Persona: {nuevoSocio.IdPersona}\nNúmero de Carnet Asignado: {nuevoSocio.NumeroCarnet}\nMonto Cobrado: ${montoCuota:N2} ({formaPago})",
-                    "Registro de Socio OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
+                // **REFACTORIZADO:** Usando Prompt.MostrarExito en lugar de MessageBox.Show(..., Information)
+                Prompt.MostrarExito(string.Format(MensajesUI.INSCRIPCION_SOCIO_REGISTRO_EXITO_MSG,
+                                                 nuevoSocio.ObtenerNombreCompleto(), idGenerado, nuevoSocio.NumeroCarnet, montoCuota, formaPago));
                 // F. GENERACIÓN DEL CARNET PDF
                 GenerarYAbrirCarnet(nuevoSocio);
 
@@ -492,12 +489,14 @@ namespace ClubDeportivo.UI
             }
             catch (FormatException)
             {
-                MessageBox.Show("El Número de Carnet debe ser un valor numérico entero o el valor precalculado es incorrecto.", "Error de Formato", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // **REFACTORIZADO:** Usando Prompt.MostrarError
+                Prompt.MostrarError(MensajesUI.INSCRIPCION_SOCIO_ERROR_FORMATO_CARNET);
                 txtNumCarnet.Focus();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error de Inscripción", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // **REFACTORIZADO:** Usando Prompt.MostrarError
+                Prompt.MostrarError(ex.Message);
             }
         }
 
@@ -517,20 +516,22 @@ namespace ClubDeportivo.UI
                 // A. OBTENER MONTO Y SOLICITAR FORMA DE PAGO
                 montoAcceso = oConfiguracionBLL.ObtenerMontoAccesoDiario();
 
-                string[] opcionesPago = { "EFECTIVO", "TARJETA 1 PAGO" , "TRANSFERENCIA" };
-                string formaPago = Prompt.MostrarMenu("Forma de Pago",
-                    $"Seleccione la forma de pago del ACCESO DIARIO (Monto: ${montoAcceso:N2}):", opcionesPago);
+                string[] opcionesPago = { "EFECTIVO", "TARJETA 1 PAGO", "TRANSFERENCIA" };
+                string formaPago = Prompt.MostrarMenu(MensajesUI.INSCRIPCION_SOCIO_PAGO_TITULO, // ⬅️ Refactorizado
+                    string.Format(MensajesUI.INSCRIPCION_NO_SOCIO_PAGO_MSG, montoAcceso), opcionesPago); // ⬅️ Refactorizado
 
                 if (string.IsNullOrEmpty(formaPago))
                 {
-                    MessageBox.Show("Debe seleccionar la forma de pago para registrar el acceso diario.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    // **REFACTORIZADO:** Usando Prompt.MostrarAlerta
+                    Prompt.MostrarAlerta(MensajesUI.INSCRIPCION_NO_SOCIO_PAGO_ALERTA_FALTA);
                     return;
                 }
 
                 // B. Confirmación del cobro (UX)
-                DialogResult confirmacion = MessageBox.Show(
-                    $"Confirma el registro y acceso diario del No Socio, y el cobro de ${montoAcceso:N2} (pago en {formaPago})?",
-                    "Confirmación de Pago y Registro de Acceso", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                // **REFACTORIZADO:** Usando Prompt.Confirmar en lugar de MessageBox.Show(..., YesNo, ...)
+                DialogResult confirmacion = Prompt.Confirmar(
+                    MensajesUI.INSCRIPCION_NO_SOCIO_PAGO_CONFIRMACION_TITULO,
+                    string.Format(MensajesUI.INSCRIPCION_NO_SOCIO_PAGO_CONFIRMACION_MSG, montoAcceso, formaPago));
 
                 if (confirmacion != DialogResult.Yes)
                 {
@@ -553,21 +554,20 @@ namespace ClubDeportivo.UI
                 int idGenerado = oPersonaBLL.RegistrarAccesoDiarioNoSocio(nuevoNoSocio, formaPago);
 
                 // E. Muestra de éxito
-                MessageBox.Show($"¡No Socio {nuevoNoSocio.ObtenerNombreCompleto()} registrado y acceso diario cobrado con éxito!\n" +
-                    $"ID: {idGenerado}\nMonto cobrado: ${montoAcceso:N2} en {formaPago}.",
-                    "Registro de Acceso OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                // **REFACTORIZADO:** Usando Prompt.MostrarExito en lugar de MessageBox.Show(..., Information)
+                Prompt.MostrarExito(string.Format(MensajesUI.INSCRIPCION_NO_SOCIO_REGISTRO_EXITO_MSG,
+                                                  nuevoNoSocio.ObtenerNombreCompleto(), idGenerado, montoAcceso, formaPago));
 
                 // F. GENERACIÓN DEL COMPROBANTE DE ACCESO PDF
-                GenerarYAbrirComprobanteAcceso(nuevoNoSocio.Dni, nuevoNoSocio.ObtenerNombreCompleto(), montoAcceso, "Acceso Diario General");
-
+                GenerarYAbrirComprobanteAcceso(nuevoNoSocio.Dni, nuevoNoSocio.ObtenerNombreCompleto(), montoAcceso, MensajesUI.INSCRIPCION_NO_SOCIO_CONCEPTO_ACCESO); // ⬅️ Refactorizado
 
                 // Limpieza de la interfaz
                 LimpiarFormulario();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error de Registro de Acceso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // **REFACTORIZADO:** Usando Prompt.MostrarError
+                Prompt.MostrarError(ex.Message);
             }
         }
 
@@ -604,19 +604,17 @@ namespace ClubDeportivo.UI
                 };
                 Process.Start(psi);
 
-                MessageBox.Show($"El Carnet de Socio ha sido generado y ABIERTO correctamente.\n\nRuta de guardado: {rutaCarnet}",
-                    "Carnet Generado y Abierto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // **REFACTORIZADO:** Usando Prompt.MostrarExito
+                Prompt.MostrarExito(string.Format(MensajesUI.PDF_CARNET_EXITO_MSG, rutaCarnet));
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Advertencia: El Carnet se generó, pero no se pudo abrir automáticamente.\nError: {ex.Message}",
-                                "Error al Abrir PDF", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // **REFACTORIZADO:** Usando Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(string.Format(MensajesUI.PDF_CARNET_ERROR_MSG, ex.Message));
             }
         }
 
-        /// <summary>
-        /// Genera y abre el Comprobante de Acceso Diario como PDF.
-        /// </summary>
+      
         private void GenerarYAbrirComprobanteAcceso(string dni, string nombreCompleto, decimal monto, string concepto)
         {
             try
@@ -633,19 +631,17 @@ namespace ClubDeportivo.UI
                 };
                 Process.Start(psi);
 
-                MessageBox.Show($"El Comprobante de Acceso ha sido generado y ABIERTO (o intentado abrir) correctamente.\n\nRuta de guardado: {rutaComprobante}",
-                    "Comprobante Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // **REFACTORIZADO:** Usando Prompt.MostrarExito
+                Prompt.MostrarExito(string.Format(MensajesUI.PDF_COMPROBANTE_EXITO_MSG, rutaComprobante));
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Advertencia: El Comprobante se generó, pero no se pudo abrir automáticamente.\nError: {ex.Message}",
-                                "Error al Abrir PDF", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // **REFACTORIZADO:** Usando Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(string.Format(MensajesUI.PDF_COMPROBANTE_ERROR_MSG, ex.Message));
             }
         }
 
-        /// <summary>
-        /// Limpia todos los campos del formulario y lo devuelve al estado inicial.
-        /// </summary>
+        
         private void LimpiarFormulario()
         {
             // Detener el timer si está activo

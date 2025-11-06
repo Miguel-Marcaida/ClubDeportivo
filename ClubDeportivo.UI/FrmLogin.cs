@@ -311,13 +311,8 @@ namespace ClubDeportivo.UI
                 // Usamos string.Format con el placeholder {0} de la constante
                 string mensajeCritico = string.Format(MensajesUI.LOGIN_MSG_ERROR_CRITICO, ex.Message); // ⬅️ Refactorizado
 
-                // Usamos MessageBox para mantener la funcionalidad crítica que tenías originalmente
-                MessageBox.Show(
-                    mensajeCritico,
-                    MensajesUI.LOGIN_TITULO_ERROR_CRITICO, // ⬅️ Refactorizado
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Stop
-                );
+                // Usamos la utilidad Prompt para el error crítico
+                Prompt.MostrarError(mensajeCritico);
             }
         }
 

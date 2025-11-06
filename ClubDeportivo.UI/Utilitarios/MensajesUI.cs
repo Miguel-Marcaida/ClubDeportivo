@@ -62,5 +62,73 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string PRINCIPAL_TITULO_CONFIRMAR_CIERRE_SESION = "Confirmación de Cierre";
         public const string PRINCIPAL_MSG_CONFIRMAR_CIERRE_SESION = "¿Está seguro que desea cerrar la sesión actual?";
 
+        // --- FrmInscripcionClub: TÍTULOS Y ETIQUETAS ---
+        public const string INSCRIPCION_TITULO_FORM = "Inscripción Club Deportivo";
+        public const string INSCRIPCION_TITULO_VISTA = "REGISTRO DE PERSONA (SOCIO / NO SOCIO)";
+        public const string INSCRIPCION_GB_DATOS_PERSONA = "Datos de la Persona";
+        public const string INSCRIPCION_GB_TIPO_PERSONA = "Selección de Rol";
+        public const string INSCRIPCION_LBL_DNI = "DNI:";
+        public const string INSCRIPCION_LBL_NOMBRE = "Nombre:";
+        public const string INSCRIPCION_LBL_APELLIDO = "Apellido:";
+        public const string INSCRIPCION_LBL_FECHA_NAC = "Fecha de Nacimiento:";
+        public const string INSCRIPCION_LBL_TELEFONO = "Teléfono:";
+        public const string INSCRIPCION_LBL_EMAIL = "Email:";
+        public const string INSCRIPCION_RB_SOCIO = "Socio (Membresía Mensual)";
+        public const string INSCRIPCION_RB_NO_SOCIO = "No Socio (Acceso Diario)";
+        public const string INSCRIPCION_LBL_CARNET = "Número de Carnet:";
+        public const string INSCRIPCION_CHK_FICHA_MEDICA = "Ficha Médica y Apto Físico";
+        public const string INSCRIPCION_LBL_FECHA_ACCESO = "Fecha y Hora de Acceso:";
+        public const string INSCRIPCION_LBL_HORA_ACTUAL_PLACEHOLDER = "Hora Actual"; // Se usará solo como placeholder inicial
+        public const string INSCRIPCION_CHK_APTO_FISICO_NO_SOCIO = "Apto Fisico Para No Socio";
+        public const string INSCRIPCION_BTN_REGISTRAR_SOCIO = "REGISTRAR SOCIO Y PAGAR CUOTA N°1";
+        public const string INSCRIPCION_BTN_REGISTRAR_NO_SOCIO = "REGISTRAR ACCESO Y COBRAR";
+        public const string INSCRIPCION_BTN_CANCELAR = "CANCELAR / CERRAR";
+
+
+        // --- FrmInscripcionClub: MENSAJES ---
+        public const string INSCRIPCION_ERROR_CARNET_CALCULO = "ERROR";
+        public const string INSCRIPCION_ERROR_OBTENER_CARNET = "Error al obtener el número de carnet: {0}";
+        public const string INSCRIPCION_TITULO_ERROR = "Error";
+
+        // Validaciones
+        public const string INSCRIPCION_VALIDACION_CAMPOS_REQUERIDOS = "Los campos DNI, Nombre y Apellido son obligatorios.";
+        public const string INSCRIPCION_TITULO_ADVERTENCIA = "Advertencia de Campos Faltantes";
+        public const string INSCRIPCION_VALIDACION_DNI_NUMERICO = "El campo DNI debe contener solo números.";
+        public const string INSCRIPCION_VALIDACION_TELEFONO_NUMERICO = "El campo Teléfono debe contener solo números (sin guiones/espacios).";
+        public const string INSCRIPCION_TITULO_ERROR_FORMATO = "Error de Formato";
+        public const string INSCRIPCION_VALIDACION_EMAIL = "El formato del Email es incorrecto. Si no es obligatorio, déjelo vacío.";
+        public const string INSCRIPCION_VALIDACION_CARNET_OBLIGATORIO = "El Número de Carnet es obligatorio para el Socio y debe ser numérico.";
+        public const string INSCRIPCION_VALIDACION_FICHA_SOCIO = "El Socio debe entregar la ficha medica y apto fisico.";
+        public const string INSCRIPCION_VALIDACION_APTO_NO_SOCIO = "El No Socio debe entregar apto fisico.";
+
+        // Socio - Flujo de Pago
+        public const string INSCRIPCION_SOCIO_PAGO_TITULO = "Forma de Pago";
+        public const string INSCRIPCION_SOCIO_PAGO_MSG = "Seleccione la forma de pago de la PRIMERA CUOTA MENSUAL (Monto: ${0:N2}):";
+        public const string INSCRIPCION_SOCIO_PAGO_ALERTA_FALTA = "Debe seleccionar la forma de pago para completar la inscripción de Socio.";
+        public const string INSCRIPCION_SOCIO_PAGO_CONFIRMACION_TITULO = "Confirmación de Pago y Registro";
+        public const string INSCRIPCION_SOCIO_PAGO_CONFIRMACION_MSG = "Confirma el registro e inscripción del Socio, y el cobro de la PRIMERA CUOTA por un monto de ${0:N2} (pago en {1})?";
+        public const string INSCRIPCION_SOCIO_REGISTRO_EXITO_MSG = "¡Socio {0} registrado y PRIMERA CUOTA COBRADA con éxito!\n\nID Persona: {1}\nNúmero de Carnet Asignado: {2}\nMonto Cobrado: ${3:N2} ({4})"; // 0=Nombre, 1=ID, 2=Carnet, 3=Monto, 4=FPago
+        public const string INSCRIPCION_SOCIO_REGISTRO_EXITO_TITULO = "Registro de Socio OK";
+        public const string INSCRIPCION_SOCIO_ERROR_FORMATO_CARNET = "El Número de Carnet debe ser un valor numérico entero o el valor precalculado es incorrecto.";
+        public const string INSCRIPCION_SOCIO_ERROR_INSCRIPCION_TITULO = "Error de Inscripción";
+
+        // No Socio - Flujo de Pago
+        public const string INSCRIPCION_NO_SOCIO_PAGO_MSG = "Seleccione la forma de pago del ACCESO DIARIO (Monto: ${0:N2}):";
+        public const string INSCRIPCION_NO_SOCIO_PAGO_ALERTA_FALTA = "Debe seleccionar la forma de pago para registrar el acceso diario.";
+        public const string INSCRIPCION_NO_SOCIO_PAGO_CONFIRMACION_TITULO = "Confirmación de Pago y Registro de Acceso";
+        public const string INSCRIPCION_NO_SOCIO_PAGO_CONFIRMACION_MSG = "Confirma el registro y acceso diario del No Socio, y el cobro de ${0:N2} (pago en {1})?";
+        public const string INSCRIPCION_NO_SOCIO_REGISTRO_EXITO_MSG = "¡No Socio {0} registrado y acceso diario cobrado con éxito!\nID: {1}\nMonto cobrado: ${2:N2} en {3}."; // 0=Nombre, 1=ID, 2=Monto, 3=FPago
+        public const string INSCRIPCION_NO_SOCIO_REGISTRO_EXITO_TITULO = "Registro de Acceso OK";
+        public const string INSCRIPCION_NO_SOCIO_ERROR_ACCESO_TITULO = "Error de Registro de Acceso";
+        public const string INSCRIPCION_NO_SOCIO_CONCEPTO_ACCESO = "Acceso Diario General";
+
+        // PDF
+        public const string PDF_CARNET_TITULO_EXITO = "Carnet Generado y Abierto";
+        public const string PDF_CARNET_EXITO_MSG = "El Carnet de Socio ha sido generado y ABIERTO correctamente.\n\nRuta de guardado: {0}";
+        public const string PDF_CARNET_ERROR_MSG = "Advertencia: El Carnet se generó, pero no se pudo abrir automáticamente.\nError: {0}";
+        public const string PDF_COMPROBANTE_TITULO_EXITO = "Comprobante Generado";
+        public const string PDF_COMPROBANTE_EXITO_MSG = "El Comprobante de Acceso ha sido generado y ABIERTO (o intentado abrir) correctamente.\n\nRuta de guardado: {0}";
+        public const string PDF_COMPROBANTE_ERROR_MSG = "Advertencia: El Comprobante se generó, pero no se pudo abrir automáticamente.\nError: {0}";
+
     }
 }
