@@ -16,8 +16,7 @@ namespace ClubDeportivo.UI
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            // Línea que soluciona el error de fuentes en .NET 8.0:
-           // GlobalFontSettings.FontResolver = PdfSharp.Fonts.DefaultFontResolver.Global;
+          
 
             Application.Run(new FrmLogin());
             //Application.Run(new FrmRegistrarPagos(0));

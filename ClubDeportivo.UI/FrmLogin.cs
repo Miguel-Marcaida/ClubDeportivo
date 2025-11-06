@@ -258,6 +258,7 @@ namespace ClubDeportivo.UI
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
+            
             // Validación para asegurar que no están vacíos o con el placeholder
             if (string.IsNullOrWhiteSpace(txtUsuario.Text) || txtUsuario.Text == MensajesUI.LOGIN_PLACEHOLDER_USUARIO ||
                 string.IsNullOrWhiteSpace(txtPass.Text) || txtPass.Text == MensajesUI.LOGIN_PLACEHOLDER_PASS)

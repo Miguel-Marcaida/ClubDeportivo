@@ -174,5 +174,42 @@ namespace ClubDeportivo.UI.Utilitarios
         public const string PDF_COMPROBANTE_TITULO_EXITO = "Comprobante Generado";
         public const string PDF_COMPROBANTE_EXITO_MSG = "El Comprobante de Acceso ha sido generado y ABIERTO (o intentado abrir) correctamente.\n\nRuta de guardado: {0}";
         public const string PDF_COMPROBANTE_ERROR_MSG = "Advertencia: El Comprobante se generó, pero no se pudo abrir automáticamente.\nError: {0}";
+
+        // =================================================================
+        //               BLOQUE 7: FrmGestionUsuarios (USUARIOS)
+        // =================================================================
+
+        // --- TÍTULOS Y ETIQUETAS ---
+        public const string USUARIOS_TITULO_FORM = "GESTIÓN DE USUARIOS";
+        public const string USUARIOS_GB_DATOS = "Datos del Usuario";
+        public const string USUARIOS_LBL_USUARIO = "Nombre Usuario:";
+        public const string USUARIOS_LBL_CONTRASENA = "Contraseña:";
+        public const string USUARIOS_LBL_CONFIRMAR_CONTRASENA = "Confirmar Contraseña:";
+        public const string USUARIOS_LBL_ROL = "Seleccionar Rol:";
+
+        // --- TEXTOS DE BOTONES ESPECÍFICOS ---
+        public const string USUARIOS_BTN_REGISTRAR = "REGISTRAR";
+        public const string USUARIOS_BTN_NUEVO = "NUEVO"; // Usado para limpiar/cancelar edición
+        public const string USUARIOS_BTN_EDITAR = "EDITAR";
+        public const string USUARIOS_BTN_ELIMINAR = "ELIMINAR";
+        public const string USUARIOS_BTN_CERRAR = "CERRAR";
+
+        // --- MENSAJES DE VALIDACIÓN Y PROCESO ---
+        public const string USUARIOS_MSG_CAMPOS_OBLIGATORIOS = "Debe completar todos los campos.";
+        public const string USUARIOS_MSG_CONTRASENAS_NO_COINCIDEN = "Las contraseñas no coinciden. Por favor, verifique.";
+        public const string USUARIOS_MSG_SELECCION_ROL_OBLIGATORIA = "Debe seleccionar un rol.";
+        public const string USUARIOS_MSG_USUARIO_SELECCION_OBLIGATORIA = "Debe seleccionar un usuario de la lista.";
+        public const string USUARIOS_MSG_CONFIRMAR_ELIMINAR = "¿Está seguro que desea eliminar este usuario?";
+
+        // --- MENSAJES DE RESULTADO ---
+        public const string USUARIOS_MSG_REGISTRO_EXITO = "Usuario registrado con éxito.";
+        public const string USUARIOS_MSG_REGISTRO_ERROR = "Error al registrar el usuario: ";
+        public const string USUARIOS_MSG_MODIFICACION_EXITO = "Usuario modificado correctamente.";
+        public const string USUARIOS_MSG_MODIFICACION_ERROR = "Error al modificar el usuario: ";
+        public const string USUARIOS_MSG_ELIMINACION_EXITO = "Usuario eliminado correctamente.";
+        public const string USUARIOS_MSG_ELIMINACION_ERROR = "Error al eliminar el usuario: ";
+
+
+
     }
 }

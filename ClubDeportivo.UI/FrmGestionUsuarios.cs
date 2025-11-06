@@ -63,30 +63,29 @@ namespace ClubDeportivo.UI
             pnlBase.Location = new Point(20, 20); // Posición inicial simple
             pnlBase.Size = new Size(1000, 650); // Altura reducida a 650px
             // --- 1. TÍTULO ---
-            lblTituloPrincipal.Text = "GESTIÓN DE USUARIOS";
+            lblTituloPrincipal.Text = MensajesUI.USUARIOS_TITULO_FORM; // ✅ Uso de constante
             lblTituloPrincipal.AutoSize = true;
             lblTituloPrincipal.Location = new Point(20, 25); // Alineado más a la izquierda
 
             // --- 2. GRUPOBOX DE DATOS USUARIO (A la izquierda) ---
-            gbFiltros.Text = "Datos del Usuario";
+            gbFiltros.Text = MensajesUI.USUARIOS_GB_DATOS; // ✅ Uso de constante
             gbFiltros.Location = new Point(20, 80);
             gbFiltros.Size = new Size(420, 220); // Ancho aumentado para mejor estética
-                                                 // Nota: Las llamadas a EstilosGlobales se hacen solo en ConfigurarEstilos.
 
             // --- 3. ETIQUETAS (Dentro del GroupBox) ---
-            lblUsuario.Text = "Nombre Usuario:";
+            lblUsuario.Text = MensajesUI.USUARIOS_LBL_USUARIO; // ✅ Uso de constante
             lblUsuario.Location = new Point(18, 35);
             lblUsuario.AutoSize = true;
 
-            lblContrasena.Text = "Contraseña:";
+            lblContrasena.Text = MensajesUI.USUARIOS_LBL_CONTRASENA; // ✅ Uso de constante
             lblContrasena.Location = new Point(18, 75);
             lblContrasena.AutoSize = true;
 
-            lblConfirmarContrasena.Text = "Confirmar Contraseña:";
+            lblConfirmarContrasena.Text = MensajesUI.USUARIOS_LBL_CONFIRMAR_CONTRASENA; // ✅ Uso de constante
             lblConfirmarContrasena.Location = new Point(18, 115);
             lblConfirmarContrasena.AutoSize = true;
 
-            lblRol.Text = "Seleccionar Rol:";
+            lblRol.Text = MensajesUI.USUARIOS_LBL_ROL; // ✅ Uso de constante
             lblRol.Location = new Point(18, 155);
             lblRol.AutoSize = true;
 
@@ -117,19 +116,19 @@ namespace ClubDeportivo.UI
             int yPosBoton = 320;
             int xStart = 20;
 
-            btnRegistrar.Text = "REGISTRAR";
+            btnRegistrar.Text = MensajesUI.USUARIOS_BTN_REGISTRAR; // ✅ Uso de constante (estado inicial)
             btnRegistrar.Location = new Point(xStart, yPosBoton);
             btnRegistrar.Size = new Size(100, 40);
 
-            btnEditar.Text = "EDITAR";
+            btnEditar.Text = MensajesUI.USUARIOS_BTN_EDITAR; // ✅ Uso de constante
             btnEditar.Location = new Point(xStart + 110, yPosBoton);
             btnEditar.Size = new Size(100, 40);
 
-            btnEliminar.Text = "ELIMINAR";
+            btnEliminar.Text = MensajesUI.USUARIOS_BTN_ELIMINAR; // ✅ Uso de constante
             btnEliminar.Location = new Point(xStart + 220, yPosBoton);
             btnEliminar.Size = new Size(100, 40);
 
-            btnCerrar.Text = "CERRAR";
+            btnCerrar.Text = MensajesUI.USUARIOS_BTN_CERRAR; // ✅ Uso de constante
             btnCerrar.Location = new Point(xStart + 330, yPosBoton);
             btnCerrar.Size = new Size(100, 40);
         }
@@ -224,8 +223,8 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar los usuarios: " + ex.Message, "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarError
+                Prompt.MostrarError("Error al cargar los usuarios: " + ex.Message, MensajesUI.TITULO_ERROR);
             }
         }
 
@@ -252,7 +251,7 @@ namespace ClubDeportivo.UI
             // Si NO hay un ID seleccionado (idSeleccionado == -1) -> MODO REGISTRO
             if (idSeleccionado == -1)
             {
-                btnRegistrar.Text = "REGISTRAR";
+                btnRegistrar.Text = MensajesUI.USUARIOS_BTN_REGISTRAR; // ✅ Uso de constante
                 btnRegistrar.BackColor = EstilosGlobales.ColorExito;
                 btnRegistrar.Enabled = true;
                 btnEditar.Enabled = false;
@@ -261,8 +260,8 @@ namespace ClubDeportivo.UI
             // Si SÍ hay un ID seleccionado (idSeleccionado > -1) -> MODO EDICIÓN/NUEVO
             else
             {
-                btnRegistrar.Text = "NUEVO"; // 🚨 CAMBIO DE FUNCIÓN: Habilita el modo registro/limpieza
-                btnRegistrar.BackColor= EstilosGlobales.ColorAcento;
+                btnRegistrar.Text = MensajesUI.USUARIOS_BTN_NUEVO; // ✅ Uso de constante
+                btnRegistrar.BackColor = EstilosGlobales.ColorAcento;
                 btnRegistrar.Enabled = true; // Sigue habilitado para cancelar la edición
                 btnEditar.Enabled = true;
                 btnEliminar.Enabled = true;
@@ -293,15 +292,15 @@ namespace ClubDeportivo.UI
 
             if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contrasena) || string.IsNullOrEmpty(confirmar))
             {
-                MessageBox.Show("Debe completar todos los campos.", "Advertencia",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(MensajesUI.USUARIOS_MSG_CAMPOS_OBLIGATORIOS);
                 return;
             }
 
             if (contrasena != confirmar)
             {
-                MessageBox.Show("Las contraseñas no coinciden. Por favor, verifique.", "Advertencia",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(MensajesUI.USUARIOS_MSG_CONTRASENAS_NO_COINCIDEN);
                 return;
             }
 
@@ -309,8 +308,8 @@ namespace ClubDeportivo.UI
 
             if (string.IsNullOrEmpty(rolSeleccionado))
             {
-                MessageBox.Show("Debe seleccionar un rol.", "Advertencia",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(MensajesUI.USUARIOS_MSG_SELECCION_ROL_OBLIGATORIA);
                 return;
             }
 
@@ -319,15 +318,15 @@ namespace ClubDeportivo.UI
 
             if (respuesta.Equals("OK"))
             {
-                MessageBox.Show("Usuario registrado con éxito.", "Registro",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarExito
+                Prompt.MostrarExito(MensajesUI.USUARIOS_MSG_REGISTRO_EXITO);
                 LimpiarCampos();
                 CargarUsuarios();
             }
             else
             {
-                MessageBox.Show("Error al registrar el usuario: " + respuesta, "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarError
+                Prompt.MostrarError(MensajesUI.USUARIOS_MSG_REGISTRO_ERROR + respuesta);
             }
         }
 
@@ -335,8 +334,8 @@ namespace ClubDeportivo.UI
         {
             if (idSeleccionado == -1)
             {
-                MessageBox.Show("Debe seleccionar un usuario de la lista.", "Advertencia",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(MensajesUI.USUARIOS_MSG_USUARIO_SELECCION_OBLIGATORIA);
                 return;
             }
 
@@ -347,8 +346,8 @@ namespace ClubDeportivo.UI
 
             if (contrasena != confirmar)
             {
-                MessageBox.Show("Las contraseñas no coinciden.", "Advertencia",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(MensajesUI.USUARIOS_MSG_CONTRASENAS_NO_COINCIDEN);
                 return;
             }
 
@@ -357,8 +356,8 @@ namespace ClubDeportivo.UI
 
             if (respuesta.Equals("OK"))
             {
-                MessageBox.Show("Usuario modificado correctamente.", "Éxito",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarExito
+                Prompt.MostrarExito(MensajesUI.USUARIOS_MSG_MODIFICACION_EXITO);
 
                 // Actualizar la grilla
                 CargarUsuarios();
@@ -368,8 +367,8 @@ namespace ClubDeportivo.UI
             }
             else
             {
-                MessageBox.Show("Error al modificar el usuario: " + respuesta, "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarError
+                Prompt.MostrarError(MensajesUI.USUARIOS_MSG_MODIFICACION_ERROR + respuesta);
             }
 
         }
@@ -378,33 +377,30 @@ namespace ClubDeportivo.UI
         {
             if (idSeleccionado == -1)
             {
-                MessageBox.Show("Debe seleccionar un usuario de la lista.", "Atención",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarAlerta
+                Prompt.MostrarAlerta(MensajesUI.USUARIOS_MSG_USUARIO_SELECCION_OBLIGATORIA);
                 return;
             }
 
-            DialogResult confirmar = MessageBox.Show("¿Está seguro que desea eliminar este usuario?",
-                                                     "Confirmación",
-                                                     MessageBoxButtons.YesNo,
-                                                     MessageBoxIcon.Question);
-
-            if (confirmar == DialogResult.Yes)
+            
+            // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarDialogoConfirmacion
+            if (Prompt.MostrarDialogoConfirmacion(MensajesUI.USUARIOS_MSG_CONFIRMAR_ELIMINAR))
             {
                 UsuarioBLL oUsuarioBLL = new UsuarioBLL();
                 string respuesta = oUsuarioBLL.EliminarUsuario(idSeleccionado);
 
                 if (respuesta.Equals("OK"))
                 {
-                    MessageBox.Show("Usuario eliminado correctamente.", "Éxito",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarExito
+                    Prompt.MostrarExito(MensajesUI.USUARIOS_MSG_ELIMINACION_EXITO);
 
                     CargarUsuarios(); // Refresca el DataGridView
                     LimpiarCampos();
                 }
                 else
                 {
-                    MessageBox.Show("Error al eliminar el usuario: " + respuesta, "Error",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // ✅ REFACTORIZACIÓN: Sustitución de MessageBox por Prompt.MostrarError
+                    Prompt.MostrarError(MensajesUI.USUARIOS_MSG_ELIMINACION_ERROR + respuesta);
                 }
             }
 
