@@ -3,6 +3,7 @@ using ClubDeportivo.UI.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Runtime.CompilerServices;
 
 namespace ClubDeportivo.UI.BLL
 {
@@ -47,9 +48,9 @@ namespace ClubDeportivo.UI.BLL
                     // Asegúrate de que este bloque esté DENTRO del 'foreach (DataRow row in dt.Rows)'
                     if (row["meses_mora"] != DBNull.Value)
                     {
-                        dto.MesesMora = Convert.ToInt32(row["meses_mora"]);
+                        
+                        dto.MesesMora = Convert.ToInt32(row["meses_mora"]); 
                     }
-                    // NOTA: Si usas la lógica de "si la persona nunca pagó, MesesMora es 999", 
                     // este bloque es CRÍTICO para capturar ese valor.
 
                     // id_cuota_pendiente
@@ -63,10 +64,19 @@ namespace ClubDeportivo.UI.BLL
                             dto.FechaVencimientoPendiente = Convert.ToDateTime(row["fecha_vencimiento_pendiente"]);
                         }
 
+                        int meses = Convert.ToInt32(row["meses_mora"]);
                         // monto_cuota_pendiente
-                        if (row["monto_cuota_pendiente"] != DBNull.Value)
+                        if (row["monto_cuota_pendiente"] != DBNull.Value && meses != 0)
                         {
-                            dto.MontoCuotaPendiente = Convert.ToDecimal(row["monto_cuota_pendiente"]);
+                            
+                            decimal montoCuota= Convert.ToDecimal(row["monto_cuota_pendiente"]);
+                            dto.MontoCuotaPendiente = Convert.ToDecimal( montoCuota*(Decimal)meses);
+                        }
+                        else
+                        {
+                            decimal montoCuota = Convert.ToDecimal(row["monto_cuota_pendiente"]);
+                            dto.MontoCuotaPendiente = Convert.ToDecimal(montoCuota);
+                            
                         }
                         /*
                         // dias_mora

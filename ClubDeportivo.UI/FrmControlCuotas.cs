@@ -204,7 +204,7 @@ namespace ClubDeportivo.UI
             dgvMorosos.Columns["EstadoActivo"].Visible = false;
             dgvMorosos.Columns["EstaVigente"].Visible = false;
             dgvMorosos.Columns["Email"].Visible = false; // El email no es crítico en este reporte
-
+            dgvMorosos.Columns["EsMoroso"].Visible = false;
             // Autoajustar
             dgvMorosos.AutoResizeColumns();
         }
