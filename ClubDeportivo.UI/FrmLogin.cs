@@ -1,4 +1,7 @@
 ﻿using ClubDeportivo.UI.BLL;
+using ClubDeportivo.UI.DAL;
+using ClubDeportivo.UI.Entidades;
+using ClubDeportivo.UI.Utilitarios;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,8 +12,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ClubDeportivo.UI.Entidades;
-using ClubDeportivo.UI.Utilitarios;
 
 namespace ClubDeportivo.UI
 {
@@ -49,7 +50,7 @@ namespace ClubDeportivo.UI
             //titulo
             lblTitulo.ForeColor = EstilosGlobales.ColorAcento;
             lblTitulo.Font = EstilosGlobales.EstiloTitulo;
-            
+
             //panel
             pnlLateral.BackColor = EstilosGlobales.ColorAcento;
 
@@ -93,7 +94,7 @@ namespace ClubDeportivo.UI
             EstilosGlobales.AplicarEstiloCampo(txtPass);
             EstilosGlobales.AplicarEstiloCampo(txtUsuario);
 
-            
+
         }
 
 
@@ -113,7 +114,7 @@ namespace ClubDeportivo.UI
             pnlLateral.Location = new Point(0, 0);
 
             // NUEVO: LOGO DEL CLUB DENTRO DEL PANEL LATERAL (pbLogoClub)
-            pbLogoClub.Size = new Size(150, 150); 
+            pbLogoClub.Size = new Size(150, 150);
             pbLogoClub.Location = new Point(25, 75); // Centrado en el panel lateral (200 - 150) / 2 = 25
 
             // 2. BOTÓN CERRAR (pbCerrar)
@@ -126,7 +127,7 @@ namespace ClubDeportivo.UI
             txtUsuario.Location = new Point(250, 100);
             txtUsuario.ForeColor = Color.DimGray; // Inicia con color gris para placeholder
             txtUsuario.BorderStyle = BorderStyle.FixedSingle;
-            
+
             // 4. TEXTBOX CONTRASEÑA (txtPass)
             txtPass.Text = MensajesUI.LOGIN_PLACEHOLDER_PASS; // Placeholder inicial
             txtPass.Size = new Size(300, 25);
@@ -171,7 +172,7 @@ namespace ClubDeportivo.UI
                 txtUsuario.ForeColor = Utilitarios.EstilosGlobales.ColorTextoClaro;
             }
 
-            
+
         }
 
 
@@ -210,7 +211,7 @@ namespace ClubDeportivo.UI
                 // CLAVE: Cuando es placeholder, NO debe ser un campo de contraseña.
                 txtPass.UseSystemPasswordChar = false;
             }
-            
+
         }
 
 
@@ -258,7 +259,7 @@ namespace ClubDeportivo.UI
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            
+
             // Validación para asegurar que no están vacíos o con el placeholder
             if (string.IsNullOrWhiteSpace(txtUsuario.Text) || txtUsuario.Text == MensajesUI.LOGIN_PLACEHOLDER_USUARIO ||
                 string.IsNullOrWhiteSpace(txtPass.Text) || txtPass.Text == MensajesUI.LOGIN_PLACEHOLDER_PASS)
@@ -273,13 +274,13 @@ namespace ClubDeportivo.UI
 
             try
             {
-               
+
                 string usuario = txtUsuario.Text.Trim();
                 string clave = txtPass.Text.Trim();
 
                 Usuario usuarioLogueado = oUsuarioBLL.IniciarSesion(usuario, clave);
 
-                if (usuarioLogueado != null) 
+                if (usuarioLogueado != null)
                 {
                     string mensajeBienvenida = MensajesUI.LOGIN_MSG_BIENVENIDA_PARTE1 + usuarioLogueado.NombreUsuario + "."; // ⬅️ Refactorizado con concatenación
 
@@ -353,5 +354,21 @@ namespace ClubDeportivo.UI
         #endregion
 
 
+        private void FrmLogin_Load(object sender, EventArgs e)
+        {
+            // 🚨 CORRECCIÓN CLAVE: Forzar la carga de la conexión ANTES de iniciar el Login.
+            // Esto dispara la Autoconfiguración/InputBox si el archivo .INI no existe.
+            try
+            {
+                Conexion.getInstancia();
+            }
+            catch (Exception ex)
+            {
+                // Si la configuracion falla, mostramos error simple (sin acentos para evitar el error de guardado) y cerramos.
+                MessageBox.Show("Error de inicializacion de conexion. La aplicacion se cerrara. Detalles: " + ex.Message,
+                                "Error Critico", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+        }
     }
 }

@@ -117,6 +117,7 @@
             Controls.Add(btnIngresar);
             Name = "FrmLogin";
             Text = "FormLogin";
+            Load += FrmLogin_Load;
             Shown += FormLogin_Shown;
             pnlLateral.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pbLogoClub).EndInit();

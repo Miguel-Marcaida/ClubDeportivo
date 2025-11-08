@@ -1,3 +1,4 @@
+using ClubDeportivo.UI.DAL;
 using PdfSharp.Fonts;
 
 namespace ClubDeportivo.UI
@@ -16,7 +17,7 @@ namespace ClubDeportivo.UI
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-          
+         
 
             Application.Run(new FrmLogin());
             

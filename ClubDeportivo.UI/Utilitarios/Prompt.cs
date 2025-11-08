@@ -32,64 +32,134 @@ namespace ClubDeportivo.UI.Utilitarios
         // A. ShowDialog (InputBox genérico)
         public static string ShowDialog(string text, string caption)
         {
+            // --- VARIABLES DE DISEÑO (Tomadas de Alerta) ---
+            int titleBarHeight = 40;
+            int margin = 20; // Ajuste el margen para que se vea bien
+            int buttonHeight = 35;
+
             // Crea un nuevo formulario
             Form prompt = new Form()
             {
                 Width = 400,
-                Height = 180,
-                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Height = 0, // Altura 0, la calculamos al final
+                FormBorderStyle = FormBorderStyle.None, // 🚨 CRÍTICO: Eliminar el borde de Windows
                 Text = caption,
                 StartPosition = FormStartPosition.CenterScreen,
                 MaximizeBox = false,
                 MinimizeBox = false,
-                BackColor = EstilosGlobales.ColorFondo // Usamos un estilo consistente
+                BackColor = EstilosGlobales.ColorFondo
             };
 
-            // Etiqueta de la pregunta
+            // -------------------------------------------------------------
+            // 1. BARRA DE TÍTULO PERSONALIZADA (Copiada de Alerta)
+            // -------------------------------------------------------------
+
+            Panel titleBar = new Panel()
+            {
+                Height = titleBarHeight,
+                Dock = DockStyle.Top,
+                BackColor = EstilosGlobales.ColorAcento
+            };
+            prompt.Controls.Add(titleBar);
+
+            // Título
+            Label titleLabel = new Label()
+            {
+                Text = caption,
+                ForeColor = Color.White,
+                Font = EstilosGlobales.EstiloCampo,
+                Location = new Point(margin, (titleBarHeight - EstilosGlobales.EstiloCampo.Height) / 2),
+                Width = prompt.Width - (margin * 2), // Ocupa todo el espacio
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+            titleBar.Controls.Add(titleLabel);
+
+            // 💡 Lógica de Arrastre
+            titleBar.MouseDown += (s, e) => { isDragging = true; lastCursor = Cursor.Position; lastForm = prompt.Location; };
+            titleBar.MouseMove += (s, e) => {
+                if (isDragging)
+                {
+                    int xDiff = Cursor.Position.X - lastCursor.X;
+                    int yDiff = Cursor.Position.Y - lastCursor.Y;
+                    prompt.Location = new Point(lastForm.X + xDiff, lastForm.Y + yDiff);
+                }
+            };
+            titleBar.MouseUp += (s, e) => { isDragging = false; };
+
+            // --- NO NECESITAMOS BOTÓN 'X' SI YA TIENE BOTÓN CANCELAR ---
+
+            // -------------------------------------------------------------
+            // 2. CONTENIDO (Etiqueta y TextBox)
+            // -------------------------------------------------------------
+
+            // Etiqueta de la pregunta (Ahora empieza DESPUÉS de la barra de título)
             Label textLabel = new Label()
             {
-                Left = 20,
-                Top = 20,
-                Width = 350,
+                Left = margin,
+                Top = titleBarHeight + margin, // Empieza después de la cabecera
+                Width = prompt.Width - (margin * 2),
                 Text = text,
-                ForeColor = EstilosGlobales.ColorTextoClaro // Texto visible
+                ForeColor = EstilosGlobales.ColorTextoClaro
             };
 
             // Campo de texto para la respuesta
             TextBox inputBox = new TextBox()
             {
-                Left = 20,
-                Top = 45,
-                Width = 350,
+                Left = margin,
+                Top = textLabel.Top + textLabel.Height + 5, // 5px debajo de la etiqueta
+                Width = prompt.Width - (margin * 2),
+                Height = 30,
                 Font = EstilosGlobales.EstiloCampo
             };
 
-            // Botón Aceptar
+            // -------------------------------------------------------------
+            // 3. BOTONES (Reutilizamos la lógica de centrado que hicimos)
+            // -------------------------------------------------------------
+
+            int buttonWidth = 120;
+            int buttonSpace = 10;
+
+            // Botones
             Button confirmation = new Button()
             {
                 Text = MensajesUI.BOTON_ACEPTAR,
-                Width = 80,
-                Top = 85,
+                Width = buttonWidth,
+                Height = buttonHeight,
                 DialogResult = DialogResult.OK
             };
             EstilosGlobales.AplicarEstiloBotonAccion(confirmation);
-            confirmation.Left = (prompt.Width - 80 - 20); // Ajuste simple a la derecha
-            confirmation.Top = 85;
+            confirmation.BackColor = EstilosGlobales.ColorAcento;
 
-            // Botón Cancelar
             Button cancel = new Button()
             {
                 Text = MensajesUI.BOTON_CANCELAR,
-                Left = confirmation.Left - confirmation.Width - 10, // A la izquierda de Aceptar
-                Width = 80,
-                Top = 85,
+                Width = buttonWidth,
+                Height = buttonHeight,
                 DialogResult = DialogResult.Cancel
             };
             EstilosGlobales.AplicarEstiloBotonAccion(cancel);
             cancel.BackColor = EstilosGlobales.ColorError;
 
+            // Posicionamiento Centrado
+            int totalWidth = buttonWidth * 2 + buttonSpace;
+            int startX = (prompt.Width / 2) - (totalWidth / 2);
 
-            // Configuración final y adición de controles
+            int buttonY = inputBox.Top + inputBox.Height + margin; // 20px debajo del TextBox
+
+            cancel.Left = startX;
+            cancel.Top = buttonY;
+            confirmation.Left = startX + buttonWidth + buttonSpace;
+            confirmation.Top = buttonY;
+
+            // -------------------------------------------------------------
+            // 4. CONFIGURACIÓN FINAL Y CÁLCULO DE ALTURA
+            // -------------------------------------------------------------
+
+            // Cálculo de Altura CRÍTICO
+            int clientHeight = buttonY + buttonHeight + margin;
+            prompt.ClientSize = new Size(prompt.Width, clientHeight);
+
             confirmation.Click += (sender, e) => { prompt.Close(); };
             cancel.Click += (sender, e) => { prompt.Close(); };
 
@@ -97,9 +167,8 @@ namespace ClubDeportivo.UI.Utilitarios
             prompt.Controls.Add(cancel);
             prompt.Controls.Add(textLabel);
             prompt.Controls.Add(inputBox);
-            prompt.AcceptButton = confirmation; // Presionar Enter para Aceptar
-            prompt.CancelButton = cancel;        // Presionar ESC para Cancelar
-
+            prompt.AcceptButton = confirmation;
+            prompt.CancelButton = cancel;
 
             // Mostrar el diálogo
             DialogResult result = prompt.ShowDialog();
@@ -114,6 +183,160 @@ namespace ClubDeportivo.UI.Utilitarios
                 return string.Empty; // Retorna vacío si cancela
             }
         }
+
+
+        // B. ShowDialog (Sobrecarga con valor por defecto y enfoque)
+        public static string ShowDialog(string text, string caption, string defaultValue)
+        {
+            // --- VARIABLES DE DISEÑO ---
+            int titleBarHeight = 40;
+            int margin = 20;
+            int buttonHeight = 35;
+            int buttonWidth = 120;
+            int buttonSpace = 10;
+
+            // Crea un nuevo formulario
+            Form prompt = new Form()
+            {
+                Width = 400,
+                Height = 0,
+                FormBorderStyle = FormBorderStyle.None,
+                Text = caption,
+                StartPosition = FormStartPosition.CenterScreen,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                BackColor = EstilosGlobales.ColorFondo
+            };
+
+            // -------------------------------------------------------------
+            // 1. BARRA DE TÍTULO PERSONALIZADA (Reutilizado)
+            // -------------------------------------------------------------
+            Panel titleBar = new Panel()
+            {
+                Height = titleBarHeight,
+                Dock = DockStyle.Top,
+                BackColor = EstilosGlobales.ColorAcento
+            };
+            prompt.Controls.Add(titleBar);
+
+            Label titleLabel = new Label()
+            {
+                Text = caption,
+                ForeColor = Color.White,
+                Font = EstilosGlobales.EstiloCampo,
+                Location = new Point(margin, (titleBarHeight - EstilosGlobales.EstiloCampo.Height) / 2),
+                Width = prompt.Width - (margin * 2),
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+            titleBar.Controls.Add(titleLabel);
+
+            // Lógica de Arrastre (Asumiendo que isDragging, lastCursor, lastForm están definidos en Prompt.cs)
+            titleBar.MouseDown += (s, e) => { isDragging = true; lastCursor = Cursor.Position; lastForm = prompt.Location; };
+            titleBar.MouseMove += (s, e) => {
+                if (isDragging)
+                {
+                    int xDiff = Cursor.Position.X - lastCursor.X;
+                    int yDiff = Cursor.Position.Y - lastCursor.Y;
+                    prompt.Location = new Point(lastForm.X + xDiff, lastForm.Y + yDiff);
+                }
+            };
+            titleBar.MouseUp += (s, e) => { isDragging = false; };
+
+            // -------------------------------------------------------------
+            // 2. CONTENIDO (Etiqueta y TextBox)
+            // -------------------------------------------------------------
+
+            Label textLabel = new Label()
+            {
+                Left = margin,
+                Top = titleBarHeight + margin,
+                Width = prompt.Width - (margin * 2),
+                Text = text,
+                ForeColor = EstilosGlobales.ColorTextoClaro
+            };
+            prompt.Controls.Add(textLabel);
+
+            // Campo de texto para la respuesta
+            TextBox inputBox = new TextBox()
+            {
+                Left = margin,
+                Top = textLabel.Top + textLabel.Height + 5,
+                Width = prompt.Width - (margin * 2),
+                Height = 30,
+                Font = EstilosGlobales.EstiloCampo,
+                Text = defaultValue // 🚨 USA EL VALOR POR DEFECTO
+            };
+            prompt.Controls.Add(inputBox);
+
+            // 🚨 ENFOQUE AUTOMÁTICO
+            prompt.Load += (s, e) => { inputBox.Focus(); };
+
+            // -------------------------------------------------------------
+            // 3. BOTONES (Reutilizado)
+            // -------------------------------------------------------------
+
+            // Botones (Confirmation y Cancel)
+            Button confirmation = new Button()
+            {
+                Text = MensajesUI.BOTON_ACEPTAR,
+                Width = buttonWidth,
+                Height = buttonHeight,
+                DialogResult = DialogResult.OK
+            };
+            EstilosGlobales.AplicarEstiloBotonAccion(confirmation);
+            confirmation.BackColor = EstilosGlobales.ColorAcento;
+
+            Button cancel = new Button()
+            {
+                Text = MensajesUI.BOTON_CANCELAR,
+                Width = buttonWidth,
+                Height = buttonHeight,
+                DialogResult = DialogResult.Cancel
+            };
+            EstilosGlobales.AplicarEstiloBotonAccion(cancel);
+            cancel.BackColor = EstilosGlobales.ColorError;
+
+            // Posicionamiento Centrado
+            int totalWidth = buttonWidth * 2 + buttonSpace;
+            int startX = (prompt.Width / 2) - (totalWidth / 2);
+
+            int buttonY = inputBox.Top + inputBox.Height + margin;
+
+            cancel.Left = startX;
+            cancel.Top = buttonY;
+            confirmation.Left = startX + buttonWidth + buttonSpace;
+            confirmation.Top = buttonY;
+
+            // -------------------------------------------------------------
+            // 4. CONFIGURACIÓN FINAL Y CÁLCULO DE ALTURA
+            // -------------------------------------------------------------
+
+            int clientHeight = buttonY + buttonHeight + margin;
+            prompt.ClientSize = new Size(prompt.Width, clientHeight);
+
+            confirmation.Click += (sender, e) => { prompt.Close(); };
+            cancel.Click += (sender, e) => { prompt.Close(); };
+
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(cancel);
+            prompt.AcceptButton = confirmation;
+            prompt.CancelButton = cancel;
+
+            // Mostrar el diálogo
+            DialogResult result = prompt.ShowDialog();
+
+            // Devolver el texto si el usuario presionó Aceptar
+            if (result == DialogResult.OK)
+            {
+                return inputBox.Text.Trim();
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
 
         // B. MostrarMenu (Diálogo de selección con botones)
         public static string MostrarMenu(string caption, string text, string[] options)
