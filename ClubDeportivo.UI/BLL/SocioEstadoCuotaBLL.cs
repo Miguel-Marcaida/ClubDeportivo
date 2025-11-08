@@ -13,21 +13,15 @@ namespace ClubDeportivo.UI.BLL
         // Instancia de la DAL específica para esta lógica
         private readonly SocioEstadoCuotaDAL oSocioEstadoCuotaDAL = new SocioEstadoCuotaDAL();
 
-        /// <summary>
-        /// Obtiene y mapea el listado maestro de socios con cuotas pendientes (morosos o por vencer).
-        /// Este es el dataset principal para los filtros en la UI.
-        /// </summary>
-        /// <returns>Lista de SocioEstadoCuotaDTOs listos para la UI.</returns>
+
         public List<SocioEstadoCuotaDTO> ObtenerListadoMaestro()
         {
             List<SocioEstadoCuotaDTO> lista = new List<SocioEstadoCuotaDTO>();
 
             try
             {
-                // 1. Obtener el DataTable de la DAL (SELECT de la VIEW v_socios_estado_cuota)
                 DataTable dt = oSocioEstadoCuotaDAL.ObtenerListadoMaestroCuotas();
 
-                // 2. Iterar sobre las filas y mapear al DTO
                 foreach (DataRow row in dt.Rows)
                 {
                     SocioEstadoCuotaDTO dto = new SocioEstadoCuotaDTO
@@ -35,61 +29,62 @@ namespace ClubDeportivo.UI.BLL
                         // Mapeo de Datos de Persona/Socio
                         IdPersona = Convert.ToInt32(row["id_persona"]),
                         Dni = row["dni"].ToString(),
-                        NombreCompleto = row["nombre_completo"].ToString(), // Campo concatenado
-                        Telefono = row["telefono"].ToString(),
+                        NombreCompleto = row["nombre_completo"].ToString(),
+                        Telefono = row["telefono"].ToString(), // Sin guiones
                         Email = row["email"].ToString(),
                         NumeroCarnet = Convert.ToInt32(row["numero_carnet"]),
                         EstadoActivo = Convert.ToBoolean(row["estado_activo"]),
-                        EstaVigente = Convert.ToBoolean(row["esta_vigente"])
+                        EstaVigente = Convert.ToBoolean(row["esta_vigente"]),
+
+                        // Mapeo inicial de MesesMora
+                        MesesMora = Convert.ToInt32(row["meses_mora"]),
+
+                        // Mapeo de Ultimo Pago (Nullable)
+                        FechaPagoUltima = row["fecha_pago_ultima"] != DBNull.Value
+                                          ? Convert.ToDateTime(row["fecha_pago_ultima"])
+                                          : (DateTime?)null
                     };
 
-                    // Mapeo de Campos de Cuota (CRÍTICO: Manejar DBNull.Value para los Nullable)
-                    // Mapeo de MesesMora (siempre tendrá valor gracias al GREATEST(0,...) en la VIEW)
-                    // Asegúrate de que este bloque esté DENTRO del 'foreach (DataRow row in dt.Rows)'
-                    if (row["meses_mora"] != DBNull.Value)
-                    {
-                        
-                        dto.MesesMora = Convert.ToInt32(row["meses_mora"]); 
-                    }
-                    // este bloque es CRÍTICO para capturar ese valor.
-
-                    // id_cuota_pendiente
+                    // Lógica para Cuotas Pendientes
                     if (row["id_cuota_pendiente"] != DBNull.Value)
                     {
                         dto.IdCuotaPendiente = Convert.ToInt32(row["id_cuota_pendiente"]);
 
-                        // fecha_vencimiento_pendiente (Solo se mapea si existe una cuota pendiente)
+                        // Mapeo de Fecha Vencimiento Pendiente
                         if (row["fecha_vencimiento_pendiente"] != DBNull.Value)
                         {
                             dto.FechaVencimientoPendiente = Convert.ToDateTime(row["fecha_vencimiento_pendiente"]);
                         }
 
-                        int meses = Convert.ToInt32(row["meses_mora"]);
-                        // monto_cuota_pendiente
-                        if (row["monto_cuota_pendiente"] != DBNull.Value && meses != 0)
+                        // 1. CORRECCIÓN CRÍTICA DE MORA: Si vence hoy y el SQL dio 1 (error), se corrige a 0.
+                        bool venceHoy = dto.FechaVencimientoPendiente.HasValue &&
+                                        dto.FechaVencimientoPendiente.Value.Date == DateTime.Today.Date;
+
+                        if (venceHoy && dto.MesesMora == 1)
                         {
-                            
-                            decimal montoCuota= Convert.ToDecimal(row["monto_cuota_pendiente"]);
-                            dto.MontoCuotaPendiente = Convert.ToDecimal( montoCuota*(Decimal)meses);
+                            dto.MesesMora = 0; // Inés y Julián ahora tienen 0 meses de mora.
+                        }
+
+                        // 2. CÁLCULO DEL MONTO PENDIENTE (Adaptado a la mora corregida)
+                        decimal montoCuotaUnica = row["monto_cuota_pendiente"] != DBNull.Value
+                                                ? Convert.ToDecimal(row["monto_cuota_pendiente"])
+                                                : 0M;
+
+                        if (dto.MesesMora > 0)
+                        {
+                            // Mora Real (> 1 mes): Deuda Total (Raúl, Ana)
+                            dto.MontoCuotaPendiente = montoCuotaUnica * dto.MesesMora;
+                        }
+                        else if (venceHoy)
+                        {
+                            // Vencimiento Hoy (Mora 0 Corregida): Monto a Pagar (Inés, Julián)
+                            dto.MontoCuotaPendiente = montoCuotaUnica;
                         }
                         else
                         {
-                            decimal montoCuota = Convert.ToDecimal(row["monto_cuota_pendiente"]);
-                            dto.MontoCuotaPendiente = Convert.ToDecimal(montoCuota);
-                            
+                            // Al Día (Mora 0 y no vence hoy): No deben nada (Laura)
+                            dto.MontoCuotaPendiente = 0M;
                         }
-                        /*
-                        // dias_mora
-                        if (row["dias_mora"] != DBNull.Value)
-                        {
-                            dto.DiasMora = Convert.ToInt32(row["dias_mora"]);
-                        }*/
-                    }
-                    
-                    // fecha_pago_ultima (Puede ser NULL si es un socio muy nuevo o moroso de larga data)
-                    if (row["fecha_pago_ultima"] != DBNull.Value)
-                    {
-                        dto.FechaPagoUltima = Convert.ToDateTime(row["fecha_pago_ultima"]);
                     }
 
                     lista.Add(dto);
@@ -97,7 +92,8 @@ namespace ClubDeportivo.UI.BLL
             }
             catch (Exception ex)
             {
-                throw new Exception("Error BLL al obtener y procesar el Listado Maestro de Cuotas: " + ex.Message);
+                // Se recomienda usar un sistema de log aquí
+                throw new Exception("Error BLL al obtener y procesar el Listado Maestro de Cuotas: " + ex.Message, ex);
             }
 
             return lista;

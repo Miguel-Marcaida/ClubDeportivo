@@ -499,16 +499,166 @@ namespace ClubDeportivo.UI.Utilitarios
         // MÉTODO 3: GENERAR LISTADO DE CUOTAS Y MOROSIDAD (Incluye Vencimiento Hoy)
         // Recibe una lista de socios con su estado de cuota y genera un PDF tabular.
         // ====================================================================
+        //public static string GenerarListadoCuotasMorosidad(
+        //    List<SocioEstadoCuotaDTO> listaSocios,
+        //    string tituloReporte) // Usamos este parámetro para el título dinámico
+        //{
+        //    // 1. Crear el directorio si no existe
+        //    AsegurarDirectorio();
+
+        //    // 2. Configuración básica del documento
+        //    PdfDocument document = new PdfDocument();
+        //    document.Info.Title = tituloReporte; // Título del PDF
+        //    PdfPage page = document.AddPage();
+        //    XGraphics gfx = XGraphics.FromPdfPage(page);
+
+        //    // 3. Márgenes y Dimensiones
+        //    double margin = 40;
+        //    double yPos = margin;
+        //    double pageHeight = page.Height - margin;
+        //    double pageWidth = page.Width - margin * 2;
+
+        //    // 4. Definición de fuentes
+        //    XFont fontTitulo = new XFont(FUENTE_BASE, 16, XFontStyleEx.Bold);
+        //    XFont fontHeader = new XFont(FUENTE_BASE, 9, XFontStyleEx.Bold);
+        //    XFont fontBody = new XFont(FUENTE_BASE, 8, XFontStyleEx.Regular);
+        //    double rowHeight = 15;
+
+        //    // 5. Título del Reporte (Dinámico)
+        //    gfx.DrawString(tituloReporte.ToUpper(), fontTitulo, XBrushes.Black,
+        //        new XRect(margin, yPos, pageWidth, 20), XStringFormats.TopCenter);
+        //    yPos += 30;
+
+        //    // 6. Definición de Columnas y Anchos
+        //    // Columnas clave para el listado de morosidad/vencimiento
+        //    double wCarnet = 50;
+        //    double wDNI = 80;
+        //    double wMonto = 60;
+        //    double wMora = 70;
+        //    double wVencimiento = 90;
+
+        //    // El ancho restante se asigna al Nombre Completo
+        //    double wNombre = pageWidth - wCarnet - wDNI - wMonto - wMora - wVencimiento;
+
+        //    string[] headers = { "CARNET", "DNI", "NOMBRE COMPLETO", "F. VENC. MAS ANTIGUA", "MONTO ($)", "MESES MORA" };
+        //    double[] widths = { wCarnet, wDNI, wNombre, wVencimiento, wMonto, wMora };
+        //    double currentX = margin;
+
+        //    XColor headerColor = XColor.FromArgb(220, 220, 220);
+        //    XSolidBrush headerBrush = new XSolidBrush(headerColor);
+
+        //    // 7. Dibujar los encabezados de Columna
+        //    for (int i = 0; i < headers.Length; i++)
+        //    {
+        //        gfx.DrawRectangle(headerBrush, currentX, yPos, widths[i], 20);
+        //        gfx.DrawString(headers[i], fontHeader, XBrushes.Black,
+        //                new XRect(currentX, yPos, widths[i], 20), XStringFormats.Center);
+        //        currentX += widths[i];
+        //    }
+        //    yPos += 20;
+
+        //    // 8. Dibujar Filas de Datos
+        //    int filasProcesadas = 0;
+
+        //    foreach (SocioEstadoCuotaDTO socio in listaSocios)
+        //    {
+        //        // Manejo de Salto de página
+        //        if (yPos + rowHeight > pageHeight)
+        //        {
+        //            page = document.AddPage();
+        //            gfx = XGraphics.FromPdfPage(page);
+        //            yPos = margin + 30; // Dejar espacio para el encabezado de la nueva página
+        //            currentX = margin;
+        //            // Redibujar encabezados en la nueva página
+        //            for (int i = 0; i < headers.Length; i++)
+        //            {
+        //                gfx.DrawRectangle(headerBrush, currentX, yPos, widths[i], 20);
+        //                gfx.DrawString(headers[i], fontHeader, XBrushes.Black,
+        //                        new XRect(currentX, yPos, widths[i], 20), XStringFormats.Center);
+        //                currentX += widths[i];
+        //            }
+        //            yPos += 20;
+        //        }
+
+        //        currentX = margin;
+
+        //        // Formateo de datos específicos
+        //        string fechaVencimiento = socio.FechaVencimientoPendiente?.ToString("dd/MM/yyyy") ?? "-";
+        //        string monto = socio.MontoCuotaPendiente?.ToString("N2") ?? "-";
+        //        string mesesMora = socio.MesesMora > 0 ? socio.MesesMora.ToString() : "-"; // Solo si hay mora
+
+        //        // Si es el listado de 'Vencimiento Hoy', la mora es 0. 
+        //        if (tituloReporte.Contains("VENCIMIENTO HOY") && socio.MesesMora == 0)
+        //        {
+        //            mesesMora = "HOY";
+        //        }
+
+        //        string[] datos = {
+        //                            // 1. NumeroCarnet es int, usamos .ToString() directamente.
+        //                            socio.NumeroCarnet.ToString(), 
+
+        //                            // 2. Dni es string (posiblemente nulo si la vista lo permite)
+        //                            socio.Dni ?? "-",                     
+
+        //                            // 3. Usamos la propiedad NombreCompleto (concatenada en la vista SQL)
+        //                            socio.NombreCompleto ?? "-",
+
+        //                            fechaVencimiento, // Ya es string formateado
+        //                            monto,            // Ya es string formateado
+        //                            mesesMora         // Ya es string formateado
+        //                        };
+
+
+
+
+        //        // Dibujar el fondo de la fila
+        //        XBrush rowBrush = (filasProcesadas % 2 == 0) ? XBrushes.White : new XSolidBrush(XColor.FromArgb(245, 245, 245));
+        //        gfx.DrawRectangle(rowBrush, margin, yPos, pageWidth, rowHeight);
+
+        //        // Dibujar el texto de las celdas
+        //        for (int i = 0; i < datos.Length; i++)
+        //        {
+        //            XStringFormat format = (i >= 4) ? XStringFormats.Center : XStringFormats.TopLeft; // Centrar Mora y Monto
+
+        //            // Dibujar el texto
+        //            gfx.DrawString(datos[i], fontBody, XBrushes.Black,
+        //                new XRect(currentX + 2, yPos, widths[i] - 4, rowHeight), format);
+
+        //            // Dibujar línea separadora vertical (opcional, para una tabla más marcada)
+        //            // gfx.DrawLine(XPens.LightGray, currentX, yPos, currentX, yPos + rowHeight); 
+
+        //            currentX += widths[i];
+        //        }
+
+        //        yPos += rowHeight;
+        //        filasProcesadas++;
+        //    }
+
+        //    // 9. Guardar y retornar la ruta
+        //    string nombreArchivo = $"{tituloReporte.Replace(" ", "_")}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+        //    string rutaCompleta = Path.Combine(RUTA_REPORTES, nombreArchivo);
+        //    document.Save(rutaCompleta);
+
+        //    return rutaCompleta;
+        //}
+
+
+
+
+        // ====================================================================
+        // MÉTODO 3: GENERAR LISTADO DE CUOTAS Y MOROSIDAD (Versión Final Definitiva)
+        // CORRECCIÓN: Altura del área de dibujo del Título aumentada a 60 puntos.
+        // ====================================================================
         public static string GenerarListadoCuotasMorosidad(
             List<SocioEstadoCuotaDTO> listaSocios,
-            string tituloReporte) // Usamos este parámetro para el título dinámico
+            string tituloReporte)
         {
-            // 1. Crear el directorio si no existe
+            // 1. Crear el directorio si no existe (Asumiendo constantes)
             AsegurarDirectorio();
 
             // 2. Configuración básica del documento
             PdfDocument document = new PdfDocument();
-            document.Info.Title = tituloReporte; // Título del PDF
+            document.Info.Title = tituloReporte;
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
 
@@ -516,31 +666,38 @@ namespace ClubDeportivo.UI.Utilitarios
             double margin = 40;
             double yPos = margin;
             double pageHeight = page.Height - margin;
-            double pageWidth = page.Width - margin * 2;
+            double pageWidth = page.Width - margin * 2; // 515 puntos
 
-            // 4. Definición de fuentes
+            // Asumiendo que FUENTE_BASE es una constante definida (e.g., "Verdana")
+            const string FUENTE_BASE = "Verdana";
+
+            // 4. Definición de fuentes 
             XFont fontTitulo = new XFont(FUENTE_BASE, 16, XFontStyleEx.Bold);
-            XFont fontHeader = new XFont(FUENTE_BASE, 9, XFontStyleEx.Bold);
+            XFont fontHeader = new XFont(FUENTE_BASE, 8.5, XFontStyleEx.Bold);
             XFont fontBody = new XFont(FUENTE_BASE, 8, XFontStyleEx.Regular);
             double rowHeight = 15;
 
             // 5. Título del Reporte (Dinámico)
+            // 🚨 CORRECCIÓN CLAVE: Aumentamos la altura del área de dibujo a 60 puntos
             gfx.DrawString(tituloReporte.ToUpper(), fontTitulo, XBrushes.Black,
-                new XRect(margin, yPos, pageWidth, 20), XStringFormats.TopCenter);
-            yPos += 30;
+                new XRect(margin, yPos, pageWidth, 60), XStringFormats.TopCenter); // <--- Altura en 60
+            yPos += 70; // <--- Espaciado posterior en 70
 
-            // 6. Definición de Columnas y Anchos
-            // Columnas clave para el listado de morosidad/vencimiento
+            // 6. Definición de Columnas y Anchos 
             double wCarnet = 50;
             double wDNI = 80;
-            double wMonto = 60;
+            double wMonto = 70;
             double wMora = 70;
-            double wVencimiento = 90;
+            double wVencimiento = 80;
 
-            // El ancho restante se asigna al Nombre Completo
-            double wNombre = pageWidth - wCarnet - wDNI - wMonto - wMora - wVencimiento;
+            double wNombre = 165;
 
-            string[] headers = { "CARNET", "DNI", "NOMBRE COMPLETO", "VENCIMIENTO", "MONTO ($)", "MESES MORA" };
+            // Encabezado de Monto reducido
+            string montoHeader = tituloReporte.Contains("VENCIMIENTO HOY") ? "TOTAL ($)" : "DEUDA ($)";
+
+            string[] headers = {
+        "CARNET", "DNI", "NOMBRE COMPLETO", "F. VENC. ANT.", montoHeader, "MESES MORA"
+    };
             double[] widths = { wCarnet, wDNI, wNombre, wVencimiento, wMonto, wMora };
             double currentX = margin;
 
@@ -551,8 +708,11 @@ namespace ClubDeportivo.UI.Utilitarios
             for (int i = 0; i < headers.Length; i++)
             {
                 gfx.DrawRectangle(headerBrush, currentX, yPos, widths[i], 20);
+
+                // Alineación TopLeft + margen (4)
                 gfx.DrawString(headers[i], fontHeader, XBrushes.Black,
-                        new XRect(currentX, yPos, widths[i], 20), XStringFormats.Center);
+                    new XRect(currentX + 4, yPos, widths[i] - 8, 20), XStringFormats.TopLeft);
+
                 currentX += widths[i];
             }
             yPos += 20;
@@ -567,14 +727,15 @@ namespace ClubDeportivo.UI.Utilitarios
                 {
                     page = document.AddPage();
                     gfx = XGraphics.FromPdfPage(page);
-                    yPos = margin + 30; // Dejar espacio para el encabezado de la nueva página
+                    yPos = margin + 70; // Redibujar con el nuevo espaciado del título
                     currentX = margin;
                     // Redibujar encabezados en la nueva página
                     for (int i = 0; i < headers.Length; i++)
                     {
                         gfx.DrawRectangle(headerBrush, currentX, yPos, widths[i], 20);
+                        // Usar TopLeft + margen de 4 en el encabezado
                         gfx.DrawString(headers[i], fontHeader, XBrushes.Black,
-                                new XRect(currentX, yPos, widths[i], 20), XStringFormats.Center);
+                            new XRect(currentX + 4, yPos, widths[i] - 8, 20), XStringFormats.TopLeft);
                         currentX += widths[i];
                     }
                     yPos += 20;
@@ -585,31 +746,21 @@ namespace ClubDeportivo.UI.Utilitarios
                 // Formateo de datos específicos
                 string fechaVencimiento = socio.FechaVencimientoPendiente?.ToString("dd/MM/yyyy") ?? "-";
                 string monto = socio.MontoCuotaPendiente?.ToString("N2") ?? "-";
-                string mesesMora = socio.MesesMora > 0 ? socio.MesesMora.ToString() : "-"; // Solo si hay mora
+                string mesesMora = socio.MesesMora > 0 ? socio.MesesMora.ToString() : "-";
 
-                // Si es el listado de 'Vencimiento Hoy', la mora es 0. 
                 if (tituloReporte.Contains("VENCIMIENTO HOY") && socio.MesesMora == 0)
                 {
                     mesesMora = "HOY";
                 }
 
                 string[] datos = {
-                                    // 1. NumeroCarnet es int, usamos .ToString() directamente.
-                                    socio.NumeroCarnet.ToString(), 
-    
-                                    // 2. Dni es string (posiblemente nulo si la vista lo permite)
-                                    socio.Dni ?? "-",                     
-    
-                                    // 3. Usamos la propiedad NombreCompleto (concatenada en la vista SQL)
-                                    socio.NombreCompleto ?? "-",
-
-                                    fechaVencimiento, // Ya es string formateado
-                                    monto,            // Ya es string formateado
-                                    mesesMora         // Ya es string formateado
-                                };
-
-
-
+            socio.NumeroCarnet.ToString(),
+            socio.Dni ?? "-",
+            socio.NombreCompleto ?? "-",
+            fechaVencimiento,
+            monto,
+            mesesMora
+        };
 
                 // Dibujar el fondo de la fila
                 XBrush rowBrush = (filasProcesadas % 2 == 0) ? XBrushes.White : new XSolidBrush(XColor.FromArgb(245, 245, 245));
@@ -618,14 +769,11 @@ namespace ClubDeportivo.UI.Utilitarios
                 // Dibujar el texto de las celdas
                 for (int i = 0; i < datos.Length; i++)
                 {
-                    XStringFormat format = (i >= 4) ? XStringFormats.Center : XStringFormats.TopLeft; // Centrar Mora y Monto
+                    XStringFormat format = (i >= 4) ? XStringFormats.Center : XStringFormats.TopLeft;
 
-                    // Dibujar el texto
+                    // Aplicación del margen de 4 para que no se pegue
                     gfx.DrawString(datos[i], fontBody, XBrushes.Black,
-                        new XRect(currentX + 2, yPos, widths[i] - 4, rowHeight), format);
-
-                    // Dibujar línea separadora vertical (opcional, para una tabla más marcada)
-                    // gfx.DrawLine(XPens.LightGray, currentX, yPos, currentX, yPos + rowHeight); 
+                        new XRect(currentX + 4, yPos, widths[i] - 8, rowHeight), format);
 
                     currentX += widths[i];
                 }
@@ -641,7 +789,6 @@ namespace ClubDeportivo.UI.Utilitarios
 
             return rutaCompleta;
         }
-
 
     }
 

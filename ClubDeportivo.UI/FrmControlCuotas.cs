@@ -2,7 +2,7 @@
 using ClubDeportivo.UI.Entidades; 
 using ClubDeportivo.UI.Utilitarios;
 using System.Data;
-using System.Collections.Generic; // <--- NUEVO (Para usar List<T>)
+using System.Collections.Generic; 
 namespace ClubDeportivo.UI
 {
     public partial class FrmControlCuotas : Form
@@ -170,72 +170,55 @@ namespace ClubDeportivo.UI
             }
         }
 
-      
         private void AjustarColumnasDataGrid()
         {
-            // Ocultar columnas que no son para la UI, pero sí para la lógica (ID)
+            // Ocultar columnas que no son relevantes para la presentación principal
+            // Se agrupan todas las operaciones de visibilidad al inicio.
             dgvMorosos.Columns["IdPersona"].Visible = false;
             dgvMorosos.Columns["IdCuotaPendiente"].Visible = false;
-            dgvMorosos.Columns["EstadoActivo"].Visible = false; // Se asume True, pero se puede mostrar si es relevante
+            dgvMorosos.Columns["EstadoActivo"].Visible = false;
             dgvMorosos.Columns["EstaVigente"].Visible = false;
+            dgvMorosos.Columns["Email"].Visible = false;
+            // La columna EsMoroso no existe en el DTO, pero si existiera, se ocultaría aquí.
+            // dgvMorosos.Columns["EsMoroso"].Visible = false; 
 
-            // Renombrar y configurar Headers
+            // Dejamos VenceHoy visible por ahora para probar el filtro visual.
+            // dgvMorosos.Columns["VenceHoy"].Visible = false;
+
+            // Renombrar y configurar Headers (UX mejorada)
             dgvMorosos.Columns["NombreCompleto"].HeaderText = "Socio";
             dgvMorosos.Columns["Dni"].HeaderText = "DNI";
             dgvMorosos.Columns["NumeroCarnet"].HeaderText = "N° Carnet";
             dgvMorosos.Columns["Telefono"].HeaderText = "Teléfono";
 
-            dgvMorosos.Columns["MontoCuotaPendiente"].HeaderText = "Monto (Venc.)";
-            dgvMorosos.Columns["FechaVencimientoPendiente"].HeaderText = "F. Vencimiento";
-            //dgvMorosos.Columns["DiasMora"].HeaderText = "Días Mora";
+            // Renombre clave: Deuda Total para reflejar la lógica BLL
+            dgvMorosos.Columns["MontoCuotaPendiente"].HeaderText = "Deuda Total ($)";
+            dgvMorosos.Columns["FechaVencimientoPendiente"].HeaderText = "F. Venc. Más Antigua"; // o "Inicio de Mora"
             dgvMorosos.Columns["MesesMora"].HeaderText = "Meses Mora";
             dgvMorosos.Columns["FechaPagoUltima"].HeaderText = "Último Pago";
 
             // Formato
             dgvMorosos.Columns["MontoCuotaPendiente"].DefaultCellStyle.Format = "C";
             dgvMorosos.Columns["MontoCuotaPendiente"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-
+            
             dgvMorosos.Columns["FechaVencimientoPendiente"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            dgvMorosos.Columns["FechaVencimientoPendiente"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // <-- Nuevo
             dgvMorosos.Columns["FechaPagoUltima"].DefaultCellStyle.Format = "dd/MM/yyyy";
-
-            // Ocultar columnas que no son para la UI o son menos críticas
-            dgvMorosos.Columns["IdPersona"].Visible = false;
-            dgvMorosos.Columns["IdCuotaPendiente"].Visible = false;
-            dgvMorosos.Columns["EstadoActivo"].Visible = false;
-            dgvMorosos.Columns["EstaVigente"].Visible = false;
-            dgvMorosos.Columns["Email"].Visible = false; // El email no es crítico en este reporte
-            dgvMorosos.Columns["EsMoroso"].Visible = false;
+            dgvMorosos.Columns["FechaPagoUltima"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // <-- Nuevo
             // Autoajustar
             dgvMorosos.AutoResizeColumns();
         }
 
+
         private void EstablecerModo(TipoListadoCuotas modo)
         {
+            // 1. Control de Radio Buttons (Feedback al Administrador)
+            rbMorosos.Checked = (modo == TipoListadoCuotas.Morosos);
+            rbVencimientoHoy.Checked = (modo == TipoListadoCuotas.VencimientoHoy);
 
-            // 1. Control de Título (Feedback al Administrador)
-            if (modo == TipoListadoCuotas.Morosos)
-            {
-                lblTitulo.Text = "CONTROL DE CUOTAS (TODOS LOS MOROSOS)";
-                rbMorosos.Checked = true;
-            }
-            else // TipoListadoCuotas.VencimientoHoy
-            {
-                lblTitulo.Text = "CONTROL DE CUOTAS (VENCEN HOY)";
-                rbVencimientoHoy.Checked = true;
-            }
-
-            // 4. Aplicar el Filtro al BindingSource (Con un valor fijo de 1 para Morosos)
-            if (modo == TipoListadoCuotas.Morosos)
-            {
-                AplicarFiltro(modo, 1); // Siempre mostramos todos los morosos (1 mes o más)
-            }
-            else
-            {
-                AplicarFiltro(modo);
-            }
-        
+            // 2. Aplicar el Filtro. No es necesario pasar 1, ya es el valor por defecto.
+            AplicarFiltro(modo);
         }
-
 
         /// <summary>
         /// Aplica la lógica de filtrado al BindingSource utilizando el modo seleccionado.
@@ -244,91 +227,92 @@ namespace ClubDeportivo.UI
         {
             if (_listadoMaestro == null || _listadoMaestro.Count == 0)
             {
-                // No hay datos que filtrar
                 _bindingSource.DataSource = null;
                 return;
             }
 
             List<SocioEstadoCuotaDTO> listaFiltrada;
 
+            // 1. Aplicar el Filtro y Actualizar el Título
             if (modo == TipoListadoCuotas.Morosos)
             {
-                
+                // Filtra Morosos Reales (MesesMora >= 1)
                 listaFiltrada = _listadoMaestro
-                    // El filtro ahora es simple: MesesMora (entero) debe ser mayor o igual al mínimo.
                     .FindAll(s => s.MesesMora >= mesesMinimos);
 
                 lblTitulo.Text = $"CONTROL DE CUOTAS (MOROSOS con {mesesMinimos} mes(es) o más)";
+
+                // Encabezado dinámico: Deuda Acumulada
+                dgvMorosos.Columns["MontoCuotaPendiente"].HeaderText = "Deuda Total ($)";
             }
             else // TipoListadoCuotas.VencimientoHoy
             {
-                // Lógica de Negocio 2: Filtrar Socios cuya FechaVencimientoPendiente es HOY
+                // Filtra Vencimiento Hoy (FechaVencimientoPendiente = Hoy)
                 DateTime hoy = DateTime.Today;
 
                 listaFiltrada = _listadoMaestro
                     .FindAll(s => s.FechaVencimientoPendiente.HasValue &&
-                                  s.FechaVencimientoPendiente.Value.Date == hoy);
+                                    s.FechaVencimientoPendiente.Value.Date == hoy);
 
                 lblTitulo.Text = "CONTROL DE CUOTAS (VENCIMIENTO HOY)";
+
+                // Encabezado dinámico: Monto de la cuota no vencida
+                dgvMorosos.Columns["MontoCuotaPendiente"].HeaderText = "Total a Pagar ($)";
             }
 
-            // Actualiza el BindingSource con la lista filtrada
+            // 2. Actualizar el BindingSource
             _bindingSource.DataSource = listaFiltrada;
             _bindingSource.ResetBindings(false);
-
-            // 🚨 Limpia el filtro del BindingSource (ya que usamos una lista nueva)
             _bindingSource.Filter = null;
         }
-
-
-
 
         #endregion
 
         #region BOTONES DE ACCION
 
 
+
         private void btnImprimirMorosos_Click(object sender, EventArgs e)
         {
             // 1. Obtener la fuente de datos actual del BindingSource.
-            // Usamos 'as' para intentar castear y manejar NULL si falla.
             List<ClubDeportivo.UI.Entidades.SocioEstadoCuotaDTO> listaFiltrada =
                 _bindingSource.DataSource as List<ClubDeportivo.UI.Entidades.SocioEstadoCuotaDTO>;
 
             // 2. Verificar si la lista existe y tiene elementos.
             if (listaFiltrada == null || listaFiltrada.Count == 0)
             {
-                // REF: Reemplazo de MessageBox por Prompt.MostrarAlerta
-                Prompt.MostrarAlerta(
-                      MensajesUI.CUOTAS_MSG_ADVERTENCIA_NO_IMPRIMIR,
-                      MensajesUI.TITULO_ADVERTENCIA
-                    );
+                Prompt.MostrarAlerta(
+                    MensajesUI.CUOTAS_MSG_ADVERTENCIA_NO_IMPRIMIR,
+                    MensajesUI.TITULO_ADVERTENCIA
+                );
                 return;
             }
 
             // 3. Obtener el título dinámico del reporte.
-            string tituloReporte = lblTitulo.Text.Replace("CONTROL DE CUOTAS Y MOROSIDAD (", "").Replace(")", "");
-            // Limpiamos el prefijo si es necesario (ej: si no se usó el formato entre paréntesis)
-            if (tituloReporte.StartsWith("CONTROL DE CUOTAS Y MOROSIDAD"))
+            // 🚨 CORRECCIÓN FINAL: Obtenemos el texto COMPLETO de la etiqueta.
+            string tituloReporteCompleto = lblTitulo.Text;
+
+            // Aplicamos la lógica de negocio para cambiar el prefijo (ej: "LISTADO MAESTRO")
+            if (tituloReporteCompleto.StartsWith("CONTROL DE CUOTAS Y MOROSIDAD"))
             {
-                tituloReporte = tituloReporte.Replace("CONTROL DE CUOTAS Y MOROSIDAD", "LISTADO MAESTRO");
+                tituloReporteCompleto = tituloReporteCompleto.Replace("CONTROL DE CUOTAS Y MOROSIDAD", "LISTADO MAESTRO");
             }
 
             string rutaPdfGenerado = string.Empty;
 
             try
             {
-                // 4. Llamar al nuevo método de impresión (GenerarListadoCuotasMorosidad)
+                // 4. Llamar al método de generación de PDF con el título COMPLETO.
                 rutaPdfGenerado = ClubDeportivo.UI.Utilitarios.PdfGenerator.GenerarListadoCuotasMorosidad(
                     listaFiltrada,
-                    tituloReporte
+                    tituloReporteCompleto
                 );
 
                 // 5. Notificar al usuario y preguntar si desea abrir el PDF
-                DialogResult dialogResult = Prompt.MostrarDialogoSiNo( // ✅ CORRECCIÓN: Uso de la utilidad MostrarDialogoSiNo (2 argumentos)
-                    string.Format(MensajesUI.CUOTAS_MSG_PREGUNTAR_ABRIR_PDF, rutaPdfGenerado),
-                      MensajesUI.TITULO_IMPRESION_LISTADO
-                    );
+                DialogResult dialogResult = Prompt.MostrarDialogoSiNo(
+                    string.Format(MensajesUI.CUOTAS_MSG_PREGUNTAR_ABRIR_PDF, rutaPdfGenerado),
+                    MensajesUI.TITULO_IMPRESION_LISTADO
+                );
 
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -338,15 +322,15 @@ namespace ClubDeportivo.UI
             }
             catch (Exception ex)
             {
-                // 6. Capturar errores (incluyendo errores de PdfSharp o de I/O)
-                // REF: Reemplazo de MessageBox por Prompt.MostrarError
-                        Prompt.MostrarError(
-                  string.Format(MensajesUI.CUOTAS_MSG_ERROR_GENERAR_PDF, ex.Message),
-                  MensajesUI.TITULO_ERROR_SISTEMA
-                    );
+                // 6. Capturar errores 
+                Prompt.MostrarError(
+                    string.Format(MensajesUI.CUOTAS_MSG_ERROR_GENERAR_PDF, ex.Message),
+                    MensajesUI.TITULO_ERROR_SISTEMA
+                );
             }
         }
-        
+
+
         private void btnEstadoCuenta_Click(object sender, EventArgs e)
         {
             if (dgvMorosos.SelectedRows.Count == 0)
