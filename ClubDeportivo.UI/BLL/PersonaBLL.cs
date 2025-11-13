@@ -458,15 +458,10 @@ namespace ClubDeportivo.UI.BLL
                         }
                         else
                         {
-                            // 🚨 FÓRMULA DE MORA ROBUSTA 🚨
-                            // Está en MORA. Calculamos la diferencia de meses calendario entre el mes actual y el mes que debió pagar.
-
+                            
                             int diferenciaAnios = hoy.Year - mesQueDebePagar.Year;
                             int diferenciaMeses = hoy.Month - mesQueDebePagar.Month;
 
-                            // El número total de meses vencidos (meses de mora)
-                            // Se suma 1 porque la resta de meses nos da la diferencia *desde* el mes de mora
-                            // (Ej: Debe pagar Agosto. Hoy es Octubre. (10-8)=2. Debe 2 meses COMPLETOs (Agosto y Septiembre) + el actual (Octubre). Total 3)
                             mesesAtraso = (diferenciaAnios * 12) + diferenciaMeses + 1;
 
                             // Nos aseguramos de que el mínimo de mora sea 1 si ya entró en el ELSE.

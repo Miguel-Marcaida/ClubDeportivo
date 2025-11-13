@@ -349,7 +349,7 @@ namespace ClubDeportivo.UI.Utilitarios
             yPos += 15;
 
             // Cuota Base / Mora
-            string detallePago = mesesPagados > 1 ? $"Cuota Mensual (MORA: {mesesPagados} meses)" : "Cuota Mensual Adelantada";
+            string detallePago = mesesPagados > 1 ? $"Cuota Mensual (MORA: {mesesPagados} meses)" : "Cuota Mensual";
             gfx.DrawString(detallePago, fontData, XBrushes.Black, margin + 5, yPos);
             yPos += 15;
 

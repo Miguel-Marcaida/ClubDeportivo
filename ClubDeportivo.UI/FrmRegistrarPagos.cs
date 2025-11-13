@@ -27,6 +27,7 @@ namespace ClubDeportivo.UI
         private readonly RegistroAccesoBLL oRegistroAccesoBLL = new RegistroAccesoBLL(); // <-- BLL de Acceso
         private readonly int _anchoMenuLateral;
         private PersonaPagoDetalleDTO? _personaEncontrada;
+        private int meses;
 
         #endregion
 
@@ -475,6 +476,7 @@ namespace ClubDeportivo.UI
 
                         decimal cuotaBase = oConfiguracionBLL.ObtenerMontoCuotaBase();
                         montoTotal = cuotaBase * mesesMora;
+                        meses = mesesMora;
                     }
                     else
                     {
@@ -524,6 +526,7 @@ namespace ClubDeportivo.UI
         private void ConfigurarUIInicial(PersonaPagoDetalleDTO persona)
         {
             _personaEncontrada= persona;
+             decimal totalAPagar;
             // Datos de Identificación
             lblNombrePersona.Text = persona.NombreCompleto;
             lblDni.Text = persona.DNI;
@@ -573,7 +576,7 @@ namespace ClubDeportivo.UI
                     decimal cuotaBase = oConfiguracionBLL.ObtenerMontoCuotaBase();
                     int mesesMora = ExtraerMesesAtraso(persona.EstadoMembresia);
                     if (mesesMora == 0) { mesesMora = 1; }//modificacion
-                    decimal totalAPagar = cuotaBase * mesesMora;
+                    totalAPagar = cuotaBase * mesesMora;
 
                     // Configurar Pago Obligatorio: Cuota Mensual por el total adeudado
                     lblMesesAtraso.Text = $"{mesesMora} cuota(s) pendiente(s). Total: {totalAPagar:C}";
@@ -610,13 +613,13 @@ namespace ClubDeportivo.UI
             RecalcularMonto();
         }
 
-        private string ImprimirComprobante(int idRegistro, bool esCuota, string formaPago)
+        private string ImprimirComprobante(int idRegistro, bool esCuota, string formaPago, decimal montoTotal)
         {
             try
             {
                 string nombreCompleto = _personaEncontrada?.NombreCompleto ?? "N/A";
                 string dni = _personaEncontrada?.DNI ?? "N/A";
-                decimal montoTotal = decimal.Parse(txtMonto.Text);
+                //decimal montoTotal = Convert.ToDecimal(this.txtMonto.Text);
                 string ruta = "";
 
                 if (esCuota)
@@ -626,9 +629,10 @@ namespace ClubDeportivo.UI
                                          ? ExtraerMesesAtraso(_personaEncontrada.EstadoMembresia)
                                          : 1;
                     DateTime fechaVencimientoAnterior = _personaEncontrada!.UltimaCuotaCubierta;
+                    
 
                     ruta = Utilitarios.PdfGenerator.GenerarComprobanteCuota(
-                        idRegistro, nombreCompleto, dni, montoTotal, formaPago,
+                        idRegistro, nombreCompleto, dni, montoTotal* meses, formaPago,
                         fechaVencimientoAnterior, mesesPagados
                     );
                 }
@@ -681,6 +685,7 @@ namespace ClubDeportivo.UI
             try
             {
                 _personaEncontrada = oPersonaBLL.BuscarPersonaParaPago(identificador);
+                
             }
             catch (Exception ex)
             {
@@ -805,8 +810,9 @@ namespace ClubDeportivo.UI
 
                     try
                     {
+                        Decimal monto = Convert.ToDecimal(txtMonto.Text);
                         // Llama a la impresión y obtiene la ruta
-                        string rutaComprobante = ImprimirComprobante(resultadoRegistro, esCuota, formaPago);
+                        string rutaComprobante = ImprimirComprobante(resultadoRegistro, esCuota, formaPago,monto );
 
                         if (!string.IsNullOrEmpty(rutaComprobante))
                         {

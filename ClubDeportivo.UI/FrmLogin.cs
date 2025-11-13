@@ -148,7 +148,22 @@ namespace ClubDeportivo.UI
         #endregion
 
         #region EVENTOS DE FORMULARIO
-
+        private void FrmLogin_Load(object sender, EventArgs e)
+        {
+            // 🚨 CORRECCIÓN CLAVE: Forzar la carga de la conexión ANTES de iniciar el Login.
+            // Esto dispara la Autoconfiguración/InputBox si el archivo .INI no existe.
+            try
+            {
+                Conexion.getInstancia();
+            }
+            catch (Exception ex)
+            {
+                // Si la configuracion falla, mostramos error simple (sin acentos para evitar el error de guardado) y cerramos.
+                MessageBox.Show("Error de inicializacion de conexion. La aplicacion se cerrara. Detalles: " + ex.Message,
+                                "Error Critico", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+        }
         private void FormLogin_Shown(object sender, EventArgs e)
         {
             RestablecerEstadoInicial();
@@ -354,21 +369,6 @@ namespace ClubDeportivo.UI
         #endregion
 
 
-        private void FrmLogin_Load(object sender, EventArgs e)
-        {
-            // 🚨 CORRECCIÓN CLAVE: Forzar la carga de la conexión ANTES de iniciar el Login.
-            // Esto dispara la Autoconfiguración/InputBox si el archivo .INI no existe.
-            try
-            {
-                Conexion.getInstancia();
-            }
-            catch (Exception ex)
-            {
-                // Si la configuracion falla, mostramos error simple (sin acentos para evitar el error de guardado) y cerramos.
-                MessageBox.Show("Error de inicializacion de conexion. La aplicacion se cerrara. Detalles: " + ex.Message,
-                                "Error Critico", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return;
-            }
-        }
+        
     }
 }
